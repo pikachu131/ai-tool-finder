@@ -384,80 +384,82 @@
   <script>
     const defaultTools = [
       // 텍스트작성 (10개)
-      { name: "ChatGPT", desc: "대화형 AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "대화", "코딩"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1200px-ChatGPT_logo.svg.png", website: "openai.com", price: "무료 / 유료 $20/월", trending: 1, users: "200M+" },
-      { name: "Claude", desc: "고급 AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "분석", "코딩"], logo: "https://pbs.twimg.com/profile_images/1680582143494057986/76jvG58R_400x400.png", website: "claude.ai", price: "무료 / 유료 $20/월", trending: 4, users: "50M+" },
-      { name: "Gemini", desc: "Google AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "검색", "분석"], logo: "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304c9c58b3ce853.png", website: "gemini.google.com", price: "무료 / 유료", trending: 0, users: "100M+" },
-      { name: "Perplexity AI", desc: "AI 검색 및 분석", category: "텍스트작성", tags: ["검색", "분석", "리서치"], logo: "https://www.perplexity.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fperplexity-logo.8fc47f96.png&w=256&q=75", website: "perplexity.ai", price: "무료 / 유료 $20/월", trending: 0, users: "8M+" },
-      { name: "Cohere", desc: "엔터프라이즈 AI 텍스트", category: "텍스트작성", tags: ["API", "엔터프라이즈", "NLP"], logo: "https://media.licdn.com/dms/image/C4E0BAQGvSe5Lfk7JqQ/company-logo_400_400/0/1630545313595?e=2147483647&v=beta&t=qW6p4YzM8T_Uo8DdxPxX8jXQI7VgLxYRsQO0aF-yG8E", website: "cohere.ai", price: "유료", trending: 0, users: "-" },
-      { name: "Copy.ai", desc: "마케팅 카피 생성", category: "텍스트작성", tags: ["마케팅", "카피", "빠름"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Copy_logo.png/1200px-Copy_logo.png", website: "copy.ai", price: "무료 / 유료", trending: 0, users: "2M+" },
-      { name: "Jasper", desc: "브랜드 AI 작성", category: "텍스트작성", tags: ["마케팅", "브랜드", "전문"], logo: "https://images.crunchbase.com/image1/share/03b19a55-0b5a-405b-9a7e-f0f8a8f4c1c4.png", website: "jasper.ai", price: "유료 $39+/월", trending: 0, users: "1M+" },
-      { name: "Grammarly", desc: "문법 검사 및 작성", category: "텍스트작성", tags: ["문법", "스타일", "검사"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Grammarly_logo.svg/1200px-Grammarly_logo.svg.png", website: "grammarly.com", price: "무료 / 유료 $12/월", trending: 0, users: "30M+" },
-      { name: "Quillbot", desc: "텍스트 재작성", category: "텍스트작성", tags: ["문장", "재작성", "학생"], logo: "https://images.crunchbase.com/image1/share/c39e3e0b-8e20-4d3f-8a28-1f7c8f8e4e0e.png", website: "quillbot.com", price: "무료 / 유료 $10/월", trending: 0, users: "2M+" },
-      { name: "Writesonic", desc: "고품질 글쓰기 AI", category: "텍스트작성", tags: ["글쓰기", "블로그", "이메일"], logo: "https://images.crunchbase.com/image1/share/ced92f5c-8ff2-4a0b-87b9-8c8d8f8e4e0e.png", website: "writesonic.com", price: "무료 / 유료", trending: 0, users: "1M+" },
+      { name: "ChatGPT", desc: "가장 범용적인 AI 대화·작성 도구", category: "텍스트작성", tags: ["텍스트", "대화", "코딩"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1200px-ChatGPT_logo.svg.png", website: "openai.com", price: "무료 / 유료 $20/월", trending: 1, users: "200M+" },
+      { name: "Claude", desc: "긴 문서 분석·추론에 강한 AI", category: "텍스트작성", tags: ["텍스트", "분석", "코딩"], logo: "https://pbs.twimg.com/profile_images/1680582143494057986/76jvG58R_400x400.png", website: "claude.ai", price: "무료 / 유료 $20/월", trending: 4, users: "50M+" },
+      { name: "Gemini", desc: "구글 검색 연동, 실시간 정보 강점", category: "텍스트작성", tags: ["텍스트", "검색", "분석"], logo: "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304c9c58b3ce853.png", website: "gemini.google.com", price: "무료 / 유료", trending: 0, users: "100M+" },
+      { name: "Perplexity AI", desc: "출처 기반 실시간 AI 검색 엔진", category: "텍스트작성", tags: ["검색", "분석", "리서치"], logo: "https://www.perplexity.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fperplexity-logo.8fc47f96.png&w=256&q=75", website: "perplexity.ai", price: "무료 / 유료 $20/월", trending: 0, users: "8M+" },
+      { name: "Cohere", desc: "기업용 NLP·RAG에 최적화된 API", category: "텍스트작성", tags: ["API", "엔터프라이즈", "NLP"], logo: "https://media.licdn.com/dms/image/C4E0BAQGvSe5Lfk7JqQ/company-logo_400_400/0/1630545313595?e=2147483647&v=beta&t=qW6p4YzM8T_Uo8DdxPxX8jXQI7VgLxYRsQO0aF-yG8E", website: "cohere.ai", price: "유료", trending: 0, users: "-" },
+      { name: "Copy.ai", desc: "마케팅 카피를 수초 만에 자동 생성", category: "텍스트작성", tags: ["마케팅", "카피", "빠름"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Copy_logo.png/1200px-Copy_logo.png", website: "copy.ai", price: "무료 / 유료", trending: 0, users: "2M+" },
+      { name: "Jasper", desc: "브랜드 톤을 유지하는 마케팅 특화 AI", category: "텍스트작성", tags: ["마케팅", "브랜드", "전문"], logo: "https://images.crunchbase.com/image1/share/03b19a55-0b5a-405b-9a7e-f0f8a8f4c1c4.png", website: "jasper.ai", price: "유료 $39+/월", trending: 0, users: "1M+" },
+      { name: "Grammarly", desc: "문법·톤·명확성을 실시간으로 교정", category: "텍스트작성", tags: ["문법", "스타일", "검사"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Grammarly_logo.svg/1200px-Grammarly_logo.svg.png", website: "grammarly.com", price: "무료 / 유료 $12/월", trending: 0, users: "30M+" },
+      { name: "Quillbot", desc: "문장을 자연스럽게 바꿔 쓰는 패러프레이저", category: "텍스트작성", tags: ["문장", "재작성", "학생"], logo: "https://images.crunchbase.com/image1/share/c39e3e0b-8e20-4d3f-8a28-1f7c8f8e4e0e.png", website: "quillbot.com", price: "무료 / 유료 $10/월", trending: 0, users: "2M+" },
+      { name: "Writesonic", desc: "SEO 최적화 블로그·광고 문구 자동 작성", category: "텍스트작성", tags: ["글쓰기", "블로그", "이메일"], logo: "https://images.crunchbase.com/image1/share/ced92f5c-8ff2-4a0b-87b9-8c8d8f8e4e0e.png", website: "writesonic.com", price: "무료 / 유료", trending: 0, users: "1M+" },
 
       // 이미지생성 (10개)
-      { name: "DALL-E 3", desc: "텍스트에서 이미지 생성", category: "이미지생성", tags: ["이미지", "생성", "창의성"], logo: "https://upload.wikimedia.org/wikipedia/commons/f/f7/DALL-E_logo.jpg", website: "openai.com", price: "유료 $15/월", trending: 2, users: "50M+" },
-      { name: "Midjourney", desc: "고품질 AI 이미지 생성", category: "이미지생성", tags: ["이미지", "생성", "디자인"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Midjourney_Emblem.png", website: "midjourney.com", price: "유료 $10~60/월", trending: 3, users: "15M+" },
-      { name: "Stable Diffusion", desc: "오픈소스 이미지 생성", category: "이미지생성", tags: ["이미지", "오픈소스", "무료"], logo: "https://huggingface.co/front/assets/huggingface_logo.png", website: "stability.ai", price: "무료 / 유료", trending: 0, users: "-" },
-      { name: "Canva", desc: "디자인 + AI 기능", category: "이미지생성", tags: ["디자인", "템플릿", "쉬움"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Canva_logo.svg/1200px-Canva_logo.svg.png", website: "canva.com", price: "무료 / 유료 $13/월", trending: 0, users: "100M+" },
-      { name: "Adobe Firefly", desc: "Adobe AI 이미지 생성", category: "이미지생성", tags: ["이미지", "디자인", "프로"], logo: "https://cdn.worldvectorlogo.com/logos/adobe-firefly.svg", website: "adobe.com", price: "유료", trending: 0, users: "-" },
-      { name: "Leonardo.AI", desc: "고품질 AI 이미지 생성", category: "이미지생성", tags: ["이미지", "게임", "전문"], logo: "https://cdn.worldvectorlogo.com/logos/leonardo-ai.svg", website: "leonardo.ai", price: "무료 / 유료", trending: 0, users: "-" },
-      { name: "Clipdrop", desc: "이미지 제거/생성", category: "이미지생성", tags: ["이미지", "편집", "제거"], logo: "https://cdn.worldvectorlogo.com/logos/clipdrop.svg", website: "clipdrop.co", price: "무료 / 유료", trending: 0, users: "-" },
-      { name: "DreamStudio", desc: "Stable Diffusion 인터페이스", category: "이미지생성", tags: ["이미지", "쉬움", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/stable-diffusion-2.svg", website: "dreamstudio.ai", price: "유료", trending: 0, users: "-" },
-      { name: "Photoshop AI", desc: "포토샵 AI 기능", category: "이미지생성", tags: ["편집", "전문", "강력"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1200px-Adobe_Photoshop_CC_icon.svg.png", website: "photoshop.adobe.com", price: "유료", trending: 0, users: "-" },
-      { name: "Img2Go", desc: "온라인 이미지 생성", category: "이미지생성", tags: ["이미지", "온라인", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/imgix.svg", website: "img2go.com", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "DALL-E 3", desc: "프롬프트 이해력 최강의 이미지 생성기", category: "이미지생성", tags: ["이미지", "생성", "창의성"], logo: "https://upload.wikimedia.org/wikipedia/commons/f/f7/DALL-E_logo.jpg", website: "openai.com", price: "유료 $15/월", trending: 2, users: "50M+" },
+      { name: "Midjourney", desc: "예술적 완성도가 가장 높은 AI 이미지 툴", category: "이미지생성", tags: ["이미지", "생성", "디자인"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Midjourney_Emblem.png", website: "midjourney.com", price: "유료 $10~60/월", trending: 3, users: "15M+" },
+      { name: "Stable Diffusion", desc: "로컬 설치 가능한 오픈소스 이미지 생성", category: "이미지생성", tags: ["이미지", "오픈소스", "무료"], logo: "https://huggingface.co/front/assets/huggingface_logo.png", website: "stability.ai", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Canva", desc: "비디자이너도 쉽게 쓰는 AI 디자인 플랫폼", category: "이미지생성", tags: ["디자인", "템플릿", "쉬움"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Canva_logo.svg/1200px-Canva_logo.svg.png", website: "canva.com", price: "무료 / 유료 $13/월", trending: 0, users: "100M+" },
+      { name: "Adobe Firefly", desc: "저작권 안전한 Adobe 생성형 AI", category: "이미지생성", tags: ["이미지", "디자인", "프로"], logo: "https://cdn.worldvectorlogo.com/logos/adobe-firefly.svg", website: "adobe.com", price: "유료", trending: 0, users: "-" },
+      { name: "Leonardo.AI", desc: "게임·캐릭터 특화 고품질 이미지 생성", category: "이미지생성", tags: ["이미지", "게임", "전문"], logo: "https://cdn.worldvectorlogo.com/logos/leonardo-ai.svg", website: "leonardo.ai", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Clipdrop", desc: "배경 제거·교체를 즉시 처리하는 편집 AI", category: "이미지생성", tags: ["이미지", "편집", "제거"], logo: "https://cdn.worldvectorlogo.com/logos/clipdrop.svg", website: "clipdrop.co", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "DreamStudio", desc: "Stable Diffusion을 쉽게 쓰는 공식 UI", category: "이미지생성", tags: ["이미지", "쉬움", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/stable-diffusion-2.svg", website: "dreamstudio.ai", price: "유료", trending: 0, users: "-" },
+      { name: "Photoshop AI", desc: "생성형 채우기로 사진을 자유롭게 확장", category: "이미지생성", tags: ["편집", "전문", "강력"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1200px-Adobe_Photoshop_CC_icon.svg.png", website: "photoshop.adobe.com", price: "유료", trending: 0, users: "-" },
+      { name: "Img2Go", desc: "브라우저에서 바로 쓰는 경량 이미지 편집", category: "이미지생성", tags: ["이미지", "온라인", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/imgix.svg", website: "img2go.com", price: "무료 / 유료", trending: 0, users: "-" },
 
       // 개발도구 (7개)
-      { name: "GitHub Copilot", desc: "AI 코드 작성 보조", category: "개발도구", tags: ["코딩", "자동완성", "개발"], logo: "https://upload.wikimedia.org/wikipedia/commons/8/8d/GitHub_Copilot_logo.png", website: "github.com", price: "유료 $10/월", trending: 5, users: "20M+" },
-      { name: "Codeium", desc: "무료 AI 코드 자동완성", category: "개발도구", tags: ["코딩", "무료", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/codeium.svg", website: "codeium.com", price: "무료 / 유료", trending: 0, users: "-" },
-      { name: "Tabnine", desc: "AI 코드 자동완성", category: "개발도구", tags: ["코딩", "IDE", "자동완성"], logo: "https://cdn.worldvectorlogo.com/logos/tabnine.svg", website: "tabnine.com", price: "무료 / 유료 $15/월", trending: 0, users: "-" },
-      { name: "Replit", desc: "AI 기반 개발 환경", category: "개발도구", tags: ["개발", "협업", "호스팅"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Repl.it_logo.svg/1200px-Repl.it_logo.svg.png", website: "replit.com", price: "무료 / 유료 $7/월", trending: 0, users: "10M+" },
-      { name: "Vercel", desc: "배포 + AI 기능", category: "개발도구", tags: ["배포", "호스팅", "빠름"], logo: "https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png", website: "vercel.com", price: "무료 / 유료 $20/월", trending: 0, users: "-" },
-      { name: "Firebase", desc: "Google 클라우드 백엔드", category: "개발도구", tags: ["백엔드", "클라우드", "강력"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Firebase_Real-time_Database.svg/1200px-Firebase_Real-time_Database.svg.png", website: "firebase.google.com", price: "무료 / 유료", trending: 0, users: "-" },
-      { name: "Supabase", desc: "오픈소스 백엔드", category: "개발도구", tags: ["백엔드", "DB", "오픈소스"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Supabase.svg/1200px-Supabase.svg.png", website: "supabase.com", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "GitHub Copilot", desc: "IDE 안에서 실시간으로 코드를 자동 완성", category: "개발도구", tags: ["코딩", "자동완성", "개발"], logo: "https://upload.wikimedia.org/wikipedia/commons/8/8d/GitHub_Copilot_logo.png", website: "github.com", price: "유료 $10/월", trending: 5, users: "20M+" },
+      { name: "Codeium", desc: "무료로 쓰는 AI 코드 자동완성 도구", category: "개발도구", tags: ["코딩", "무료", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/codeium.svg", website: "codeium.com", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Tabnine", desc: "프라이버시 중심 AI 코드 자동완성", category: "개발도구", tags: ["코딩", "IDE", "자동완성"], logo: "https://cdn.worldvectorlogo.com/logos/tabnine.svg", website: "tabnine.com", price: "무료 / 유료 $15/월", trending: 0, users: "-" },
+      { name: "Replit", desc: "브라우저에서 바로 코딩·배포·협업", category: "개발도구", tags: ["개발", "협업", "호스팅"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Repl.it_logo.svg/1200px-Repl.it_logo.svg.png", website: "replit.com", price: "무료 / 유료 $7/월", trending: 0, users: "10M+" },
+      { name: "Vercel", desc: "프론트엔드 앱을 가장 빠르게 배포", category: "개발도구", tags: ["배포", "호스팅", "빠름"], logo: "https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png", website: "vercel.com", price: "무료 / 유료 $20/월", trending: 0, users: "-" },
+      { name: "Firebase", desc: "구글의 실시간 DB·인증·호스팅 올인원", category: "개발도구", tags: ["백엔드", "클라우드", "강력"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Firebase_Real-time_Database.svg/1200px-Firebase_Real-time_Database.svg.png", website: "firebase.google.com", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Supabase", desc: "오픈소스 PostgreSQL 기반 백엔드 플랫폼", category: "개발도구", tags: ["백엔드", "DB", "오픈소스"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Supabase.svg/1200px-Supabase.svg.png", website: "supabase.com", price: "무료 / 유료", trending: 0, users: "-" },
 
       // 음성비디오 (7개)
-      { name: "Runway", desc: "비디오 생성 및 편집", category: "음성비디오", tags: ["비디오", "생성", "편집"], logo: "https://runway.com/_next/static/media/wordmark.42d5ec73.svg", website: "runwayml.com", price: "유료 $12~", trending: 0, users: "3M+" },
-      { name: "ElevenLabs", desc: "AI 음성 생성", category: "음성비디오", tags: ["음성", "TTS", "자연스러움"], logo: "https://cdn.worldvectorlogo.com/logos/eleven-labs.svg", website: "elevenlabs.io", price: "무료 / 유료 $5~", trending: 0, users: "2M+" },
-      { name: "Synthesia", desc: "아바타 비디오 생성", category: "음성비디오", tags: ["비디오", "아바타", "전문"], logo: "https://cdn.worldvectorlogo.com/logos/synthesia.svg", website: "synthesia.io", price: "유료 $30/월", trending: 0, users: "-" },
-      { name: "Descript", desc: "비디오/팟캐스트 편집", category: "음성비디오", tags: ["비디오", "편집", "음성"], logo: "https://cdn.worldvectorlogo.com/logos/descript.svg", website: "descript.com", price: "무료 / 유료 $24/월", trending: 0, users: "1M+" },
-      { name: "Heygen", desc: "AI 비디오 생성", category: "음성비디오", tags: ["비디오", "아바타", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/heygen.svg", website: "heygen.com", price: "무료 / 유료 $14/월", trending: 0, users: "-" },
-      { name: "Fliki", desc: "AI 비디오 + 음성", category: "음성비디오", tags: ["비디오", "음성", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/fliki.svg", website: "fliki.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
-      { name: "Murf.ai", desc: "AI 음성 생성", category: "음성비디오", tags: ["음성", "내레이션", "다국어"], logo: "https://cdn.worldvectorlogo.com/logos/murf-ai.svg", website: "murf.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
+      { name: "Runway", desc: "텍스트·이미지로 영상을 생성하는 영상 AI", category: "음성비디오", tags: ["비디오", "생성", "편집"], logo: "https://runway.com/_next/static/media/wordmark.42d5ec73.svg", website: "runwayml.com", price: "유료 $12~", trending: 0, users: "3M+" },
+      { name: "ElevenLabs", desc: "가장 자연스러운 AI 음성 합성·클로닝", category: "음성비디오", tags: ["음성", "TTS", "자연스러움"], logo: "https://cdn.worldvectorlogo.com/logos/eleven-labs.svg", website: "elevenlabs.io", price: "무료 / 유료 $5~", trending: 0, users: "2M+" },
+      { name: "Synthesia", desc: "AI 아바타로 교육·홍보 영상을 빠르게 제작", category: "음성비디오", tags: ["비디오", "아바타", "전문"], logo: "https://cdn.worldvectorlogo.com/logos/synthesia.svg", website: "synthesia.io", price: "유료 $30/월", trending: 0, users: "-" },
+      { name: "Descript", desc: "자막 편집으로 영상·팟캐스트를 손쉽게 편집", category: "음성비디오", tags: ["비디오", "편집", "음성"], logo: "https://cdn.worldvectorlogo.com/logos/descript.svg", website: "descript.com", price: "무료 / 유료 $24/월", trending: 0, users: "1M+" },
+      { name: "Heygen", desc: "실사 AI 아바타로 다국어 영상 즉시 생성", category: "음성비디오", tags: ["비디오", "아바타", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/heygen.svg", website: "heygen.com", price: "무료 / 유료 $14/월", trending: 0, users: "-" },
+      { name: "Fliki", desc: "텍스트를 음성·영상 콘텐츠로 즉시 변환", category: "음성비디오", tags: ["비디오", "음성", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/fliki.svg", website: "fliki.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
+      { name: "Murf.ai", desc: "120개+ 언어를 지원하는 AI 나레이션 생성", category: "음성비디오", tags: ["음성", "내레이션", "다국어"], logo: "https://cdn.worldvectorlogo.com/logos/murf-ai.svg", website: "murf.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
 
       // 자동화 (10개)
-      { name: "Zapier", desc: "자동화 워크플로우", category: "자동화", tags: ["자동화", "통합", "워크플로우"], logo: "https://seeklogo.com/images/Z/zapier-logo-512x512.png", website: "zapier.com", price: "무료 / 유료 $19.99~", trending: 0, users: "5M+" },
-      { name: "Notion", desc: "올인원 업무 도구", category: "자동화", tags: ["협업", "문서", "DB"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notion-logo.svg", website: "notion.so", price: "무료 / 유료 $10~", trending: 0, users: "10M+" },
-      { name: "Make", desc: "고급 자동화", category: "자동화", tags: ["자동화", "강력", "API"], logo: "https://cdn.worldvectorlogo.com/logos/make-10.svg", website: "make.com", price: "무료 / 유료 $9.99~", trending: 0, users: "-" },
-      { name: "Airtable", desc: "스마트 데이터베이스", category: "자동화", tags: ["DB", "자동화", "협업"], logo: "https://cdn.worldvectorlogo.com/logos/airtable-2.svg", website: "airtable.com", price: "무료 / 유료 $12~", trending: 0, users: "1M+" },
-      { name: "Monday.com", desc: "프로젝트 관리 + 자동화", category: "자동화", tags: ["프로젝트", "자동화", "협업"], logo: "https://cdn.worldvectorlogo.com/logos/monday-com.svg", website: "monday.com", price: "유료 $10~", trending: 0, users: "500K+" },
-      { name: "IFTTT", desc: "간단한 자동화", category: "자동화", tags: ["자동화", "쉬움", "스마트홈"], logo: "https://cdn.worldvectorlogo.com/logos/ifttt.svg", website: "ifttt.com", price: "무료 / 유료 $2.99/월", trending: 0, users: "10M+" },
-      { name: "N8N", desc: "오픈소스 자동화", category: "자동화", tags: ["자동화", "오픈소스", "무료"], logo: "https://cdn.worldvectorlogo.com/logos/n8n.svg", website: "n8n.io", price: "무료 / 유료", trending: 0, users: "-" },
-      { name: "Workato", desc: "엔터프라이즈 자동화", category: "자동화", tags: ["자동화", "엔터프라이즈", "강력"], logo: "https://cdn.worldvectorlogo.com/logos/workato.svg", website: "workato.com", price: "유료", trending: 0, users: "-" },
-      { name: "Power Automate", desc: "Microsoft 자동화", category: "자동화", tags: ["자동화", "Microsoft", "엔터프라이즈"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Power_Automate_logo.svg/1200px-Power_Automate_logo.svg.png", website: "powerautomate.microsoft.com", price: "무료 / 유료 $5~", trending: 0, users: "-" },
-      { name: "Keyboard Maestro", desc: "Mac 자동화", category: "자동화", tags: ["자동화", "Mac", "강력"], logo: "https://images.macworld.com/images/article/2013/03/keyboardmaestro5icon-100030533-orig.png", website: "keyboardmaestro.com", price: "유료 $36", trending: 0, users: "-" },
+      { name: "Zapier", desc: "6,000개+ 앱을 코드 없이 자동 연결", category: "자동화", tags: ["자동화", "통합", "워크플로우"], logo: "https://seeklogo.com/images/Z/zapier-logo-512x512.png", website: "zapier.com", price: "무료 / 유료 $19.99~", trending: 0, users: "5M+" },
+      { name: "Notion", desc: "문서·DB·프로젝트를 한 곳에서 관리", category: "자동화", tags: ["협업", "문서", "DB"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notion-logo.svg", website: "notion.so", price: "무료 / 유료 $10~", trending: 0, users: "10M+" },
+      { name: "Make", desc: "시각적 플로우로 복잡한 자동화 설계", category: "자동화", tags: ["자동화", "강력", "API"], logo: "https://cdn.worldvectorlogo.com/logos/make-10.svg", website: "make.com", price: "무료 / 유료 $9.99~", trending: 0, users: "-" },
+      { name: "Airtable", desc: "스프레드시트와 DB를 결합한 스마트 협업툴", category: "자동화", tags: ["DB", "자동화", "협업"], logo: "https://cdn.worldvectorlogo.com/logos/airtable-2.svg", website: "airtable.com", price: "무료 / 유료 $12~", trending: 0, users: "1M+" },
+      { name: "Monday.com", desc: "팀 업무 현황을 한눈에 보는 프로젝트 관리", category: "자동화", tags: ["프로젝트", "자동화", "협업"], logo: "https://cdn.worldvectorlogo.com/logos/monday-com.svg", website: "monday.com", price: "유료 $10~", trending: 0, users: "500K+" },
+      { name: "IFTTT", desc: "앱·스마트홈 기기를 조건부로 간단 연결", category: "자동화", tags: ["자동화", "쉬움", "스마트홈"], logo: "https://cdn.worldvectorlogo.com/logos/ifttt.svg", website: "ifttt.com", price: "무료 / 유료 $2.99/월", trending: 0, users: "10M+" },
+      { name: "N8N", desc: "셀프호스팅 가능한 오픈소스 자동화 플랫폼", category: "자동화", tags: ["자동화", "오픈소스", "무료"], logo: "https://cdn.worldvectorlogo.com/logos/n8n.svg", website: "n8n.io", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Workato", desc: "IT·비즈니스 팀을 위한 엔터프라이즈 자동화", category: "자동화", tags: ["자동화", "엔터프라이즈", "강력"], logo: "https://cdn.worldvectorlogo.com/logos/workato.svg", website: "workato.com", price: "유료", trending: 0, users: "-" },
+      { name: "Power Automate", desc: "Microsoft 365와 완벽하게 연동되는 자동화", category: "자동화", tags: ["자동화", "Microsoft", "엔터프라이즈"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Power_Automate_logo.svg/1200px-Power_Automate_logo.svg.png", website: "powerautomate.microsoft.com", price: "무료 / 유료 $5~", trending: 0, users: "-" },
+      { name: "Keyboard Maestro", desc: "Mac에서 반복 작업을 매크로로 완전 자동화", category: "자동화", tags: ["자동화", "Mac", "강력"], logo: "https://images.macworld.com/images/article/2013/03/keyboardmaestro5icon-100030533-orig.png", website: "keyboardmaestro.com", price: "유료 $36", trending: 0, users: "-" },
 
       // 마케팅 (3개)
-      { name: "HubSpot", desc: "마케팅 자동화", category: "마케팅", tags: ["마케팅", "CRM", "자동화"], logo: "https://cdn.worldvectorlogo.com/logos/hubspot-2.svg", website: "hubspot.com", price: "무료 / 유료 $45~", trending: 0, users: "1M+" },
-      { name: "Mailchimp", desc: "이메일 마케팅", category: "마케팅", tags: ["이메일", "마케팅", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/mailchimp.svg", website: "mailchimp.com", price: "무료 / 유료 $13~", trending: 0, users: "10M+" },
-      { name: "Buffer", desc: "소셜 미디어 관리", category: "마케팅", tags: ["소셜", "마케팅", "스케줄"], logo: "https://cdn.worldvectorlogo.com/logos/buffer-2.svg", website: "buffer.com", price: "무료 / 유료 $5~", trending: 0, users: "1M+" },
+      { name: "HubSpot", desc: "리드 유입부터 고객 관리까지 마케팅 올인원", category: "마케팅", tags: ["마케팅", "CRM", "자동화"], logo: "https://cdn.worldvectorlogo.com/logos/hubspot-2.svg", website: "hubspot.com", price: "무료 / 유료 $45~", trending: 0, users: "1M+" },
+      { name: "Mailchimp", desc: "초보도 쉽게 쓰는 이메일 마케팅 플랫폼", category: "마케팅", tags: ["이메일", "마케팅", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/mailchimp.svg", website: "mailchimp.com", price: "무료 / 유료 $13~", trending: 0, users: "10M+" },
+      { name: "Buffer", desc: "SNS 콘텐츠 예약·분석을 한 번에 관리", category: "마케팅", tags: ["소셜", "마케팅", "스케줄"], logo: "https://cdn.worldvectorlogo.com/logos/buffer-2.svg", website: "buffer.com", price: "무료 / 유료 $5~", trending: 0, users: "1M+" },
 
       // 협업 (3개)
-      { name: "Slack", desc: "팀 커뮤니케이션", category: "협업", tags: ["협업", "커뮤니케이션", "통합"], logo: "https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", website: "slack.com", price: "무료 / 유료 $8.99~", trending: 0, users: "20M+" },
-      { name: "Miro", desc: "협업 화이트보드", category: "협업", tags: ["협업", "화이트보드", "브레인스토밍"], logo: "https://cdn.worldvectorlogo.com/logos/miro-2.svg", website: "miro.com", price: "무료 / 유료 $8~", trending: 0, users: "1M+" },
-      { name: "Figma", desc: "협업 디자인 도구", category: "협업", tags: ["디자인", "협업", "프로토타입"], logo: "https://cdn.worldvectorlogo.com/logos/figma-1.svg", website: "figma.com", price: "무료 / 유료 $12~", trending: 0, users: "10M+" }
+      { name: "Slack", desc: "채널 기반으로 팀 소통·업무를 한곳에서", category: "협업", tags: ["협업", "커뮤니케이션", "통합"], logo: "https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", website: "slack.com", price: "무료 / 유료 $8.99~", trending: 0, users: "20M+" },
+      { name: "Miro", desc: "원격 팀 브레인스토밍에 최적화된 화이트보드", category: "협업", tags: ["협업", "화이트보드", "브레인스토밍"], logo: "https://cdn.worldvectorlogo.com/logos/miro-2.svg", website: "miro.com", price: "무료 / 유료 $8~", trending: 0, users: "1M+" },
+      { name: "Figma", desc: "실시간 협업이 가능한 UI·프로토타입 디자인", category: "협업", tags: ["디자인", "협업", "프로토타입"], logo: "https://cdn.worldvectorlogo.com/logos/figma-1.svg", website: "figma.com", price: "무료 / 유료 $12~", trending: 0, users: "10M+" }
     ];
 
     let allTools = [];
     let currentFilter = "전체";
 
     function initTools() {
-      const storedTools = localStorage.getItem('aiTools');
-      if (!storedTools) {
+      const DATA_VERSION = 'v3';
+      const storedVersion = localStorage.getItem('aiToolsVersion');
+      if (!storedVersion || storedVersion !== DATA_VERSION) {
         allTools = JSON.parse(JSON.stringify(defaultTools));
-        saveTools();
+        localStorage.setItem('aiTools', JSON.stringify(allTools));
+        localStorage.setItem('aiToolsVersion', DATA_VERSION);
       } else {
-        allTools = JSON.parse(storedTools);
+        allTools = JSON.parse(localStorage.getItem('aiTools'));
       }
       document.getElementById('totalTools').textContent = allTools.length;
       document.getElementById('resultCount').textContent = allTools.length;
@@ -508,7 +510,7 @@
 
     function formatPrice(price) {
       if (!price) return '💰 가격미정';
-      return '💰 ' + price;
+      return '💰 ' + price.replace(/\/월/g, '(월)');
     }
 
     // 태그별 색상 순환 (AIggle 로고 컬러 계열)
