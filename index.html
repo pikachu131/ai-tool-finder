@@ -39,25 +39,71 @@
     .header-subtitle a { color: var(--pwc-orange); text-decoration: none; opacity: 0.95; border-bottom: 1px solid var(--pwc-orange); transition: opacity 0.2s; }
     .header-subtitle a:hover { opacity: 1; }
     .header p { font-size: 15px; color: var(--text-secondary); margin-top: 16px; font-weight: 400; line-height: 1.5; }
+    .logo-container { display: flex; align-items: center; justify-content: center; cursor: pointer; user-select: none; position: relative; padding: 20px; }
+    .letter { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto; font-size: 115px; font-weight: 800; display: inline-block; position: relative; opacity: 1; animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+    .letter-A  { color: #4285F4; }
+    .letter-I  { color: #EA4335; }
+    .letter-g1 { color: #FBBC05; }
+    .letter-g2 { color: #4285F4; }
+    .letter-l  { color: #34A853; }
+    .letter-e  { color: #EA4335; }
+    .letter:nth-child(3) { animation-delay: 0.0s; opacity: 1; }
+    .letter:nth-child(4) { animation-delay: 0.1s; opacity: 1; }
+    .letter:nth-child(5) { animation-delay: 0.2s; opacity: 1; }
+    .letter:nth-child(6) { animation-delay: 0.3s; opacity: 1; }
+    .letter:nth-child(7) { animation-delay: 0.4s; opacity: 1; }
+    .letter:nth-child(8) { animation-delay: 0.5s; opacity: 1; }
+    @keyframes bounceIn { 0% { opacity: 1; transform: scale(0.5) translateY(-40px) rotate(-8deg); } 50% { opacity: 1; transform: scale(1.05) translateY(5px) rotate(2deg); } 75% { transform: scale(0.98) translateY(-2px) rotate(-0.5deg); } 100% { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); } }
+    .letter.loaded { animation: float 3s ease-in-out infinite; }
+    .letter.loaded:nth-child(3) { animation-delay: 0.0s; }
+    .letter.loaded:nth-child(4) { animation-delay: 0.15s; }
+    .letter.loaded:nth-child(5) { animation-delay: 0.3s; }
+    .letter.loaded:nth-child(6) { animation-delay: 0.45s; }
+    .letter.loaded:nth-child(7) { animation-delay: 0.6s; }
+    .letter.loaded:nth-child(8) { animation-delay: 0.75s; }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+    .letter:hover { animation: hoverPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important; }
+    @keyframes hoverPop { 0%   { transform: scale(1) rotate(0deg); } 25%  { transform: scale(1.15) rotate(-5deg); } 50%  { transform: scale(0.95) rotate(3deg); } 100% { transform: scale(1.08) rotate(0deg); } }
+    .letter.bounce { animation: clickBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important; }
+    @keyframes clickBounce { 0%   { transform: translateY(0) scale(1) rotate(0deg); } 12%  { transform: translateY(-35px) scale(1.1) rotate(-8deg); } 25%  { transform: translateY(0) scale(0.95) rotate(3deg); } 35%  { transform: translateY(-15px) scale(1.05) rotate(-2deg); } 50%  { transform: translateY(0) scale(0.98) rotate(1deg); } 65%  { transform: translateY(-5px) scale(1.02) rotate(-0.5deg); } 100% { transform: translateY(0) scale(1) rotate(0deg); } }
+    .particle { position: absolute; border-radius: 50%; pointer-events: none; animation: particleFly 0.8s ease-out forwards; }
+    @keyframes particleFly { 0% { opacity: 1; transform: translate(0, 0) scale(1); } 100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); } }
+    .sparkle { position: absolute; pointer-events: none; animation: sparkle 2s ease-in-out infinite; }
+    .sparkle svg { width: 22px; height: 22px; }
+    .sparkle:nth-child(1) { top: 5px; right: 0px; animation-delay: 1.2s; }
+    .sparkle:nth-child(2) { top: 0px; left: 25px; animation-delay: 1.8s; }
+    @keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); } 50% { opacity: 1; transform: scale(1) rotate(180deg); } }
     .trending-section { margin: 40px 0; }
     .trending-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; color: var(--text-primary); }
-    .trending-container { position: relative; overflow-x: auto; overflow-y: visible; scroll-behavior: smooth; padding-bottom: 16px; }
-    .trending-container::-webkit-scrollbar { height: 6px; }
-    .trending-container::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 3px; }
-    .trending-container::-webkit-scrollbar-thumb { background: var(--pwc-orange); border-radius: 3px; }
-    .trending-grid { display: flex; gap: 16px; min-width: min-content; padding: 0; }
-    .trending-card { flex: 0 0 160px; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center; transition: all 0.3s; box-shadow: var(--shadow-light); cursor: pointer; overflow: visible; position: relative; z-index: 10; }
-    .trending-card:hover { border-color: var(--pwc-orange); transform: translateY(-4px); box-shadow: var(--shadow-medium); }
+    .trending-container { position: relative; overflow-x: auto; overflow-y: visible; scroll-behavior: smooth; padding-bottom: 16px; padding-top: 20px; scroll-snap-type: x mandatory; display: none; }
+    .trending-container::-webkit-scrollbar { display: none; }
+    .trending-container { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes autoScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+    .trending-grid-auto { display: flex; gap: 16px; overflow-x: hidden; scroll-behavior: smooth; padding: 20px 20px; margin: 30px 0; border-radius: 12px; animation: autoScroll 45s linear infinite; }
+    .trending-card { flex: 0 0 140px; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; transition: all 0.3s; box-shadow: var(--shadow-light); cursor: pointer; overflow: visible; position: relative; z-index: 10; transform-origin: center top; }
+    .trending-card:hover { border-color: var(--pwc-orange); transform: translateY(-8px) scale(1.05); box-shadow: var(--shadow-medium); }
     .trending-rank { font-size: 24px; font-weight: 700; color: var(--pwc-orange); margin-bottom: 8px; }
     .trending-logo { width: 50px; height: 50px; margin: 0 auto 12px; background-color: var(--bg-secondary); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); }
     .trending-logo img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
     .trending-card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; white-space: normal; word-wrap: break-word; overflow: visible; }
     .trending-card-users { font-size: 11px; color: var(--text-tertiary); }
-    .search-section { margin: 40px 0; }
-    .search-box { display: flex; gap: 12px; margin-bottom: 0; position: relative; }
+    .search-section { margin: 60px 0 0 0; padding: 40px 20px; }
+    .search-container { max-width: 600px; margin: 0 auto 40px; }
+    .search-box { display: flex; gap: 12px; margin-bottom: 0; position: relative; width: 100%; }
+    .trending-section { margin: 0; padding: 0 20px; }
+    .trending-title { display: none; }
+    .trending-carousel { max-width: 1400px; margin: 40px auto; text-align: center; }
+    .carousel-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 20px; letter-spacing: 0.5px; }
+    .trending-grid { display: flex; gap: 16px; min-width: min-content; padding: 0 20px; margin-top: 20px; scroll-snap-align: start; flex-wrap: nowrap; justify-content: center; }
+    .carousel-item { flex: 0 0 auto; min-width: 100px; text-align: center; padding: 12px; cursor: pointer; transition: all 0.2s; }
+    .carousel-item:hover { transform: translateY(-8px); }
+    .carousel-icon { width: 70px; height: 70px; margin: 0 auto 8px; background-color: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; transition: all 0.2s; }
+    .carousel-item:hover .carousel-icon { box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2); }
+    .carousel-icon img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+    .carousel-label { font-size: 12px; color: var(--text-secondary); font-weight: 500; word-break: break-word; letter-spacing: 0.3px; line-height: 1.4; }
     .search-input-wrapper { flex: 1; position: relative; }
-    .search-input { width: 100%; padding: 14px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; color: var(--text-primary); background-color: var(--bg-primary); transition: all 0.2s; }
-    .search-input:focus { outline: none; border-color: var(--pwc-orange); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+    .search-input { width: 100%; padding: 18px 24px; border: none; border-radius: 24px; font-size: 18px; color: var(--text-primary); background-color: var(--bg-secondary); transition: all 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+    .search-input:focus { outline: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); background-color: var(--bg-primary); }
     .search-hint-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: help; font-size: 18px; color: var(--pwc-orange); transition: all 0.2s; }
     .search-hint-icon:hover { opacity: 0.7; }
     .tooltip { display: none; position: absolute; bottom: 100%; right: 0; background-color: var(--text-primary); color: var(--bg-primary); padding: 16px; border-radius: 8px; font-size: 12px; line-height: 1.6; width: 300px; box-shadow: var(--shadow-heavy); z-index: 100; margin-bottom: 10px; }
@@ -67,9 +113,9 @@
     .tooltip-step { margin-bottom: 8px; }
     .tooltip-step:last-child { margin-bottom: 0; }
     .tooltip-step-num { display: inline-block; width: 20px; height: 20px; background-color: var(--pwc-orange); color: white; border-radius: 50%; text-align: center; line-height: 20px; font-size: 10px; font-weight: 600; margin-right: 6px; }
-    .search-btn { padding: 14px 28px; background-color: var(--pwc-orange); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; transition: all 0.3s; white-space: nowrap; box-shadow: none; }
+    .search-btn { padding: 16px 32px; background-color: var(--pwc-orange); color: white; border: none; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 16px; transition: all 0.3s; white-space: nowrap; box-shadow: none; display: none; }
     .search-btn:hover { background-color: var(--pwc-orange-dark); transform: translateY(-2px); }
-    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 32px; margin-top: 40px; }
+    .stats { display: none; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 32px; margin-top: 40px; }
     .stat { background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-light); }
     .stat-num { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
     .stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 400; }
@@ -89,6 +135,15 @@
     .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
     .tag { font-size: 12px; padding: 4px 8px; background-color: var(--bg-secondary); color: var(--text-secondary); border-radius: 4px; font-weight: 500; border: 1px solid var(--border-color); }
     .card-meta { font-size: 12px; color: var(--text-tertiary); margin-bottom: 16px; }
+    .info-btn { background: none; border: none; font-size: 18px; cursor: pointer; padding: 8px; border-radius: 6px; transition: all 0.2s; color: var(--text-tertiary); }
+    .info-btn:hover { background-color: rgba(0, 0, 0, 0.05); transform: scale(1.1); color: var(--text-secondary); }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-overlay.active { display: flex; }
+    .modal-content { background-color: var(--bg-primary); padding: 32px; border-radius: 16px; max-width: 500px; width: 90%; box-shadow: var(--shadow-heavy); position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-secondary); }
+    .modal-close:hover { color: var(--text-primary); }
+    .modal-title { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 20px; }
+    .modal-info { font-size: 14px; line-height: 1.8; color: var(--text-secondary); white-space: pre-line; }
     .empty-state { text-align: center; padding: 80px 20px; color: var(--text-secondary); }
     .empty-state-icon { font-size: 64px; margin-bottom: 16px; }
     .empty-state p { font-size: 16px; margin-bottom: 12px; }
@@ -105,178 +160,53 @@
       .tooltip { width: 250px; right: -50px; }
       .tooltip::after { right: 66px; }
     }
-  
-/* ===== AIggle Motion Logo ===== */
-.logo-container {
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-  position: relative;
-  padding: 0;
-  justify-content: center;
-}
-
-.logo-letter {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 42px;
-  font-weight: 800;
-  display: inline-block;
-  position: relative;
-  opacity: 0;
-  animation: logoBounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-  line-height: 1.2;
-}
-
-.logo-letter-A  { color: #4285F4; }
-.logo-letter-I  { color: #EA4335; }
-.logo-letter-g1 { color: #FBBC05; }
-.logo-letter-g2 { color: #4285F4; }
-.logo-letter-l  { color: #34A853; }
-.logo-letter-e  { color: #EA4335; }
-
-.logo-letter:nth-child(3) { animation-delay: 0.0s; }
-.logo-letter:nth-child(4) { animation-delay: 0.1s; }
-.logo-letter:nth-child(5) { animation-delay: 0.2s; }
-.logo-letter:nth-child(6) { animation-delay: 0.3s; }
-.logo-letter:nth-child(7) { animation-delay: 0.4s; }
-.logo-letter:nth-child(8) { animation-delay: 0.5s; }
-
-@keyframes logoBounceIn {
-  0% { opacity: 0; transform: scale(0.3) translateY(-80px) rotate(-15deg); }
-  50% { opacity: 1; transform: scale(1.1) translateY(10px) rotate(3deg); }
-  70% { transform: scale(0.95) translateY(-5px) rotate(-1deg); }
-  100% { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); }
-}
-
-.logo-letter.logo-loaded {
-  animation: logoFloat 3s ease-in-out infinite;
-}
-
-.logo-letter.logo-loaded:nth-child(3) { animation-delay: 0.0s; }
-.logo-letter.logo-loaded:nth-child(4) { animation-delay: 0.15s; }
-.logo-letter.logo-loaded:nth-child(5) { animation-delay: 0.3s; }
-.logo-letter.logo-loaded:nth-child(6) { animation-delay: 0.45s; }
-.logo-letter.logo-loaded:nth-child(7) { animation-delay: 0.6s; }
-.logo-letter.logo-loaded:nth-child(8) { animation-delay: 0.75s; }
-
-@keyframes logoFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-.logo-letter:hover {
-  animation: logoHoverPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
-}
-
-@keyframes logoHoverPop {
-  0%   { transform: scale(1) rotate(0deg); }
-  30%  { transform: scale(1.3) rotate(-8deg); }
-  60%  { transform: scale(0.9) rotate(5deg); }
-  100% { transform: scale(1.1) rotate(0deg); }
-}
-
-.logo-letter.logo-bounce {
-  animation: logoClickBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
-}
-
-@keyframes logoClickBounce {
-  0%   { transform: translateY(0) scale(1) rotate(0deg); }
-  15%  { transform: translateY(-50px) scale(1.2) rotate(-12deg); }
-  30%  { transform: translateY(0) scale(0.9) rotate(5deg); }
-  45%  { transform: translateY(-25px) scale(1.1) rotate(-3deg); }
-  60%  { transform: translateY(0) scale(0.95) rotate(2deg); }
-  75%  { transform: translateY(-8px) scale(1.02) rotate(0deg); }
-  100% { transform: translateY(0) scale(1) rotate(0deg); }
-}
-
-.logo-particle {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  animation: logoParticleFly 0.8s ease-out forwards;
-}
-
-@keyframes logoParticleFly {
-  0% { opacity: 1; transform: translate(0, 0) scale(1); }
-  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
-}
-
-.logo-sparkle {
-  position: absolute;
-  pointer-events: none;
-  animation: logoSparkle 2s ease-in-out infinite;
-}
-
-.logo-sparkle svg { width: 18px; height: 18px; }
-
-.logo-sparkle:nth-child(1) { top: 2px; right: -5px; animation-delay: 1.2s; }
-.logo-sparkle:nth-child(2) { top: -2px; left: 15px; animation-delay: 1.8s; }
-
-@keyframes logoSparkle {
-  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1) rotate(180deg); }
-}
-
-.logo-container:hover .logo-letter-A {
-  text-shadow: 0 0 25px rgba(66, 133, 244, 0.6);
-}
-.logo-container:hover .logo-letter-I {
-  text-shadow: 0 0 25px rgba(234, 67, 53, 0.6);
-}
-
-@media (max-width: 768px) {
-  .logo-letter { font-size: 28px; }
-}
-
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="logo-container" id="logoContainer">
-      <div class="logo-sparkle">
-        <svg viewBox="0 0 24 24" fill="#FBBC05">
-          <path d="M12 0L14.59 8.41L24 12L14.59 15.59L12 24L9.41 15.59L0 12L9.41 8.41Z"/>
-        </svg>
+      <div class="logo-container" id="logoContainer" style="margin-bottom: 20px;">
+        <div class="sparkle">
+          <svg viewBox="0 0 24 24" fill="#FBBC05">
+            <path d="M12 0L14.59 8.41L24 12L14.59 15.59L12 24L9.41 15.59L0 12L9.41 8.41Z"/>
+          </svg>
+        </div>
+        <div class="sparkle">
+          <svg viewBox="0 0 24 24" fill="#4285F4">
+            <path d="M12 0L14.59 8.41L24 12L14.59 15.59L12 24L9.41 15.59L0 12L9.41 8.41Z"/>
+          </svg>
+        </div>
+        <span class="letter letter-A">A</span>
+        <span class="letter letter-I">I</span>
+        <span class="letter letter-g1">g</span>
+        <span class="letter letter-g2">g</span>
+        <span class="letter letter-l">l</span>
+        <span class="letter letter-e">e</span>
       </div>
-      <div class="logo-sparkle">
-        <svg viewBox="0 0 24 24" fill="#4285F4">
-          <path d="M12 0L14.59 8.41L24 12L14.59 15.59L12 24L9.41 15.59L0 12L9.41 8.41Z"/>
-        </svg>
-      </div>
-      <span class="logo-letter logo-letter-A">A</span>
-      <span class="logo-letter logo-letter-I">I</span>
-      <span class="logo-letter logo-letter-g1">g</span>
-      <span class="logo-letter logo-letter-g2">g</span>
-      <span class="logo-letter logo-letter-l">l</span>
-      <span class="logo-letter logo-letter-e">e</span>
-    </div>
       <div class="header-subtitle">by <a href="https://www.aigym.ai" target="_blank">AI Gym</a></div>
-      <p>사용 목적, 도구명, 설명, 태그로 검색하세요</p>
-    </div>
-
-    <div class="trending-section">
-      <div class="trending-title">🔥 실시간 인기 AI Tool</div>
-      <div class="trending-container">
-        <div class="trending-grid" id="trendingGrid"></div>
-      </div>
+      <p style="display: none;">사용 목적, 도구명, 설명, 태그로 검색하세요</p>
     </div>
 
     <div class="search-section">
-      <div class="search-box">
-        <div class="search-input-wrapper">
-          <input type="text" id="unifiedSearch" class="search-input" placeholder="목적, 도구명, 설명, 태그로 검색... (예: 뉴스 배포, ChatGPT, 이미지 생성)" />
-          <span class="search-hint-icon">💡</span>
-          <div class="tooltip">
-            <div class="tooltip-step"><span class="tooltip-step-num">1</span><strong>목적으로 검색</strong>: "뉴스 배포", "이미지 생성" 등 입력 시 최적 도구 조합 추천</div>
-            <div class="tooltip-step"><span class="tooltip-step-num">2</span><strong>질문형 검색</strong>: "어떻게 하면 블로그 글을 자동으로 작성할 수 있을까?" 등 질문으로도 검색 가능</div>
-            <div class="tooltip-step"><span class="tooltip-step-num">3</span><strong>도구명 검색</strong>: "ChatGPT", "Notion" 등 입력 시 정확히 찾기</div>
-            <div class="tooltip-step"><span class="tooltip-step-num">4</span><strong>도구 클릭</strong>: 검색된 도구 클릭 시 바로 이동</div>
+      <div class="search-container">
+        <div class="search-box">
+          <div class="search-input-wrapper">
+            <input type="text" id="unifiedSearch" class="search-input" placeholder="목적, 도구명, 설명, 태그로 검색..." />
+            <span class="search-hint-icon">💡</span>
+            <div class="tooltip">
+              <div class="tooltip-step"><span class="tooltip-step-num">1</span><strong>목적으로 검색</strong>: "뉴스 배포", "이미지 생성" 등 입력 시 최적 도구 조합 추천</div>
+              <div class="tooltip-step"><span class="tooltip-step-num">2</span><strong>질문형 검색</strong>: "어떻게 하면 블로그 글을 자동으로 작성할 수 있을까?" 등 질문으로도 검색 가능</div>
+              <div class="tooltip-step"><span class="tooltip-step-num">3</span><strong>도구명 검색</strong>: "ChatGPT", "Notion" 등 입력 시 정확히 찾기</div>
+              <div class="tooltip-step"><span class="tooltip-step-num">4</span><strong>도구 클릭</strong>: 검색된 도구 클릭 시 바로 이동</div>
+            </div>
           </div>
+          <button class="search-btn" onclick="performUnifiedSearch()">검색</button>
         </div>
-        <button class="search-btn" onclick="performUnifiedSearch()">검색</button>
+      </div>
+
+      <div class="trending-carousel">
+        <div class="carousel-title">실시간 인기 AI Tool</div>
+        <div class="trending-grid" id="trendingGrid"></div>
       </div>
     </div>
 
@@ -320,6 +250,14 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeToolInfo()">✕</button>
+      <div class="modal-title" id="modalTitle">Tool Name</div>
+      <div class="modal-info" id="modalInfo">정보 로딩 중...</div>
+    </div>
+  </div>
+
   <footer>
     <p>© 2024 AI 도구 추천 시스템 | Powered by AI Gym</p>
   </footer>
@@ -327,7 +265,7 @@
   <script>
     const defaultTools = [
       // 텍스트작성 (10개)
-      { name: "ChatGPT", desc: "대화형 AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "대화", "코딩"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1200px-ChatGPT_logo.svg.png", website: "openai.com", price: "무료 / 유료 $20/월", trending: 1, users: "200M+" },
+      { name: "ChatGPT", desc: "대화형 AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "대화", "코딩"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1200px-ChatGPT_logo.svg.png", website: "openai.com", price: "무료 / 유료 $20/월", trending: 1, users: "200M+", info: "강점: 자연스러운 대화형 상호작용, 다양한 작업 지원\n기능: 텍스트 생성, 코드 작성, 질의응답, 창의적 작성" },
       { name: "Claude", desc: "고급 AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "분석", "코딩"], logo: "https://pbs.twimg.com/profile_images/1680582143494057986/76jvG58R_400x400.png", website: "claude.ai", price: "무료 / 유료 $20/월", trending: 4, users: "50M+" },
       { name: "Gemini", desc: "Google AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "검색", "분석"], logo: "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304c9c58b3ce853.png", website: "gemini.google.com", price: "무료 / 유료", trending: 0, users: "100M+" },
       { name: "Perplexity AI", desc: "AI 검색 및 분석", category: "텍스트작성", tags: ["검색", "분석", "리서치"], logo: "https://www.perplexity.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fperplexity-logo.8fc47f96.png&w=256&q=75", website: "perplexity.ai", price: "무료 / 유료 $20/월", trending: 0, users: "8M+" },
@@ -344,8 +282,8 @@
       { name: "Stable Diffusion", desc: "오픈소스 이미지 생성", category: "이미지생성", tags: ["이미지", "오픈소스", "무료"], logo: "https://huggingface.co/front/assets/huggingface_logo.png", website: "stability.ai", price: "무료 / 유료", trending: 0, users: "-" },
       { name: "Canva", desc: "디자인 + AI 기능", category: "이미지생성", tags: ["디자인", "템플릿", "쉬움"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Canva_logo.svg/1200px-Canva_logo.svg.png", website: "canva.com", price: "무료 / 유료 $13/월", trending: 0, users: "100M+" },
       { name: "Adobe Firefly", desc: "Adobe AI 이미지 생성", category: "이미지생성", tags: ["이미지", "디자인", "프로"], logo: "https://cdn.worldvectorlogo.com/logos/adobe-firefly.svg", website: "adobe.com", price: "유료", trending: 0, users: "-" },
-      { name: "Leonardo.AI", desc: "고품질 AI 이미지 생성", category: "이미지생성", tags: ["이미지", "게임", "전문"], logo: "https://leonardo.ai/images/favicon.png", website: "leonardo.ai", price: "무료 / 유료", trending: 0, users: "-" },
-      { name: "Clipdrop", desc: "이미지 제거/생성", category: "이미지생성", tags: ["이미지", "편집", "제거"], logo: "https://cdn.loom.com/assets/favicons/favicon-32x32.png", website: "clipdrop.co", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Leonardo.AI", desc: "고품질 AI 이미지 생성", category: "이미지생성", tags: ["이미지", "게임", "전문"], logo: "https://cdn.worldvectorlogo.com/logos/leonardo-ai.svg", website: "leonardo.ai", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Clipdrop", desc: "이미지 제거/생성", category: "이미지생성", tags: ["이미지", "편집", "제거"], logo: "https://cdn.worldvectorlogo.com/logos/clipdrop.svg", website: "clipdrop.co", price: "무료 / 유료", trending: 0, users: "-" },
       { name: "DreamStudio", desc: "Stable Diffusion 인터페이스", category: "이미지생성", tags: ["이미지", "쉬움", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/stable-diffusion-2.svg", website: "dreamstudio.ai", price: "유료", trending: 0, users: "-" },
       { name: "Photoshop AI", desc: "포토샵 AI 기능", category: "이미지생성", tags: ["편집", "전문", "강력"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1200px-Adobe_Photoshop_CC_icon.svg.png", website: "photoshop.adobe.com", price: "유료", trending: 0, users: "-" },
       { name: "Img2Go", desc: "온라인 이미지 생성", category: "이미지생성", tags: ["이미지", "온라인", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/imgix.svg", website: "img2go.com", price: "무료 / 유료", trending: 0, users: "-" },
@@ -382,13 +320,13 @@
 
       // 마케팅 (3개)
       { name: "HubSpot", desc: "마케팅 자동화", category: "마케팅", tags: ["마케팅", "CRM", "자동화"], logo: "https://cdn.worldvectorlogo.com/logos/hubspot-2.svg", website: "hubspot.com", price: "무료 / 유료 $45~", trending: 0, users: "1M+" },
-      { name: "Mailchimp", desc: "이메일 마케팅", category: "마케팅", tags: ["이메일", "마케팅", "쉬움"], logo: "https://mailchimp.com/favicon.ico", website: "mailchimp.com", price: "무료 / 유료 $13~", trending: 0, users: "10M+" },
-      { name: "Buffer", desc: "소셜 미디어 관리", category: "마케팅", tags: ["소셜", "마케팅", "스케줄"], logo: "https://buffer.com/favicon.ico", website: "buffer.com", price: "무료 / 유료 $5~", trending: 0, users: "1M+" },
+      { name: "Mailchimp", desc: "이메일 마케팅", category: "마케팅", tags: ["이메일", "마케팅", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/mailchimp.svg", website: "mailchimp.com", price: "무료 / 유료 $13~", trending: 0, users: "10M+" },
+      { name: "Buffer", desc: "소셜 미디어 관리", category: "마케팅", tags: ["소셜", "마케팅", "스케줄"], logo: "https://cdn.worldvectorlogo.com/logos/buffer-2.svg", website: "buffer.com", price: "무료 / 유료 $5~", trending: 0, users: "1M+" },
 
       // 협업 (3개)
-      { name: "Slack", desc: "팀 커뮤니케이션", category: "협업", tags: ["협업", "커뮤니케이션", "통합"], logo: "https://slack.com/favicon.ico", website: "slack.com", price: "무료 / 유료 $8.99~", trending: 0, users: "20M+" },
-      { name: "Miro", desc: "협업 화이트보드", category: "협업", tags: ["협업", "화이트보드", "브레인스토밍"], logo: "https://miro.com/favicon.ico", website: "miro.com", price: "무료 / 유료 $8~", trending: 0, users: "1M+" },
-      { name: "Figma", desc: "협업 디자인 도구", category: "협업", tags: ["디자인", "협업", "프로토타입"], logo: "https://www.figma.com/favicon.ico", website: "figma.com", price: "무료 / 유료 $12~", trending: 0, users: "10M+" }
+      { name: "Slack", desc: "팀 커뮤니케이션", category: "협업", tags: ["협업", "커뮤니케이션", "통합"], logo: "https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", website: "slack.com", price: "무료 / 유료 $8.99~", trending: 0, users: "20M+" },
+      { name: "Miro", desc: "협업 화이트보드", category: "협업", tags: ["협업", "화이트보드", "브레인스토밍"], logo: "https://cdn.worldvectorlogo.com/logos/miro-2.svg", website: "miro.com", price: "무료 / 유료 $8~", trending: 0, users: "1M+" },
+      { name: "Figma", desc: "협업 디자인 도구", category: "협업", tags: ["디자인", "협업", "프로토타입"], logo: "https://cdn.worldvectorlogo.com/logos/figma-1.svg", website: "figma.com", price: "무료 / 유료 $12~", trending: 0, users: "10M+" }
     ];
 
     let allTools = [];
@@ -413,20 +351,18 @@
     }
 
     function displayTrending() {
-      const trendingTools = allTools.filter(t => t.trending && t.trending > 0).sort((a, b) => a.trending - b.trending).slice(0, 5);
+      const trendingTools = allTools.slice(0, 8);
       const grid = document.getElementById('trendingGrid');
       if (trendingTools.length === 0) {
         grid.innerHTML = '';
         return;
       }
-      grid.innerHTML = trendingTools.map(tool => `
-        <div class="trending-card" onclick="openToolWebsite('${tool.website}')">
-          <div class="trending-rank">#${tool.trending}</div>
-          <div class="trending-logo">
+      grid.innerHTML = trendingTools.map((tool, index) => `
+        <div class="carousel-item" onclick="openToolWebsite('${tool.website}')">
+          <div class="carousel-icon">
             <img src="${tool.logo}" alt="${tool.name}" onerror="this.style.display='none'" />
           </div>
-          <div class="trending-card-title">${tool.name}</div>
-          <div class="trending-card-users">${tool.users || '-'}</div>
+          <div class="carousel-label">${tool.name}</div>
         </div>
       `).join('');
     }
@@ -443,8 +379,11 @@
         emptyState.style.display = 'none';
         grid.innerHTML = toolsToShow.map(tool => `
           <div class="card" onclick="openToolWebsite('${tool.website}')">
-            <div class="card-logo-container">
-              <img src="${tool.logo}" alt="${tool.name}" class="card-logo" onerror="this.style.display='none'" />
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+              <div class="card-logo-container">
+                <img src="${tool.logo}" alt="${tool.name}" class="card-logo" onerror="this.style.display='none'" />
+              </div>
+              <button class="info-btn" onclick="event.stopPropagation(); showToolInfo('${tool.name}', '${tool.info || '준비 중입니다.'}')">🔍</button>
             </div>
             <div class="card-title">${tool.name}</div>
             <div class="card-desc">${tool.desc}</div>
@@ -463,6 +402,22 @@
     function openToolWebsite(website) {
       window.open(`https://${website}`, '_blank');
     }
+
+    function showToolInfo(toolName, toolInfo) {
+      document.getElementById('modalTitle').textContent = toolName;
+      document.getElementById('modalInfo').textContent = toolInfo;
+      document.getElementById('modalOverlay').classList.add('active');
+    }
+
+    function closeToolInfo() {
+      document.getElementById('modalOverlay').classList.remove('active');
+    }
+
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeToolInfo();
+      }
+    });
 
     function performUnifiedSearch() {
       const query = document.getElementById('unifiedSearch').value.toLowerCase().trim();
@@ -558,60 +513,57 @@
       if (e.key === 'Enter') performUnifiedSearch();
     });
 
+    // AIggle 로고 애니메이션
+    const letters = document.querySelectorAll('.letter');
+    const container = document.getElementById('logoContainer');
+    const colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
+
+    setTimeout(() => {
+      letters.forEach(letter => letter.classList.add('loaded'));
+    }, 1200);
+
+    container.addEventListener('click', () => {
+      letters.forEach((letter, i) => {
+        letter.classList.remove('loaded', 'bounce');
+        void letter.offsetWidth;
+        setTimeout(() => {
+          letter.classList.add('bounce');
+          createParticles(letter, 8);
+        }, i * 80);
+        setTimeout(() => {
+          letter.classList.remove('bounce');
+          letter.classList.add('loaded');
+        }, 1500 + i * 80);
+      });
+    });
+
+    function createParticles(el, count) {
+      const rect = el.getBoundingClientRect();
+      const cRect = container.getBoundingClientRect();
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        p.style.left = (rect.left - cRect.left + rect.width / 2) + 'px';
+        p.style.top = (rect.top - cRect.top + rect.height / 2) + 'px';
+        const size = Math.random() * 8 + 4;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
+        const dist = Math.random() * 70 + 30;
+        p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+        p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 800);
+      }
+    }
+
+    letters.forEach(letter => {
+      letter.addEventListener('mouseenter', () => letter.classList.remove('loaded'));
+      letter.addEventListener('mouseleave', () => letter.classList.add('loaded'));
+    });
+
     initTools();
   </script>
-<script>
-// ===== AIggle Motion Logo =====
-(function() {
-  const logoLetters = document.querySelectorAll('.logo-letter');
-  const logoContainer = document.getElementById('logoContainer');
-  const logoColors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
-
-  setTimeout(() => {
-    logoLetters.forEach(letter => letter.classList.add('logo-loaded'));
-  }, 1200);
-
-  logoContainer.addEventListener('click', () => {
-    logoLetters.forEach((letter, i) => {
-      letter.classList.remove('logo-loaded', 'logo-bounce');
-      void letter.offsetWidth;
-      setTimeout(() => {
-        letter.classList.add('logo-bounce');
-        createLogoParticles(letter, 8);
-      }, i * 80);
-      setTimeout(() => {
-        letter.classList.remove('logo-bounce');
-        letter.classList.add('logo-loaded');
-      }, 1500 + i * 80);
-    });
-  });
-
-  function createLogoParticles(el, count) {
-    const rect = el.getBoundingClientRect();
-    const cRect = logoContainer.getBoundingClientRect();
-    for (let i = 0; i < count; i++) {
-      const p = document.createElement('div');
-      p.classList.add('logo-particle');
-      p.style.backgroundColor = logoColors[Math.floor(Math.random() * logoColors.length)];
-      p.style.left = (rect.left - cRect.left + rect.width / 2) + 'px';
-      p.style.top = (rect.top - cRect.top + rect.height / 2) + 'px';
-      const size = Math.random() * 8 + 4;
-      p.style.width = size + 'px';
-      p.style.height = size + 'px';
-      const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
-      const dist = Math.random() * 70 + 30;
-      p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
-      p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
-      logoContainer.appendChild(p);
-      setTimeout(() => p.remove(), 800);
-    }
-  }
-
-  logoLetters.forEach(letter => {
-    letter.addEventListener('mouseenter', () => letter.classList.remove('logo-loaded'));
-    letter.addEventListener('mouseleave', () => letter.classList.add('logo-loaded'));
-  });
-})();
-</script>
 </body>
 </html>
