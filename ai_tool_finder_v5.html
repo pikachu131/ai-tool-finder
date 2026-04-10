@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 도구 추천 시스템 | Find Your Perfect AI Tool</title>
+  <meta name="description" content="AI 도구를 검색하고, 사용 목적에 맞는 최고의 도구 조합을 추천받으세요.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --pwc-orange: #FF6B35;
+      --pwc-orange-dark: #E55100;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F7;
+      --text-primary: #222222;
+      --text-secondary: #717171;
+      --text-tertiary: #B0B0B0;
+      --border-color: #EBEBEB;
+      --shadow-light: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-medium: 0 2px 8px rgba(0,0,0,0.12);
+      --shadow-heavy: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1A1A1A;
+        --bg-secondary: #262626;
+        --text-primary: #FFFFFF;
+        --text-secondary: #B0B0B0;
+        --text-tertiary: #717171;
+        --border-color: #404040;
+      }
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; background-color: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    .header { padding: 60px 20px; text-align: center; background-color: var(--bg-primary); border-bottom: none; color: var(--text-primary); box-shadow: none; }
+    .header h1 { font-size: 42px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary); letter-spacing: -0.5px; }
+    .header-subtitle { font-size: 13px; color: var(--text-secondary); font-weight: 400; letter-spacing: 0.5px; }
+    .header-subtitle a { color: var(--pwc-orange); text-decoration: none; opacity: 0.95; border-bottom: 1px solid var(--pwc-orange); transition: opacity 0.2s; }
+    .header-subtitle a:hover { opacity: 1; }
+    .header p { font-size: 15px; color: var(--text-secondary); margin-top: 16px; font-weight: 400; line-height: 1.5; }
+    .trending-section { margin: 40px 0; }
+    .trending-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; color: var(--text-primary); }
+    .trending-container { position: relative; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 16px; }
+    .trending-container::-webkit-scrollbar { height: 6px; }
+    .trending-container::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 3px; }
+    .trending-container::-webkit-scrollbar-thumb { background: var(--pwc-orange); border-radius: 3px; }
+    .trending-grid { display: flex; gap: 16px; min-width: min-content; padding: 0; }
+    .trending-card { flex: 0 0 160px; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center; transition: all 0.3s; box-shadow: var(--shadow-light); cursor: pointer; }
+    .trending-card:hover { border-color: var(--pwc-orange); transform: translateY(-4px); box-shadow: var(--shadow-medium); }
+    .trending-rank { font-size: 24px; font-weight: 700; color: var(--pwc-orange); margin-bottom: 8px; }
+    .trending-logo { width: 50px; height: 50px; margin: 0 auto 12px; background-color: var(--bg-secondary); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); }
+    .trending-logo img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+    .trending-card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .trending-card-users { font-size: 11px; color: var(--text-tertiary); }
+    .search-section { margin: 40px 0; }
+    .search-box { display: flex; gap: 12px; margin-bottom: 0; position: relative; }
+    .search-input-wrapper { flex: 1; position: relative; }
+    .search-input { width: 100%; padding: 14px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; color: var(--text-primary); background-color: var(--bg-primary); transition: all 0.2s; }
+    .search-input:focus { outline: none; border-color: var(--pwc-orange); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+    .search-hint-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: help; font-size: 18px; color: var(--pwc-orange); transition: all 0.2s; }
+    .search-hint-icon:hover { opacity: 0.7; }
+    .tooltip { display: none; position: absolute; bottom: 100%; right: 0; background-color: var(--text-primary); color: var(--bg-primary); padding: 16px; border-radius: 8px; font-size: 12px; line-height: 1.6; width: 300px; box-shadow: var(--shadow-heavy); z-index: 100; margin-bottom: 10px; }
+    .tooltip::after { content: ''; position: absolute; top: 100%; right: 16px; border: 6px solid transparent; border-top-color: var(--text-primary); }
+    .search-hint-icon:hover + .tooltip { display: block; }
+    .tooltip:hover { display: block; }
+    .tooltip-step { margin-bottom: 8px; }
+    .tooltip-step:last-child { margin-bottom: 0; }
+    .tooltip-step-num { display: inline-block; width: 20px; height: 20px; background-color: var(--pwc-orange); color: white; border-radius: 50%; text-align: center; line-height: 20px; font-size: 10px; font-weight: 600; margin-right: 6px; }
+    .search-btn { padding: 14px 28px; background-color: var(--pwc-orange); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; transition: all 0.3s; white-space: nowrap; box-shadow: none; }
+    .search-btn:hover { background-color: var(--pwc-orange-dark); transform: translateY(-2px); }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 32px; margin-top: 40px; }
+    .stat { background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-light); }
+    .stat-num { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 400; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; justify-content: flex-start; }
+    .filter-badge { padding: 8px 16px; border: 1px solid var(--border-color); border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--text-primary); background-color: var(--bg-primary); transition: all 0.2s; font-weight: 500; }
+    .filter-badge:hover { border-color: var(--text-secondary); background-color: var(--bg-secondary); }
+    .filter-badge.active { background-color: var(--pwc-orange); color: white; border-color: var(--pwc-orange); box-shadow: none; }
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .results-text { font-size: 16px; font-weight: 600; color: var(--text-secondary); }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
+    .card { background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; transition: all 0.3s; display: flex; flex-direction: column; height: 100%; box-shadow: var(--shadow-light); cursor: pointer; }
+    .card:hover { border-color: var(--pwc-orange); transform: translateY(-6px); box-shadow: var(--shadow-heavy); }
+    .card-logo-container { width: 60px; height: 60px; margin-bottom: 16px; background-color: var(--bg-secondary); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border-color); }
+    .card-logo { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+    .card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .card-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; flex-grow: 1; }
+    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .tag { font-size: 12px; padding: 4px 8px; background-color: var(--bg-secondary); color: var(--text-secondary); border-radius: 4px; font-weight: 500; border: 1px solid var(--border-color); }
+    .card-meta { font-size: 12px; color: var(--text-tertiary); margin-bottom: 16px; }
+    .empty-state { text-align: center; padding: 80px 20px; color: var(--text-secondary); }
+    .empty-state-icon { font-size: 64px; margin-bottom: 16px; }
+    .empty-state p { font-size: 16px; margin-bottom: 12px; }
+    .empty-state p:last-child { font-size: 13px; color: var(--text-tertiary); }
+    footer { text-align: center; padding: 40px 20px; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 60px; font-size: 14px; }
+    @media (max-width: 768px) {
+      .header { padding: 40px 20px; }
+      .header h1 { font-size: 28px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .search-box { flex-direction: column; }
+      .search-input { min-width: auto; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .trending-card { flex: 0 0 140px; }
+      .tooltip { width: 250px; right: -50px; }
+      .tooltip::after { right: 66px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>AI 도구 추천</h1>
+      <div class="header-subtitle">by <a href="https://www.aigym.ai" target="_blank">AI Gym</a></div>
+      <p>사용 목적, 도구명, 설명, 태그로 검색하세요</p>
+    </div>
+
+    <div class="trending-section">
+      <div class="trending-title">🔥 실시간 인기 AI Tool</div>
+      <div class="trending-container">
+        <div class="trending-grid" id="trendingGrid"></div>
+      </div>
+    </div>
+
+    <div class="search-section">
+      <div class="search-box">
+        <div class="search-input-wrapper">
+          <input type="text" id="unifiedSearch" class="search-input" placeholder="목적, 도구명, 설명, 태그로 검색... (예: 뉴스 배포, ChatGPT, 이미지 생성)" />
+          <span class="search-hint-icon">💡</span>
+          <div class="tooltip">
+            <div class="tooltip-step"><span class="tooltip-step-num">1</span><strong>목적으로 검색</strong>: "뉴스 배포", "이미지 생성" 등 입력 시 최적 도구 조합 추천</div>
+            <div class="tooltip-step"><span class="tooltip-step-num">2</span><strong>질문형 검색</strong>: "어떻게 하면 블로그 글을 자동으로 작성할 수 있을까?" 등 질문으로도 검색 가능</div>
+            <div class="tooltip-step"><span class="tooltip-step-num">3</span><strong>도구명 검색</strong>: "ChatGPT", "Notion" 등 입력 시 정확히 찾기</div>
+            <div class="tooltip-step"><span class="tooltip-step-num">4</span><strong>도구 클릭</strong>: 검색된 도구 클릭 시 바로 이동</div>
+          </div>
+        </div>
+        <button class="search-btn" onclick="performUnifiedSearch()">검색</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num" id="totalTools">0</div>
+        <div class="stat-label">등록된 도구</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="resultCount">0</div>
+        <div class="stat-label">검색 결과</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="categoryCount">8</div>
+        <div class="stat-label">카테고리</div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="filter-badge active" data-category="전체" onclick="filterByCategory(this)">전체</div>
+      <div class="filter-badge" data-category="텍스트작성" onclick="filterByCategory(this)">📝 텍스트 작성</div>
+      <div class="filter-badge" data-category="이미지생성" onclick="filterByCategory(this)">🎨 이미지 생성</div>
+      <div class="filter-badge" data-category="개발도구" onclick="filterByCategory(this)">⚙️ 개발 도구</div>
+      <div class="filter-badge" data-category="음성비디오" onclick="filterByCategory(this)">🎬 음성/비디오</div>
+      <div class="filter-badge" data-category="자동화" onclick="filterByCategory(this)">⚡ 자동화</div>
+      <div class="filter-badge" data-category="마케팅" onclick="filterByCategory(this)">📢 마케팅</div>
+      <div class="filter-badge" data-category="협업" onclick="filterByCategory(this)">👥 협업</div>
+    </div>
+
+    <div class="results-header">
+      <span class="results-text" id="resultText">모든 도구</span>
+    </div>
+
+    <div class="card-grid" id="toolsGrid"></div>
+
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-state-icon">😕</div>
+      <p>검색 결과가 없습니다.</p>
+      <p>다른 키워드로 시도해보세요.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2024 AI 도구 추천 시스템 | Powered by AI Gym</p>
+  </footer>
+
+  <script>
+    const defaultTools = [
+      // 텍스트작성 (10개)
+      { name: "ChatGPT", desc: "대화형 AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "대화", "코딩"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1200px-ChatGPT_logo.svg.png", website: "openai.com", price: "무료 / 유료 $20/월", trending: 1, users: "200M+" },
+      { name: "Claude", desc: "고급 AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "분석", "코딩"], logo: "https://pbs.twimg.com/profile_images/1680582143494057986/76jvG58R_400x400.png", website: "claude.ai", price: "무료 / 유료 $20/월", trending: 4, users: "50M+" },
+      { name: "Gemini", desc: "Google AI 어시스턴트", category: "텍스트작성", tags: ["텍스트", "검색", "분석"], logo: "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304c9c58b3ce853.png", website: "gemini.google.com", price: "무료 / 유료", trending: 0, users: "100M+" },
+      { name: "Perplexity AI", desc: "AI 검색 및 분석", category: "텍스트작성", tags: ["검색", "분석", "리서치"], logo: "https://www.perplexity.ai/favicon.ico", website: "perplexity.ai", price: "무료 / 유료 $20/월", trending: 0, users: "8M+" },
+      { name: "Cohere", desc: "엔터프라이즈 AI 텍스트", category: "텍스트작성", tags: ["API", "엔터프라이즈", "NLP"], logo: "https://cohere.ai/favicon.ico", website: "cohere.ai", price: "유료", trending: 0, users: "-" },
+      { name: "Copy.ai", desc: "마케팅 카피 생성", category: "텍스트작성", tags: ["마케팅", "카피", "빠름"], logo: "https://copy.ai/favicon.ico", website: "copy.ai", price: "무료 / 유료", trending: 0, users: "2M+" },
+      { name: "Jasper", desc: "브랜드 AI 작성", category: "텍스트작성", tags: ["마케팅", "브랜드", "전문"], logo: "https://www.jasper.ai/favicon.ico", website: "jasper.ai", price: "유료 $39+/월", trending: 0, users: "1M+" },
+      { name: "Grammarly", desc: "문법 검사 및 작성", category: "텍스트작성", tags: ["문법", "스타일", "검사"], logo: "https://www.grammarly.com/favicon.ico", website: "grammarly.com", price: "무료 / 유료 $12/월", trending: 0, users: "30M+" },
+      { name: "Quillbot", desc: "텍스트 재작성", category: "텍스트작성", tags: ["문장", "재작성", "학생"], logo: "https://quillbot.com/favicon.ico", website: "quillbot.com", price: "무료 / 유료 $10/월", trending: 0, users: "2M+" },
+      { name: "Writesonic", desc: "고품질 글쓰기 AI", category: "텍스트작성", tags: ["글쓰기", "블로그", "이메일"], logo: "https://writesonic.com/favicon.ico", website: "writesonic.com", price: "무료 / 유료", trending: 0, users: "1M+" },
+
+      // 이미지생성 (10개)
+      { name: "DALL-E 3", desc: "텍스트에서 이미지 생성", category: "이미지생성", tags: ["이미지", "생성", "창의성"], logo: "https://upload.wikimedia.org/wikipedia/commons/f/f7/DALL-E_logo.jpg", website: "openai.com", price: "유료 $15/월", trending: 2, users: "50M+" },
+      { name: "Midjourney", desc: "고품질 AI 이미지 생성", category: "이미지생성", tags: ["이미지", "생성", "디자인"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Midjourney_Emblem.png", website: "midjourney.com", price: "유료 $10~60/월", trending: 3, users: "15M+" },
+      { name: "Stable Diffusion", desc: "오픈소스 이미지 생성", category: "이미지생성", tags: ["이미지", "오픈소스", "무료"], logo: "https://huggingface.co/front/assets/huggingface_logo.png", website: "stability.ai", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Canva", desc: "디자인 + AI 기능", category: "이미지생성", tags: ["디자인", "템플릿", "쉬움"], logo: "https://www.canva.com/favicon.ico", website: "canva.com", price: "무료 / 유료 $13/월", trending: 0, users: "100M+" },
+      { name: "Adobe Firefly", desc: "Adobe AI 이미지 생성", category: "이미지생성", tags: ["이미지", "디자인", "프로"], logo: "https://www.adobe.com/favicon.ico", website: "adobe.com", price: "유료", trending: 0, users: "-" },
+      { name: "Leonardo.AI", desc: "고품질 AI 이미지 생성", category: "이미지생성", tags: ["이미지", "게임", "전문"], logo: "https://leonardo.ai/favicon.ico", website: "leonardo.ai", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Clipdrop", desc: "이미지 제거/생성", category: "이미지생성", tags: ["이미지", "편집", "제거"], logo: "https://clipdrop.co/favicon.ico", website: "clipdrop.co", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "DreamStudio", desc: "Stable Diffusion 인터페이스", category: "이미지생성", tags: ["이미지", "쉬움", "빠름"], logo: "https://www.dreamstudio.ai/favicon.ico", website: "dreamstudio.ai", price: "유료", trending: 0, users: "-" },
+      { name: "Photoshop AI", desc: "포토샵 AI 기능", category: "이미지생성", tags: ["편집", "전문", "강력"], logo: "https://www.adobe.com/favicon.ico", website: "photoshop.adobe.com", price: "유료", trending: 0, users: "-" },
+      { name: "Img2Go", desc: "온라인 이미지 생성", category: "이미지생성", tags: ["이미지", "온라인", "빠름"], logo: "https://www.img2go.com/favicon.ico", website: "img2go.com", price: "무료 / 유료", trending: 0, users: "-" },
+
+      // 개발도구 (7개)
+      { name: "GitHub Copilot", desc: "AI 코드 작성 보조", category: "개발도구", tags: ["코딩", "자동완성", "개발"], logo: "https://upload.wikimedia.org/wikipedia/commons/8/8d/GitHub_Copilot_logo.png", website: "github.com", price: "유료 $10/월", trending: 5, users: "20M+" },
+      { name: "Codeium", desc: "무료 AI 코드 자동완성", category: "개발도구", tags: ["코딩", "무료", "빠름"], logo: "https://codeium.com/favicon.ico", website: "codeium.com", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Tabnine", desc: "AI 코드 자동완성", category: "개발도구", tags: ["코딩", "IDE", "자동완성"], logo: "https://www.tabnine.com/favicon.ico", website: "tabnine.com", price: "무료 / 유료 $15/월", trending: 0, users: "-" },
+      { name: "Replit", desc: "AI 기반 개발 환경", category: "개발도구", tags: ["개발", "협업", "호스팅"], logo: "https://replit.com/favicon.ico", website: "replit.com", price: "무료 / 유료 $7/월", trending: 0, users: "10M+" },
+      { name: "Vercel", desc: "배포 + AI 기능", category: "개발도구", tags: ["배포", "호스팅", "빠름"], logo: "https://vercel.com/favicon.ico", website: "vercel.com", price: "무료 / 유료 $20/월", trending: 0, users: "-" },
+      { name: "Firebase", desc: "Google 클라우드 백엔드", category: "개발도구", tags: ["백엔드", "클라우드", "강력"], logo: "https://firebase.google.com/favicon.ico", website: "firebase.google.com", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Supabase", desc: "오픈소스 백엔드", category: "개발도구", tags: ["백엔드", "DB", "오픈소스"], logo: "https://supabase.com/favicon.ico", website: "supabase.com", price: "무료 / 유료", trending: 0, users: "-" },
+
+      // 음성비디오 (7개)
+      { name: "Runway", desc: "비디오 생성 및 편집", category: "음성비디오", tags: ["비디오", "생성", "편집"], logo: "https://runway.com/_next/static/media/wordmark.42d5ec73.svg", website: "runwayml.com", price: "유료 $12~", trending: 0, users: "3M+" },
+      { name: "ElevenLabs", desc: "AI 음성 생성", category: "음성비디오", tags: ["음성", "TTS", "자연스러움"], logo: "https://cdn.worldvectorlogo.com/logos/eleven-labs.svg", website: "elevenlabs.io", price: "무료 / 유료 $5~", trending: 0, users: "2M+" },
+      { name: "Synthesia", desc: "아바타 비디오 생성", category: "음성비디오", tags: ["비디오", "아바타", "전문"], logo: "https://www.synthesia.io/favicon.ico", website: "synthesia.io", price: "유료 $30/월", trending: 0, users: "-" },
+      { name: "Descript", desc: "비디오/팟캐스트 편집", category: "음성비디오", tags: ["비디오", "편집", "음성"], logo: "https://www.descript.com/favicon.ico", website: "descript.com", price: "무료 / 유료 $24/월", trending: 0, users: "1M+" },
+      { name: "Heygen", desc: "AI 비디오 생성", category: "음성비디오", tags: ["비디오", "아바타", "빠름"], logo: "https://www.heygen.com/favicon.ico", website: "heygen.com", price: "무료 / 유료 $14/월", trending: 0, users: "-" },
+      { name: "Fliki", desc: "AI 비디오 + 음성", category: "음성비디오", tags: ["비디오", "음성", "쉬움"], logo: "https://fliki.ai/favicon.ico", website: "fliki.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
+      { name: "Murf.ai", desc: "AI 음성 생성", category: "음성비디오", tags: ["음성", "내레이션", "다국어"], logo: "https://murf.ai/favicon.ico", website: "murf.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
+
+      // 자동화 (10개)
+      { name: "Zapier", desc: "자동화 워크플로우", category: "자동화", tags: ["자동화", "통합", "워크플로우"], logo: "https://seeklogo.com/images/Z/zapier-logo-512x512.png", website: "zapier.com", price: "무료 / 유료 $19.99~", trending: 0, users: "5M+" },
+      { name: "Notion", desc: "올인원 업무 도구", category: "자동화", tags: ["협업", "문서", "DB"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notion-logo.svg", website: "notion.so", price: "무료 / 유료 $10~", trending: 0, users: "10M+" },
+      { name: "Make", desc: "고급 자동화", category: "자동화", tags: ["자동화", "강력", "API"], logo: "https://www.make.com/favicon.ico", website: "make.com", price: "무료 / 유료 $9.99~", trending: 0, users: "-" },
+      { name: "Airtable", desc: "스마트 데이터베이스", category: "자동화", tags: ["DB", "자동화", "협업"], logo: "https://www.airtable.com/favicon.ico", website: "airtable.com", price: "무료 / 유료 $12~", trending: 0, users: "1M+" },
+      { name: "Monday.com", desc: "프로젝트 관리 + 자동화", category: "자동화", tags: ["프로젝트", "자동화", "협업"], logo: "https://monday.com/favicon.ico", website: "monday.com", price: "유료 $10~", trending: 0, users: "500K+" },
+      { name: "IFTTT", desc: "간단한 자동화", category: "자동화", tags: ["자동화", "쉬움", "스마트홈"], logo: "https://ifttt.com/favicon.ico", website: "ifttt.com", price: "무료 / 유료 $2.99/월", trending: 0, users: "10M+" },
+      { name: "N8N", desc: "오픈소스 자동화", category: "자동화", tags: ["자동화", "오픈소스", "무료"], logo: "https://n8n.io/favicon.ico", website: "n8n.io", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Workato", desc: "엔터프라이즈 자동화", category: "자동화", tags: ["자동화", "엔터프라이즈", "강력"], logo: "https://www.workato.com/favicon.ico", website: "workato.com", price: "유료", trending: 0, users: "-" },
+      { name: "Power Automate", desc: "Microsoft 자동화", category: "자동화", tags: ["자동화", "Microsoft", "엔터프라이즈"], logo: "https://www.microsoft.com/favicon.ico", website: "powerautomate.microsoft.com", price: "무료 / 유료 $5~", trending: 0, users: "-" },
+      { name: "Keyboard Maestro", desc: "Mac 자동화", category: "자동화", tags: ["자동화", "Mac", "강력"], logo: "https://www.keyboardmaestro.com/favicon.ico", website: "keyboardmaestro.com", price: "유료 $36", trending: 0, users: "-" },
+
+      // 마케팅 (3개)
+      { name: "HubSpot", desc: "마케팅 자동화", category: "마케팅", tags: ["마케팅", "CRM", "자동화"], logo: "https://www.hubspot.com/favicon.ico", website: "hubspot.com", price: "무료 / 유료 $45~", trending: 0, users: "1M+" },
+      { name: "Mailchimp", desc: "이메일 마케팅", category: "마케팅", tags: ["이메일", "마케팅", "쉬움"], logo: "https://mailchimp.com/favicon.ico", website: "mailchimp.com", price: "무료 / 유료 $13~", trending: 0, users: "10M+" },
+      { name: "Buffer", desc: "소셜 미디어 관리", category: "마케팅", tags: ["소셜", "마케팅", "스케줄"], logo: "https://buffer.com/favicon.ico", website: "buffer.com", price: "무료 / 유료 $5~", trending: 0, users: "1M+" },
+
+      // 협업 (3개)
+      { name: "Slack", desc: "팀 커뮤니케이션", category: "협업", tags: ["협업", "커뮤니케이션", "통합"], logo: "https://slack.com/favicon.ico", website: "slack.com", price: "무료 / 유료 $8.99~", trending: 0, users: "20M+" },
+      { name: "Miro", desc: "협업 화이트보드", category: "협업", tags: ["협업", "화이트보드", "브레인스토밍"], logo: "https://miro.com/favicon.ico", website: "miro.com", price: "무료 / 유료 $8~", trending: 0, users: "1M+" },
+      { name: "Figma", desc: "협업 디자인 도구", category: "협업", tags: ["디자인", "협업", "프로토타입"], logo: "https://www.figma.com/favicon.ico", website: "figma.com", price: "무료 / 유료 $12~", trending: 0, users: "10M+" }
+    ];
+
+    let allTools = [];
+    let currentFilter = "전체";
+
+    function initTools() {
+      const storedTools = localStorage.getItem('aiTools');
+      if (!storedTools) {
+        allTools = JSON.parse(JSON.stringify(defaultTools));
+        saveTools();
+      } else {
+        allTools = JSON.parse(storedTools);
+      }
+      document.getElementById('totalTools').textContent = allTools.length;
+      document.getElementById('resultCount').textContent = allTools.length;
+      displayTrending();
+      displayTools();
+    }
+
+    function saveTools() {
+      localStorage.setItem('aiTools', JSON.stringify(allTools));
+    }
+
+    function displayTrending() {
+      const trendingTools = allTools.filter(t => t.trending && t.trending > 0).sort((a, b) => a.trending - b.trending).slice(0, 5);
+      const grid = document.getElementById('trendingGrid');
+      if (trendingTools.length === 0) {
+        grid.innerHTML = '';
+        return;
+      }
+      grid.innerHTML = trendingTools.map(tool => `
+        <div class="trending-card" onclick="openToolWebsite('${tool.website}')">
+          <div class="trending-rank">#${tool.trending}</div>
+          <div class="trending-logo">
+            <img src="${tool.logo}" alt="${tool.name}" onerror="this.style.display='none'" />
+          </div>
+          <div class="trending-card-title">${tool.name}</div>
+          <div class="trending-card-users">${tool.users || '-'}</div>
+        </div>
+      `).join('');
+    }
+
+    function displayTools(toolsToShow = allTools) {
+      const grid = document.getElementById('toolsGrid');
+      const emptyState = document.getElementById('emptyState');
+      const resultCount = document.getElementById('resultCount');
+      resultCount.textContent = toolsToShow.length;
+      if (toolsToShow.length === 0) {
+        grid.innerHTML = '';
+        emptyState.style.display = 'block';
+      } else {
+        emptyState.style.display = 'none';
+        grid.innerHTML = toolsToShow.map(tool => `
+          <div class="card" onclick="openToolWebsite('${tool.website}')">
+            <div class="card-logo-container">
+              <img src="${tool.logo}" alt="${tool.name}" class="card-logo" onerror="this.style.display='none'" />
+            </div>
+            <div class="card-title">${tool.name}</div>
+            <div class="card-desc">${tool.desc}</div>
+            <div class="card-tags">
+              <span class="tag">${tool.category}</span>
+              ${tool.tags.slice(0, 2).map(t => `<span class="tag">${t}</span>`).join('')}
+            </div>
+            <div class="card-meta">
+              <div style="color: var(--text-tertiary);">💰 ${tool.price || '가격미정'}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function openToolWebsite(website) {
+      window.open(`https://${website}`, '_blank');
+    }
+
+    function performUnifiedSearch() {
+      const query = document.getElementById('unifiedSearch').value.toLowerCase().trim();
+      if (query === '') {
+        displayTools(allTools);
+        document.getElementById('resultText').textContent = '모든 도구';
+        currentFilter = '전체';
+        document.querySelectorAll('.filter-badge').forEach(el => el.classList.remove('active'));
+        document.querySelector('[data-category="전체"]').classList.add('active');
+        return;
+      }
+
+      const advancedKeywordMap = {
+        '블로그': ['ChatGPT', 'Claude', 'Jasper', 'Writesonic'],
+        '글': ['ChatGPT', 'Claude', 'Copy.ai', 'Jasper'],
+        '콘텐츠': ['ChatGPT', 'Claude', 'Jasper', 'Writesonic'],
+        '이미지': ['DALL-E 3', 'Midjourney', 'Stable Diffusion', 'Canva'],
+        '사진': ['DALL-E 3', 'Midjourney', 'Adobe Firefly'],
+        '그림': ['DALL-E 3', 'Midjourney', 'Leonardo.AI'],
+        '디자인': ['Canva', 'Adobe Firefly', 'Midjourney', 'Figma'],
+        '로고': ['Canva', 'DALL-E 3', 'Midjourney'],
+        '영상': ['Runway', 'Synthesia', 'Descript', 'Heygen'],
+        '비디오': ['Runway', 'Synthesia', 'Heygen', 'Fliki'],
+        '음성': ['ElevenLabs', 'Murf.ai', 'Adobe Podcast'],
+        '팟캐스트': ['Descript', 'Adobe Podcast', 'Murf.ai'],
+        '코드': ['GitHub Copilot', 'Claude', 'Codeium', 'Tabnine'],
+        '프로그래밍': ['GitHub Copilot', 'Claude', 'Codeium'],
+        '개발': ['GitHub Copilot', 'Codeium', 'Tabnine', 'Replit'],
+        '자동화': ['Zapier', 'Make', 'IFTTT', 'Power Automate'],
+        '통합': ['Zapier', 'Make', 'Workato'],
+        '워크플로우': ['Zapier', 'Make', 'N8N'],
+        '분석': ['Claude', 'Perplexity AI', 'Gemini'],
+        '검색': ['Perplexity AI', 'Gemini'],
+        '협업': ['Notion', 'Airtable', 'Monday.com', 'Slack', 'Miro'],
+        '마케팅': ['Copy.ai', 'Jasper', 'HubSpot', 'Buffer'],
+      };
+
+      let recommendedTools = [];
+      for (const [keyword, tools] of Object.entries(advancedKeywordMap)) {
+        if (query.includes(keyword)) {
+          tools.forEach(toolName => {
+            const tool = allTools.find(t => t.name === toolName);
+            if (tool && !recommendedTools.find(t => t.name === tool.name)) {
+              recommendedTools.push(tool);
+            }
+          });
+        }
+      }
+
+      const filtered = allTools.filter(tool =>
+        tool.name.toLowerCase().includes(query) ||
+        tool.desc.toLowerCase().includes(query) ||
+        tool.tags.some(tag => tag.toLowerCase().includes(query)) ||
+        tool.category.toLowerCase().includes(query)
+      );
+
+      const combined = [...recommendedTools, ...filtered.filter(f => !recommendedTools.find(r => r.name === f.name))];
+      displayTools(combined);
+      document.getElementById('resultText').textContent = `"${query}" 검색 결과`;
+    }
+
+    function filterByCategory(element) {
+      document.querySelectorAll('.filter-badge').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+      currentFilter = element.dataset.category;
+      document.getElementById('unifiedSearch').value = '';
+
+      if (currentFilter === '전체') {
+        displayTools(allTools);
+        document.getElementById('resultText').textContent = '모든 도구';
+      } else {
+        const filtered = allTools.filter(tool => tool.category === currentFilter);
+        displayTools(filtered);
+        document.getElementById('resultText').textContent = `${currentFilter}`;
+      }
+    }
+
+    document.getElementById('unifiedSearch').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') performUnifiedSearch();
+    });
+
+    initTools();
+  </script>
+</body>
+</html>
