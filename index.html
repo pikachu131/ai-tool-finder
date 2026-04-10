@@ -111,7 +111,7 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scroll-snap-type: x mandatory;
-      justify-content: flex-start;
+      justify-content: center;
     }
     .trending-grid::-webkit-scrollbar { display: none; }
     .trending-grid { -ms-overflow-style: none; scrollbar-width: none; }
@@ -126,13 +126,13 @@
     .search-input:focus { outline: none; border-color: var(--pwc-orange); box-shadow: 0 2px 16px rgba(255, 107, 53, 0.2); background-color: #FFFFFF; }
     .search-hint-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: help; font-size: 18px; color: var(--pwc-orange); transition: all 0.2s; }
     .search-hint-icon:hover { opacity: 0.7; }
-    .tooltip { display: none; position: absolute; bottom: 100%; right: 0; background-color: var(--text-primary); color: var(--bg-primary); padding: 16px; border-radius: 8px; font-size: 12px; line-height: 1.6; width: 300px; box-shadow: var(--shadow-heavy); z-index: 100; margin-bottom: 10px; }
-    .tooltip::after { content: ''; position: absolute; top: 100%; right: 16px; border: 6px solid transparent; border-top-color: var(--text-primary); }
+    .tooltip { display: none; position: absolute; bottom: 100%; right: 0; background-color: #FFFFFF; color: #222222; padding: 16px 18px; border-radius: 12px; font-size: 12px; line-height: 1.7; width: 300px; box-shadow: 0 8px 32px rgba(0,0,0,0.16); z-index: 100; margin-bottom: 10px; border: 1px solid #EBEBEB; text-align: left; }
+    .tooltip::after { content: ''; position: absolute; top: 100%; right: 16px; border: 6px solid transparent; border-top-color: #FFFFFF; }
     .search-hint-icon:hover + .tooltip { display: block; }
     .tooltip:hover { display: block; }
-    .tooltip-step { margin-bottom: 8px; }
+    .tooltip-step { margin-bottom: 9px; display: flex; align-items: flex-start; gap: 8px; }
     .tooltip-step:last-child { margin-bottom: 0; }
-    .tooltip-step-num { display: inline-block; width: 20px; height: 20px; background-color: var(--pwc-orange); color: white; border-radius: 50%; text-align: center; line-height: 20px; font-size: 10px; font-weight: 600; margin-right: 6px; }
+    .tooltip-bullet { flex-shrink: 0; width: 6px; height: 6px; background-color: var(--pwc-orange); border-radius: 50%; margin-top: 6px; }
     .search-btn { padding: 16px 32px; background-color: var(--pwc-orange); color: white; border: none; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 16px; transition: all 0.3s; white-space: nowrap; box-shadow: none; display: none; }
     .search-btn:hover { background-color: var(--pwc-orange-dark); transform: translateY(-2px); }
     .stats { display: none; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 32px; margin-top: 40px; }
@@ -141,22 +141,31 @@
     .stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 400; }
     .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; justify-content: flex-start; }
     .filter-badge { padding: 8px 16px; border: 1px solid var(--border-color); border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--text-primary); background-color: var(--bg-primary); transition: all 0.2s; font-weight: 500; min-height: 36px; display: inline-flex; align-items: center; }
-    .filter-badge:hover { border-color: var(--text-secondary); background-color: var(--bg-secondary); }
+    .filter-badge:hover { border-color: var(--pwc-orange); background-color: var(--bg-secondary); }
     .filter-badge.active { background-color: var(--pwc-orange); color: white; border-color: var(--pwc-orange); box-shadow: none; }
     .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
     .results-text { font-size: 16px; font-weight: 600; color: var(--text-secondary); }
     .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
     .card { background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; transition: all 0.3s; display: flex; flex-direction: column; height: 100%; box-shadow: var(--shadow-light); cursor: pointer; }
     .card:hover { border-color: var(--pwc-orange); transform: translateY(-6px); box-shadow: var(--shadow-heavy); }
-    .card-logo-container { width: 60px; height: 60px; margin-bottom: 16px; background-color: var(--bg-secondary); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border-color); }
+    /* ── 카드 헤더 (로고 좌 + 서비스명 우) ── */
+    .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .card-logo-container { flex-shrink: 0; width: 52px; height: 52px; background-color: var(--bg-secondary); border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border-color); font-size: 28px; }
     .card-logo { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
-    .card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
-    .card-desc { font-size: 15px; color: #555555; margin-bottom: 16px; line-height: 1.6; flex-grow: 1; white-space: normal; word-wrap: break-word; overflow: visible; }
+    .card-title { font-size: 20px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
+    .card-desc { font-size: 15px; color: #555555; margin-bottom: 14px; line-height: 1.6; flex-grow: 1; white-space: normal; word-wrap: break-word; overflow: visible; }
     @media (prefers-color-scheme: dark) { .card-desc { color: #AAAAAA; } }
-    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
-    .tag { font-size: 12px; padding: 4px 8px; background-color: var(--bg-secondary); color: var(--text-secondary); border-radius: 4px; font-weight: 500; border: 1px solid var(--border-color); }
-    .card-meta { font-size: 13px; color: #777777; margin-bottom: 16px; font-weight: 500; }
-    @media (prefers-color-scheme: dark) { .card-meta { color: #999999; } }
+    /* ── 태그 컬러 팔레트 (AIggle 로고 색 계열, 연하게) ── */
+    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; justify-content: center; }
+    .tag { font-size: 12px; padding: 4px 9px; border-radius: 20px; font-weight: 600; border: none; }
+    .tag-blue   { background-color: #DDEAFF; color: #2B6CBF; }
+    .tag-red    { background-color: #FFE0DC; color: #C0392B; }
+    .tag-yellow { background-color: #FFF3CC; color: #A07800; }
+    .tag-green  { background-color: #D6F5E3; color: #1E7E45; }
+    .tag-orange { background-color: #FFE9DE; color: #C94A15; }
+    /* ── 가격 ── */
+    .card-meta { font-size: 13px; color: #444444; margin-bottom: 0; font-weight: 600; }
+    @media (prefers-color-scheme: dark) { .card-meta { color: #CCCCCC; } }
     .empty-state { text-align: center; padding: 80px 20px; color: var(--text-secondary); }
     .empty-state-icon { font-size: 64px; margin-bottom: 16px; }
     .empty-state p { font-size: 16px; margin-bottom: 12px; }
@@ -217,7 +226,7 @@
       /* 카드 그리드 */
       .card-grid { grid-template-columns: 1fr; gap: 14px; margin-bottom: 24px; }
       .card { padding: 18px; }
-      .card-title { font-size: 16px; }
+      .card-title { font-size: 17px; }
       .card-desc { font-size: 14px; }
       .card-meta { font-size: 12px; }
 
@@ -312,10 +321,10 @@
             <input type="text" id="unifiedSearch" class="search-input" placeholder="목적, 도구명, 설명, 태그로 검색..." />
             <span class="search-hint-icon">💡</span>
             <div class="tooltip">
-              <div class="tooltip-step"><span class="tooltip-step-num">1</span><strong>목적으로 검색</strong>: "뉴스 배포", "이미지 생성" 등 입력 시 최적 도구 조합 추천</div>
-              <div class="tooltip-step"><span class="tooltip-step-num">2</span><strong>질문형 검색</strong>: "어떻게 하면 블로그 글을 자동으로 작성할 수 있을까?" 등 질문으로도 검색 가능</div>
-              <div class="tooltip-step"><span class="tooltip-step-num">3</span><strong>도구명 검색</strong>: "ChatGPT", "Notion" 등 입력 시 정확히 찾기</div>
-              <div class="tooltip-step"><span class="tooltip-step-num">4</span><strong>도구 클릭</strong>: 검색된 도구 클릭 시 바로 이동</div>
+              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>목적으로 검색</strong>: "뉴스 배포", "이미지 생성" 등 입력 시 최적 도구 조합 추천</span></div>
+              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>질문형 검색</strong>: "어떻게 하면 블로그 글을 자동으로 작성할 수 있을까?" 등 질문으로도 검색 가능</span></div>
+              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>도구명 검색</strong>: "ChatGPT", "Notion" 등 입력 시 정확히 찾기</span></div>
+              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>도구 클릭</strong>: 검색된 도구 클릭 시 바로 이동</span></div>
             </div>
           </div>
           <button class="search-btn" onclick="performUnifiedSearch()">검색</button>
@@ -460,21 +469,58 @@
       localStorage.setItem('aiTools', JSON.stringify(allTools));
     }
 
+    const toolEmoji = {
+      'ChatGPT': '🤖', 'Claude': '🧠', 'Gemini': '✨', 'Perplexity AI': '🔍',
+      'Cohere': '📡', 'Copy.ai': '✍️', 'Jasper': '🖊️', 'Grammarly': '📝',
+      'Quillbot': '🪶', 'Writesonic': '💬', 'DALL-E 3': '🎨', 'Midjourney': '🖼️',
+      'Stable Diffusion': '🌀', 'Canva': '🎭', 'Adobe Firefly': '🔥',
+      'Leonardo.AI': '🦁', 'Clipdrop': '✂️', 'DreamStudio': '💭',
+      'Photoshop AI': '🖌️', 'Img2Go': '📸', 'GitHub Copilot': '👨‍💻',
+      'Codeium': '⚡', 'Tabnine': '🔧', 'Replit': '💻', 'Vercel': '🚀',
+      'Firebase': '🔴', 'Supabase': '🟢', 'Runway': '🎬', 'ElevenLabs': '🎙️',
+      'Synthesia': '👤', 'Descript': '🎵', 'Heygen': '📹', 'Fliki': '🎞️',
+      'Murf.ai': '🔊', 'Zapier': '⚡', 'Notion': '📒', 'Make': '🔄',
+      'Airtable': '📊', 'Monday.com': '📅', 'IFTTT': '🔗', 'N8N': '🕸️',
+      'Workato': '⚙️', 'Power Automate': '🌀', 'Keyboard Maestro': '⌨️',
+      'HubSpot': '🧲', 'Mailchimp': '🐒', 'Buffer': '📣',
+      'Slack': '💬', 'Miro': '🗂️', 'Figma': '🎨',
+      'Hootsuite': '🦉', 'Semrush': '📈', 'Adobe Podcast': '🎙️'
+    };
+
+    function getEmoji(name) {
+      return toolEmoji[name] || '🤖';
+    }
+
     function displayTrending() {
       const trendingTools = allTools.slice(0, 8);
       const grid = document.getElementById('trendingGrid');
-      if (trendingTools.length === 0) {
-        grid.innerHTML = '';
-        return;
-      }
-      grid.innerHTML = trendingTools.map((tool, index) => `
+      if (trendingTools.length === 0) { grid.innerHTML = ''; return; }
+      grid.innerHTML = trendingTools.map((tool) => `
         <div class="carousel-item" onclick="openToolWebsite('${tool.website}')">
           <div class="carousel-icon">
-            <img src="${tool.logo}" alt="${tool.name}" onerror="this.style.display='none'" />
+            <img src="${tool.logo}" alt="${tool.name}"
+              onerror="this.parentElement.innerHTML='<span style=\\'font-size:32px\\'>${getEmoji(tool.name)}</span>'" />
           </div>
           <div class="carousel-label">${tool.name}</div>
         </div>
       `).join('');
+    }
+
+    function formatPrice(price) {
+      if (!price) return '💰 가격미정';
+      return '💰 ' + price;
+    }
+
+    // 태그별 색상 순환 (AIggle 로고 컬러 계열)
+    const TAG_COLORS = ['tag-blue', 'tag-red', 'tag-yellow', 'tag-green', 'tag-orange'];
+    const tagColorMap = {};
+    let tagColorIndex = 0;
+    function getTagColor(tag) {
+      if (!tagColorMap[tag]) {
+        tagColorMap[tag] = TAG_COLORS[tagColorIndex % TAG_COLORS.length];
+        tagColorIndex++;
+      }
+      return tagColorMap[tag];
     }
 
     function displayTools(toolsToShow = allTools) {
@@ -487,22 +533,24 @@
         emptyState.style.display = 'block';
       } else {
         emptyState.style.display = 'none';
-        grid.innerHTML = toolsToShow.map(tool => `
+        grid.innerHTML = toolsToShow.map(tool => {
+          const emoji = getEmoji(tool.name);
+          const allTags = [tool.category, ...tool.tags.slice(0, 2)];
+          const tagsHtml = allTags.map(t => `<span class="tag ${getTagColor(t)}">#${t}</span>`).join('');
+          return `
           <div class="card" onclick="openToolWebsite('${tool.website}')">
-            <div class="card-logo-container">
-              <img src="${tool.logo}" alt="${tool.name}" class="card-logo" onerror="this.style.display='none'" />
+            <div class="card-header">
+              <div class="card-logo-container">
+                <img src="${tool.logo}" alt="${tool.name}" class="card-logo"
+                  onerror="this.parentElement.innerHTML='<span style=\\'font-size:28px\\'>${emoji}</span>'" />
+              </div>
+              <div class="card-title">${tool.name}</div>
             </div>
-            <div class="card-title">${tool.name}</div>
             <div class="card-desc">${tool.desc}</div>
-            <div class="card-tags">
-              <span class="tag">${tool.category}</span>
-              ${tool.tags.slice(0, 2).map(t => `<span class="tag">${t}</span>`).join('')}
-            </div>
-            <div class="card-meta">
-              <div style="color: var(--text-tertiary);">💰 ${tool.price || '가격미정'}</div>
-            </div>
-          </div>
-        `).join('');
+            <div class="card-tags">${tagsHtml}</div>
+            <div class="card-meta">${formatPrice(tool.price)}</div>
+          </div>`;
+        }).join('');
       }
     }
 
