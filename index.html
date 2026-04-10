@@ -318,7 +318,7 @@
       <div class="search-container">
         <div class="search-box">
           <div class="search-input-wrapper">
-            <input type="text" id="unifiedSearch" class="search-input" placeholder="목적, 도구명, 설명, 태그로 검색..." />
+            <input type="text" id="unifiedSearch" class="search-input" placeholder="어떤 작업을 하실건가요?" />
             <span class="search-hint-icon">💡</span>
             <div class="tooltip">
               <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>목적으로 검색</strong>: "뉴스 배포", "이미지 생성" 등 입력 시 최적 도구 조합 추천</span></div>
@@ -442,17 +442,18 @@
       { name: "Mailchimp", desc: "초보도 쉽게 쓰는 이메일 마케팅 플랫폼", category: "마케팅", tags: ["이메일", "마케팅", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/mailchimp.svg", website: "mailchimp.com", price: "무료 / 유료 $13~", trending: 0, users: "10M+" },
       { name: "Buffer", desc: "SNS 콘텐츠 예약·분석을 한 번에 관리", category: "마케팅", tags: ["소셜", "마케팅", "스케줄"], logo: "https://cdn.worldvectorlogo.com/logos/buffer-2.svg", website: "buffer.com", price: "무료 / 유료 $5~", trending: 0, users: "1M+" },
 
-      // 협업 (3개)
+      // 협업 (4개)
       { name: "Slack", desc: "채널 기반으로 팀 소통·업무를 한곳에서", category: "협업", tags: ["협업", "커뮤니케이션", "통합"], logo: "https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", website: "slack.com", price: "무료 / 유료 $8.99~", trending: 0, users: "20M+" },
       { name: "Miro", desc: "원격 팀 브레인스토밍에 최적화된 화이트보드", category: "협업", tags: ["협업", "화이트보드", "브레인스토밍"], logo: "https://cdn.worldvectorlogo.com/logos/miro-2.svg", website: "miro.com", price: "무료 / 유료 $8~", trending: 0, users: "1M+" },
-      { name: "Figma", desc: "실시간 협업이 가능한 UI·프로토타입 디자인", category: "협업", tags: ["디자인", "협업", "프로토타입"], logo: "https://cdn.worldvectorlogo.com/logos/figma-1.svg", website: "figma.com", price: "무료 / 유료 $12~", trending: 0, users: "10M+" }
+      { name: "Figma", desc: "실시간 협업이 가능한 UI·프로토타입 디자인", category: "협업", tags: ["디자인", "협업", "프로토타입"], logo: "https://cdn.worldvectorlogo.com/logos/figma-1.svg", website: "figma.com", price: "무료 / 유료 $12~", trending: 0, users: "10M+" },
+      { name: "Pylon", desc: "Slack·Teams 고객 대화를 AI로 자동 티켓 관리", category: "협업", tags: ["고객지원", "AI", "B2B"], logo: "https://www.usepylon.com/favicon.ico", website: "usepylon.com", price: "유료", trending: 0, users: "-" }
     ];
 
     let allTools = [];
     let currentFilter = "전체";
 
     function initTools() {
-      const DATA_VERSION = 'v3';
+      const DATA_VERSION = 'v4';
       const storedVersion = localStorage.getItem('aiToolsVersion');
       if (!storedVersion || storedVersion !== DATA_VERSION) {
         allTools = JSON.parse(JSON.stringify(defaultTools));
@@ -486,7 +487,7 @@
       'Workato': '⚙️', 'Power Automate': '🌀', 'Keyboard Maestro': '⌨️',
       'HubSpot': '🧲', 'Mailchimp': '🐒', 'Buffer': '📣',
       'Slack': '💬', 'Miro': '🗂️', 'Figma': '🎨',
-      'Hootsuite': '🦉', 'Semrush': '📈', 'Adobe Podcast': '🎙️'
+      'Hootsuite': '🦉', 'Semrush': '📈', 'Adobe Podcast': '🎙️', 'Pylon': '🎯'
     };
 
     function getEmoji(name) {
