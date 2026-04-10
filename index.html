@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Find Your Perfect AI Tool</title>
-  <meta name="description" content="">
+  <title>AIggle | Find Your Perfect AI Tool</title>
+  <meta name="description" content="원하는 목적에 맞는 AI tool 포털">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -85,7 +85,7 @@
     .card-logo-container { width: 60px; height: 60px; margin-bottom: 16px; background-color: var(--bg-secondary); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border-color); }
     .card-logo { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
     .card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
-    .card-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; flex-grow: 1; }
+    .card-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; flex-grow: 1; white-space: normal; word-wrap: break-word; overflow: visible; }
     .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
     .tag { font-size: 12px; padding: 4px 8px; background-color: var(--bg-secondary); color: var(--text-secondary); border-radius: 4px; font-weight: 500; border: 1px solid var(--border-color); }
     .card-meta { font-size: 12px; color: var(--text-tertiary); margin-bottom: 16px; }
@@ -112,7 +112,7 @@
     <div class="header">
       <h1>AIggle</h1>
       <div class="header-subtitle">by <a href="https://www.aigym.ai" target="_blank">AI Gym</a></div>
-      <p></p>
+      <p>사용 목적, 도구명, 설명, 태그로 검색하세요</p>
     </div>
 
     <div class="trending-section">
@@ -162,6 +162,7 @@
       <div class="filter-badge" data-category="자동화" onclick="filterByCategory(this)">⚡ 자동화</div>
       <div class="filter-badge" data-category="마케팅" onclick="filterByCategory(this)">📢 마케팅</div>
       <div class="filter-badge" data-category="협업" onclick="filterByCategory(this)">👥 협업</div>
+      <div class="filter-badge" data-category="무료" onclick="filterByPrice(this)">💰 무료</div>
     </div>
 
     <div class="results-header">
@@ -178,7 +179,7 @@
   </div>
 
   <footer>
-    <p>© 2026 AI 도구 추천 시스템 | Powered by AI Gym</p>
+    <p>© 2024 AI 도구 추천 시스템 | Powered by AI Gym</p>
   </footer>
 
   <script>
@@ -395,6 +396,20 @@
         displayTools(filtered);
         document.getElementById('resultText').textContent = `${currentFilter}`;
       }
+    }
+
+    function filterByPrice(element) {
+      document.querySelectorAll('.filter-badge').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+      document.getElementById('unifiedSearch').value = '';
+
+      const filtered = allTools.filter(tool => {
+        const price = tool.price.toLowerCase();
+        return price.includes('무료');
+      });
+
+      displayTools(filtered);
+      document.getElementById('resultText').textContent = '무료 도구';
     }
 
     document.getElementById('unifiedSearch').addEventListener('keypress', function(e) {
