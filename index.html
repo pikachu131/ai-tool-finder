@@ -171,6 +171,31 @@
     .empty-state p { font-size: 16px; margin-bottom: 12px; }
     .empty-state p:last-child { font-size: 13px; color: var(--text-tertiary); }
     footer { text-align: center; padding: 40px 20px; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 60px; font-size: 14px; }
+
+    /* AI Search Enhancement Styles */
+    .search-suggestions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; justify-content: center; }
+    .suggestion-chip { padding: 6px 14px; border: 1px solid var(--border-color); border-radius: 20px; font-size: 12px; cursor: pointer; color: var(--text-secondary); background: var(--bg-primary); transition: all 0.2s; white-space: nowrap; }
+    .suggestion-chip:hover { border-color: var(--pwc-orange); color: var(--pwc-orange); background: var(--bg-secondary); }
+    .ai-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; grid-column: 1/-1; }
+    .ai-loading-dots { display: flex; gap: 8px; margin-bottom: 16px; }
+    .ai-loading-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--pwc-orange); animation: dotPulse 1.4s ease-in-out infinite; }
+    .ai-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+    .ai-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dotPulse { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+    .ai-loading-text { font-size: 14px; color: var(--text-secondary); }
+    .ai-reason-badge { display: inline-flex; align-items: center; gap: 4px; background: linear-gradient(135deg, #fff3ed, #ffe8d6); border: 1px solid #ffd0b0; color: #c94a15; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 10px; margin-bottom: 8px; }
+    @media (prefers-color-scheme: dark) { .ai-reason-badge { background: linear-gradient(135deg, #3a1f10, #2a1508); border-color: #7a3010; color: #ff9060; } }
+    .card-ai-match { position: relative; }
+    .card-ai-match::before { content: '✨ AI 추천'; position: absolute; top: -8px; right: 12px; background: var(--pwc-orange); color: white; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; letter-spacing: 0.3px; }
+    .search-intent-label { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 8px; min-height: 18px; transition: opacity 0.3s; }
+    .intent-pill { display: inline-block; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 2px 10px; font-size: 11px; color: var(--text-secondary); margin: 0 3px; }
+    .results-meta { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+    .no-result-ai { text-align: center; padding: 60px 20px; grid-column: 1/-1; }
+    .no-result-ai h3 { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .no-result-ai p { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+    .no-result-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .no-result-chip { padding: 8px 16px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--text-primary); transition: all 0.2s; }
+    .no-result-chip:hover { border-color: var(--pwc-orange); background: var(--bg-primary); }
     @media (max-width: 768px) {
       .container { padding: 0 16px; }
       .header { padding: 16px 16px 4px 16px; }
@@ -256,14 +281,23 @@
             <input type="text" id="unifiedSearch" class="search-input" placeholder="어떤 작업을 하실건가요?" />
             <span class="search-hint-icon">💡</span>
             <div class="tooltip">
-              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>목적으로 검색</strong>: "뉴스 배포", "이미지 생성" 등 입력 시 최적 도구 조합 추천</span></div>
-              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>질문형 검색</strong>: "어떻게 하면 블로그 글을 자동으로 작성할 수 있을까?" 등 질문으로도 검색 가능</span></div>
-              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>도구명 검색</strong>: "ChatGPT", "Notion" 등 입력 시 정확히 찾기</span></div>
-              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>도구 클릭</strong>: 검색된 도구 클릭 시 바로 이동</span></div>
+              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>속어·오타도 OK</strong>: "뽀샵", "포샵" → 이미지 편집 AI 추천 / "챗지피티" → ChatGPT</span></div>
+              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>목적으로 검색</strong>: "유튜브 영상 만들기", "블로그 글 자동 작성" 등 작업 중심 검색</span></div>
+              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>질문형 검색</strong>: "배경 없애는 AI 뭐야?", "무료로 쓸 수 있는 코딩 AI 있어?" 등</span></div>
+              <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>영어 혼용</strong>: "image editing", "coding assistant" 등 영어로도 검색 가능</span></div>
             </div>
           </div>
           <button class="search-btn" onclick="performUnifiedSearch()">검색</button>
         </div>
+        <div class="search-suggestions" id="searchSuggestions">
+          <span class="suggestion-chip" onclick="setSearch('이미지 편집')">🖼️ 이미지 편집</span>
+          <span class="suggestion-chip" onclick="setSearch('블로그 글쓰기')">✍️ 블로그 글쓰기</span>
+          <span class="suggestion-chip" onclick="setSearch('유튜브 영상 만들기')">🎬 유튜브 영상</span>
+          <span class="suggestion-chip" onclick="setSearch('코딩 도우미')">💻 코딩 도우미</span>
+          <span class="suggestion-chip" onclick="setSearch('SNS 마케팅')">📣 SNS 마케팅</span>
+          <span class="suggestion-chip" onclick="setSearch('무료 AI 툴')">💰 무료 툴</span>
+        </div>
+        <div class="search-intent-label" id="searchIntentLabel"></div>
       </div>
 
       <div class="trending-carousel">
@@ -482,26 +516,142 @@
       window.open(`https://${website}`, '_blank');
     }
 
+    function setSearch(text) {
+      document.getElementById('unifiedSearch').value = text;
+      document.getElementById('searchSuggestions').style.display = 'none';
+      document.getElementById('searchIntentLabel').textContent = '';
+      performUnifiedSearch();
+    }
+
+    function showAILoading(query) {
+      const grid = document.getElementById('toolsGrid');
+      const messages = [
+        `"${query}" 의도 파악 중...`,
+        '유의어·속어 분석 중...',
+        '최적 툴 매칭 중...'
+      ];
+      let msgIdx = 0;
+      grid.innerHTML = `
+        <div class="ai-loading">
+          <div class="ai-loading-dots">
+            <div class="ai-loading-dot"></div>
+            <div class="ai-loading-dot"></div>
+            <div class="ai-loading-dot"></div>
+          </div>
+          <div class="ai-loading-text" id="aiLoadingMsg">${messages[0]}</div>
+        </div>`;
+      const interval = setInterval(() => {
+        msgIdx = (msgIdx + 1) % messages.length;
+        const el = document.getElementById('aiLoadingMsg');
+        if (el) el.textContent = messages[msgIdx];
+      }, 900);
+      return interval;
+    }
+
+    function displayToolsWithAI(recommended, fallback, parsed, query) {
+      const grid = document.getElementById('toolsGrid');
+      const emptyState = document.getElementById('emptyState');
+      const resultCount = document.getElementById('resultCount');
+      const intentLabel = document.getElementById('searchIntentLabel');
+
+
+
+      const recommendedNames = new Set(recommended.map(t => t.name));
+      const combined = [...recommended, ...fallback.filter(t => !recommendedNames.has(t.name))];
+      resultCount.textContent = combined.length;
+
+      if (combined.length === 0) {
+        grid.innerHTML = '';
+        emptyState.style.display = 'none';
+
+        const relatedKeywords = parsed.related_keywords || [];
+        const chipsHtml = relatedKeywords.map(kw =>
+          `<span class="no-result-chip" onclick="setSearch('${kw}')">${kw}</span>`
+        ).join('');
+
+        grid.innerHTML = `
+          <div class="no-result-ai">
+            <div style="font-size:48px;margin-bottom:16px;">🤔</div>
+            <h3>"${query}"에 맞는 툴을 찾지 못했어요</h3>
+            <p>${parsed.reason || '다른 키워드로 검색해보세요.'}</p>
+            ${chipsHtml ? `<div class="no-result-chips">${chipsHtml}</div>` : ''}
+          </div>`;
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      grid.innerHTML = combined.map((tool, idx) => {
+        const isAI = idx < recommended.length;
+        const emoji = getEmoji(tool.name);
+        const allTags = [tool.category, ...tool.tags.slice(0, 2)];
+        const tagsHtml = allTags.map(t => `<span class="tag ${getTagColor(t)}">#${t}</span>`).join('');
+        const matchReason = isAI && parsed.match_reasons && parsed.match_reasons[tool.name]
+          ? `<div class="ai-reason-badge">✨ ${parsed.match_reasons[tool.name]}</div>` : '';
+        return `
+          <div class="card${isAI ? ' card-ai-match' : ''}" onclick="openToolWebsite('${tool.website}')">
+            <div class="card-header">
+              <div class="card-logo-container">
+                <img src="${tool.logo}" alt="${tool.name}" class="card-logo"
+                  onerror="this.parentElement.innerHTML='<span style=\\'font-size:28px\\'>${emoji}</span>'" />
+              </div>
+              <div class="card-title">${tool.name}</div>
+            </div>
+            ${matchReason}
+            <div class="card-desc">${tool.desc}</div>
+            <div class="card-tags">${tagsHtml}</div>
+            <div class="card-meta">${formatPrice(tool.price)}</div>
+          </div>`;
+      }).join('');
+    }
+
     async function performUnifiedSearch() {
       const query = document.getElementById('unifiedSearch').value.trim();
+      const intentLabel = document.getElementById('searchIntentLabel');
+      const suggestions = document.getElementById('searchSuggestions');
+
       if (query === '') {
         displayTools(allTools);
         document.getElementById('resultText').textContent = '모든 도구';
+        intentLabel.textContent = '';
+        suggestions.style.display = 'flex';
         currentFilter = '전체';
         document.querySelectorAll('.filter-badge').forEach(el => el.classList.remove('active'));
         document.querySelector('[data-category="전체"]').classList.add('active');
         return;
       }
 
+      suggestions.style.display = 'none';
+      intentLabel.textContent = '';
       const resultText = document.getElementById('resultText');
-      const grid = document.getElementById('toolsGrid');
-      resultText.textContent = '🤖 AI가 분석 중...';
-      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-secondary);">
-        <div style="font-size:36px;margin-bottom:12px;">🔍</div>
-        <div style="font-size:15px;">AI가 최적의 툴을 찾고 있어요...</div>
-      </div>`;
+      resultText.textContent = '🤖 AI 분석 중...';
 
-      const toolList = allTools.map(t => `- ${t.name}: ${t.desc} (카테고리: ${t.category}, 태그: ${t.tags.join(', ')})`).join('\n');
+      const loadingInterval = showAILoading(query);
+
+      const toolList = allTools.map(t =>
+        `- ${t.name}: ${t.desc} (카테고리: ${t.category}, 태그: ${t.tags.join(', ')})`
+      ).join('\n');
+
+      const systemPrompt = `너는 AI 툴 검색 엔진의 핵심 추천 엔진이야. 사용자의 검색어를 깊이 분석해서 가장 적합한 툴을 추천해줘.
+
+핵심 역할:
+- 속어·은어·오타도 정확히 해석 (예: 뽀샵/포샵 → Photoshop AI 또는 이미지 편집 툴, 챗지피티 → ChatGPT, 미드저니 → Midjourney)
+- 영어·한국어 혼용 자연스럽게 처리 (coding → 개발, design → 디자인/이미지)
+- 작업 목적으로 검색할 때 최적 툴 조합 추천
+- 질문형 ("어떻게 하면...?") 도 의도 파악해서 추천
+- 유의어·상위 개념으로 확장 (예: "사진 편집" → 이미지 편집, 배경 제거, 생성형 AI 등)
+
+툴 목록:
+${toolList}
+
+응답 규칙:
+1. 반드시 아래 JSON 형식으로만 응답. 마크다운 코드블록 없이 순수 JSON만.
+2. tools: 관련성 높은 순서로 툴 이름 배열 (최대 8개)
+3. intent: 사용자 검색 의도를 한 문장으로 (예: "이미지 편집 및 포토샵 대체 툴 탐색")
+4. reason: 추천 이유 한 줄 (없으면 null)
+5. match_reasons: 각 툴별 추천 이유 (최대 3개, 10자 이내 짧게)
+6. related_keywords: 결과 없을 때 대안 검색어 3개
+
+{"tools":["툴이름1","툴이름2"],"intent":"의도","reason":"이유","match_reasons":{"툴이름1":"이유"},"related_keywords":["키워드1"]}`;
 
       try {
         const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -509,25 +659,19 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             model: 'claude-sonnet-4-20250514',
-            max_tokens: 1000,
-            system: `너는 AI 툴 추천 전문가야. 사용자의 입력을 분석해서 아래 툴 목록 중 가장 적합한 툴들을 추천해줘.
-툴 목록:
-${toolList}
-규칙:
-1. 사용자 입력의 의도를 파악해서 관련된 툴을 추천해 (영어 단어도 한국어 의미로 해석)
-2. 가장 관련성 높은 순서로 정렬
-3. 반드시 아래 JSON 형식으로만 응답해. 다른 텍스트 없이.
-{"tools": ["툴이름1", "툴이름2", ...], "reason": "한 줄 추천 이유"}`,
+            max_tokens: 800,
+            system: systemPrompt,
             messages: [{ role: 'user', content: query }]
           })
         });
 
+        clearInterval(loadingInterval);
         const data = await response.json();
         const text = data.content.map(c => c.text || '').join('');
         const clean = text.replace(/```json|```/g, '').trim();
         const parsed = JSON.parse(clean);
 
-        const recommended = parsed.tools
+        const recommended = (parsed.tools || [])
           .map(name => allTools.find(t => t.name === name))
           .filter(Boolean);
 
@@ -541,18 +685,15 @@ ${toolList}
           )
         );
 
-        const combined = [...recommended, ...fallback];
+        displayToolsWithAI(recommended, fallback, parsed, query);
 
-        if (combined.length === 0) {
-          displayTools([]);
-        } else {
-          displayTools(combined);
-        }
-
-        const reason = parsed.reason ? ` · ${parsed.reason}` : '';
-        resultText.innerHTML = `"${query}" 검색 결과 <span style="font-size:12px;font-weight:400;color:var(--pwc-orange);">✨ AI 추천${reason}</span>`;
+        const total = recommended.length + fallback.filter(t =>
+          !recommended.find(r => r.name === t.name)).length;
+        const reasonText = parsed.reason ? ` · ${parsed.reason}` : '';
+        resultText.innerHTML = `"${query}" 검색 결과 <span style="font-size:12px;font-weight:400;color:var(--pwc-orange);">✨ AI 추천${reasonText}</span>`;
 
       } catch (e) {
+        clearInterval(loadingInterval);
         const q = query.toLowerCase();
         const fallback = allTools.filter(t =>
           t.name.toLowerCase().includes(q) ||
@@ -562,6 +703,7 @@ ${toolList}
         );
         displayTools(fallback);
         resultText.textContent = `"${query}" 검색 결과`;
+        intentLabel.textContent = '';
       }
     }
 
@@ -603,13 +745,18 @@ ${toolList}
     document.getElementById('unifiedSearch').addEventListener('input', function() {
       clearTimeout(searchDebounce);
       const val = this.value.trim();
+      const suggestions = document.getElementById('searchSuggestions');
+      const intentLabel = document.getElementById('searchIntentLabel');
       if (val.length === 0) {
         displayTools(allTools);
         document.getElementById('resultText').textContent = '모든 도구';
+        intentLabel.textContent = '';
+        suggestions.style.display = 'flex';
         return;
       }
+      suggestions.style.display = 'none';
       if (val.length >= 2) {
-        searchDebounce = setTimeout(() => performUnifiedSearch(), 500);
+        searchDebounce = setTimeout(() => performUnifiedSearch(), 700);
       }
     });
 
