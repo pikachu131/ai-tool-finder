@@ -182,7 +182,6 @@
     .ai-loading-dot:nth-child(2) { animation-delay: 0.2s; }
     .ai-loading-dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes dotPulse { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
-    .ai-loading-text { font-size: 14px; color: var(--text-secondary); }
     .ai-reason-badge { display: inline-flex; align-items: center; gap: 4px; background: linear-gradient(135deg, #fff3ed, #ffe8d6); border: 1px solid #ffd0b0; color: #c94a15; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 10px; margin-bottom: 8px; }
     @media (prefers-color-scheme: dark) { .ai-reason-badge { background: linear-gradient(135deg, #3a1f10, #2a1508); border-color: #7a3010; color: #ff9060; } }
     .card-ai-match { position: relative; }
@@ -296,7 +295,6 @@
           <span class="suggestion-chip" onclick="setSearch('SNS 마케팅')">📣 SNS 마케팅</span>
           <span class="suggestion-chip" onclick="setSearch('무료 AI 툴')">💰 무료 툴</span>
         </div>
-        <div class="search-intent-label" id="searchIntentLabel"></div>
       </div>
 
       <div class="trending-carousel">
@@ -518,18 +516,11 @@
     function setSearch(text) {
       document.getElementById('unifiedSearch').value = text;
       document.getElementById('searchSuggestions').style.display = 'none';
-      document.getElementById('searchIntentLabel').textContent = '';
       performUnifiedSearch();
     }
 
     function showAILoading(query) {
       const grid = document.getElementById('toolsGrid');
-      const messages = [
-        `"${query}" 의도 파악 중...`,
-        '유의어·속어 분석 중...',
-        '최적 툴 매칭 중...'
-      ];
-      let msgIdx = 0;
       grid.innerHTML = `
         <div class="ai-loading">
           <div class="ai-loading-dots">
@@ -537,23 +528,14 @@
             <div class="ai-loading-dot"></div>
             <div class="ai-loading-dot"></div>
           </div>
-          <div class="ai-loading-text" id="aiLoadingMsg">${messages[0]}</div>
         </div>`;
-      const interval = setInterval(() => {
-        msgIdx = (msgIdx + 1) % messages.length;
-        const el = document.getElementById('aiLoadingMsg');
-        if (el) el.textContent = messages[msgIdx];
-      }, 900);
-      return interval;
+      return null;
     }
 
     function displayToolsWithAI(recommended, fallback, parsed, query) {
       const grid = document.getElementById('toolsGrid');
       const emptyState = document.getElementById('emptyState');
       const resultCount = document.getElementById('resultCount');
-      const intentLabel = document.getElementById('searchIntentLabel');
-
-
 
       const recommendedNames = new Set(recommended.map(t => t.name));
       const combined = [...recommended, ...fallback.filter(t => !recommendedNames.has(t.name))];
@@ -605,13 +587,12 @@
 
     async function performUnifiedSearch() {
       const query = document.getElementById('unifiedSearch').value.trim();
-      const intentLabel = document.getElementById('searchIntentLabel');
       const suggestions = document.getElementById('searchSuggestions');
+      const resultText = document.getElementById('resultText');
 
       if (query === '') {
         displayTools(allTools);
-        document.getElementById('resultText').textContent = '모든 도구';
-        intentLabel.textContent = '';
+        resultText.textContent = '모든 도구';
         suggestions.style.display = 'flex';
         currentFilter = '전체';
         document.querySelectorAll('.filter-badge').forEach(el => el.classList.remove('active'));
@@ -620,11 +601,7 @@
       }
 
       suggestions.style.display = 'none';
-      intentLabel.textContent = '';
-      const resultText = document.getElementById('resultText');
-      resultText.textContent = '🤖 AI 분석 중...';
-
-      const loadingInterval = showAILoading(query);
+      showAILoading(query);
 
       const toolList = allTools.map(t =>
         `- ${t.name}: ${t.desc} (카테고리: ${t.category}, 태그: ${t.tags.join(', ')})`
@@ -664,7 +641,6 @@ ${toolList}
           })
         });
 
-        clearInterval(loadingInterval);
         const data = await response.json();
         const text = data.content.map(c => c.text || '').join('');
         const clean = text.replace(/```json|```/g, '').trim();
@@ -686,13 +662,10 @@ ${toolList}
 
         displayToolsWithAI(recommended, fallback, parsed, query);
 
-        const total = recommended.length + fallback.filter(t =>
-          !recommended.find(r => r.name === t.name)).length;
         const reasonText = parsed.reason ? ` · ${parsed.reason}` : '';
         resultText.innerHTML = `"${query}" 검색 결과 <span style="font-size:12px;font-weight:400;color:var(--pwc-orange);">✨ AI 추천${reasonText}</span>`;
 
       } catch (e) {
-        clearInterval(loadingInterval);
         const q = query.toLowerCase();
         const fallback = allTools.filter(t =>
           t.name.toLowerCase().includes(q) ||
@@ -702,7 +675,6 @@ ${toolList}
         );
         displayTools(fallback);
         resultText.textContent = `"${query}" 검색 결과`;
-        intentLabel.textContent = '';
       }
     }
 
@@ -745,11 +717,9 @@ ${toolList}
       clearTimeout(searchDebounce);
       const val = this.value.trim();
       const suggestions = document.getElementById('searchSuggestions');
-      const intentLabel = document.getElementById('searchIntentLabel');
       if (val.length === 0) {
         displayTools(allTools);
         document.getElementById('resultText').textContent = '모든 도구';
-        intentLabel.textContent = '';
         suggestions.style.display = 'flex';
         return;
       }
