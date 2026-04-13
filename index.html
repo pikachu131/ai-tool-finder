@@ -422,14 +422,7 @@
           <button class="search-btn" onclick="performUnifiedSearch()">검색</button>
         </div>
         <div id="aiIntentDisplay" class="ai-intent-display"></div>
-        <div class="search-suggestions" id="quickSuggestions">
-          <span class="suggestion-chip" onclick="setSearch('뽀샵')">🖼️ 뽀샵</span>
-          <span class="suggestion-chip" onclick="setSearch('PPT 만들기')">📊 PPT 만들기</span>
-          <span class="suggestion-chip" onclick="setSearch('유튜브 영상')">🎬 유튜브 영상</span>
-          <span class="suggestion-chip" onclick="setSearch('ai agent 개발')">🤖 AI Agent 개발</span>
-          <span class="suggestion-chip" onclick="setSearch('블로그 글쓰기')">✍️ 블로그 글쓰기</span>
-          <span class="suggestion-chip" onclick="setSearch('배경 제거')">✂️ 배경 제거</span>
-        </div>
+
       </div>
 
       <div class="trending-carousel">
@@ -697,8 +690,6 @@
       document.getElementById('unifiedSearch').value = text;
       document.getElementById('aiIntentDisplay').innerHTML = '';
       document.getElementById('autocompleteDropdown').style.display = 'none';
-      const quickSugg = document.getElementById('quickSuggestions');
-      if (quickSugg) quickSugg.style.display = 'none';
       performUnifiedSearch();
     }
 
@@ -861,8 +852,6 @@
         currentFilter = '전체';
         document.querySelectorAll('.filter-badge').forEach(el => el.classList.remove('active'));
         document.querySelector('[data-category="전체"]').classList.add('active');
-        const quickSugg = document.getElementById('quickSuggestions');
-        if (quickSugg) quickSugg.style.display = 'flex';
         return;
       }
 
@@ -870,8 +859,6 @@
       aiIntentDisplay.innerHTML = '';
 
       // Hide quick suggestions on search
-      const quickSugg = document.getElementById('quickSuggestions');
-      if (quickSugg) quickSugg.style.display = 'none';
 
       const toolList = allTools.map(t =>
         `- ${t.name}: ${t.desc} (카테고리: ${t.category}, 태그: ${t.tags.join(', ')}, 가격: ${t.price})`
@@ -1071,8 +1058,6 @@ ${toolList}
         displayTools(allTools);
         document.getElementById('resultText').textContent = '모든 도구';
         document.getElementById('aiIntentDisplay').innerHTML = '';
-        const quickSugg = document.getElementById('quickSuggestions');
-        if (quickSugg) quickSugg.style.display = 'flex';
         return;
       }
       if (val.length >= 2) {
@@ -1103,8 +1088,6 @@ ${toolList}
       document.getElementById('autocompleteDropdown').style.display = 'none';
 
       // Show quick suggestions
-      const quickSugg = document.getElementById('quickSuggestions');
-      if (quickSugg) quickSugg.style.display = 'flex';
 
       // Reset category filter
       document.querySelectorAll('.filter-badge').forEach(el => el.classList.remove('active'));
