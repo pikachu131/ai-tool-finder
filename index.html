@@ -176,6 +176,28 @@
     .search-suggestions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; justify-content: center; }
     .suggestion-chip { padding: 6px 14px; border: 1px solid var(--border-color); border-radius: 20px; font-size: 12px; cursor: pointer; color: var(--text-secondary); background: var(--bg-primary); transition: all 0.2s; white-space: nowrap; }
     .suggestion-chip:hover { border-color: var(--pwc-orange); color: var(--pwc-orange); background: var(--bg-secondary); }
+
+    /* AI Intent Display */
+    .ai-intent-display { margin-top: 14px; text-align: center; min-height: 0; transition: all 0.4s ease; }
+    .ai-intent-display:empty { margin-top: 0; }
+    .ai-intent-box { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #fff8f4, #fff1e8); border: 1px solid #ffd8c2; border-radius: 14px; padding: 8px 18px; font-size: 13px; color: #8a3a0a; animation: intentFadeIn 0.5s ease; max-width: 560px; text-align: left; line-height: 1.5; }
+    @media (prefers-color-scheme: dark) { .ai-intent-box { background: linear-gradient(135deg, #2d1a0e, #261508); border-color: #5a2a10; color: #ffb888; } }
+    @keyframes intentFadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    .ai-intent-icon { font-size: 16px; flex-shrink: 0; }
+
+    /* AI Summary Card */
+    .ai-summary-card { background: linear-gradient(135deg, #fff8f4, #fef0e6); border: 1px solid #ffe0cc; border-radius: 16px; padding: 22px 26px; margin-bottom: 24px; grid-column: 1 / -1; animation: summarySlideIn 0.5s ease; position: relative; overflow: hidden; }
+    .ai-summary-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FF6B35, #FFa060, #FF6B35); }
+    @media (prefers-color-scheme: dark) { .ai-summary-card { background: linear-gradient(135deg, #2a1a0e, #1f1208); border-color: #5a3018; } .ai-summary-card::before { background: linear-gradient(90deg, #FF6B35, #c94a15, #FF6B35); } }
+    @keyframes summarySlideIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+    .ai-summary-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: var(--pwc-orange); }
+    .ai-summary-text { font-size: 14px; line-height: 1.7; color: var(--text-primary); margin-bottom: 14px; }
+    .ai-summary-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ai-summary-tag { padding: 4px 12px; background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.25); border-radius: 20px; font-size: 11px; color: var(--pwc-orange); cursor: pointer; transition: all 0.2s; }
+    .ai-summary-tag:hover { background: var(--pwc-orange); color: white; border-color: var(--pwc-orange); }
+
+    /* Enhanced AI match reason */
+    .ai-match-detail { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.6; padding: 8px 12px; background: var(--bg-secondary); border-radius: 8px; }
     .ai-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; grid-column: 1/-1; }
     .ai-loading-dots { display: flex; gap: 8px; margin-bottom: 16px; }
     .ai-loading-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--pwc-orange); animation: dotPulse 1.4s ease-in-out infinite; }
@@ -287,14 +309,7 @@
           </div>
           <button class="search-btn" onclick="performUnifiedSearch()">검색</button>
         </div>
-        <div class="search-suggestions" id="searchSuggestions">
-          <span class="suggestion-chip" onclick="setSearch('이미지 편집')">🖼️ 이미지 편집</span>
-          <span class="suggestion-chip" onclick="setSearch('블로그 글쓰기')">✍️ 블로그 글쓰기</span>
-          <span class="suggestion-chip" onclick="setSearch('유튜브 영상 만들기')">🎬 유튜브 영상</span>
-          <span class="suggestion-chip" onclick="setSearch('코딩 도우미')">💻 코딩 도우미</span>
-          <span class="suggestion-chip" onclick="setSearch('SNS 마케팅')">📣 SNS 마케팅</span>
-          <span class="suggestion-chip" onclick="setSearch('무료 AI 툴')">💰 무료 툴</span>
-        </div>
+        <div id="aiIntentDisplay" class="ai-intent-display"></div>
       </div>
 
       <div class="trending-carousel">
@@ -349,16 +364,23 @@
 
   <script>
     const defaultTools = [
+      // 텍스트작성 (15)
       { name: "ChatGPT", desc: "가장 범용적인 AI 대화·작성 도구", category: "텍스트작성", tags: ["텍스트", "대화", "코딩"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1200px-ChatGPT_logo.svg.png", website: "openai.com", price: "무료 / 유료 $20/월", trending: 1, users: "200M+" },
       { name: "Claude", desc: "긴 문서 분석·추론에 강한 AI", category: "텍스트작성", tags: ["텍스트", "분석", "코딩"], logo: "https://pbs.twimg.com/profile_images/1680582143494057986/76jvG58R_400x400.png", website: "claude.ai", price: "무료 / 유료 $20/월", trending: 4, users: "50M+" },
       { name: "Gemini", desc: "구글 검색 연동, 실시간 정보 강점", category: "텍스트작성", tags: ["텍스트", "검색", "분석"], logo: "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304c9c58b3ce853.png", website: "gemini.google.com", price: "무료 / 유료", trending: 0, users: "100M+" },
       { name: "Perplexity AI", desc: "출처 기반 실시간 AI 검색 엔진", category: "텍스트작성", tags: ["검색", "분석", "리서치"], logo: "https://www.perplexity.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fperplexity-logo.8fc47f96.png&w=256&q=75", website: "perplexity.ai", price: "무료 / 유료 $20/월", trending: 0, users: "8M+" },
-      { name: "Cohere", desc: "기업용 NLP·RAG에 최적화된 API", category: "텍스트작성", tags: ["API", "엔터프라이즈", "NLP"], logo: "https://media.licdn.com/dms/image/C4E0BAQGvSe5Lfk7JqQ/company-logo_400_400/0/1630545313595", website: "cohere.ai", price: "유료", trending: 0, users: "-" },
       { name: "Copy.ai", desc: "마케팅 카피를 수초 만에 자동 생성", category: "텍스트작성", tags: ["마케팅", "카피", "빠름"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Copy_logo.png/1200px-Copy_logo.png", website: "copy.ai", price: "무료 / 유료", trending: 0, users: "2M+" },
       { name: "Jasper", desc: "브랜드 톤을 유지하는 마케팅 특화 AI", category: "텍스트작성", tags: ["마케팅", "브랜드", "전문"], logo: "https://images.crunchbase.com/image1/share/03b19a55-0b5a-405b-9a7e-f0f8a8f4c1c4.png", website: "jasper.ai", price: "유료 $39+/월", trending: 0, users: "1M+" },
       { name: "Grammarly", desc: "문법·톤·명확성을 실시간으로 교정", category: "텍스트작성", tags: ["문법", "스타일", "검사"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Grammarly_logo.svg/1200px-Grammarly_logo.svg.png", website: "grammarly.com", price: "무료 / 유료 $12/월", trending: 0, users: "30M+" },
       { name: "Quillbot", desc: "문장을 자연스럽게 바꿔 쓰는 패러프레이저", category: "텍스트작성", tags: ["문장", "재작성", "학생"], logo: "https://images.crunchbase.com/image1/share/c39e3e0b-8e20-4d3f-8a28-1f7c8f8e4e0e.png", website: "quillbot.com", price: "무료 / 유료 $10/월", trending: 0, users: "2M+" },
       { name: "Writesonic", desc: "SEO 최적화 블로그·광고 문구 자동 작성", category: "텍스트작성", tags: ["글쓰기", "블로그", "이메일"], logo: "https://images.crunchbase.com/image1/share/ced92f5c-8ff2-4a0b-87b9-8c8d8f8e4e0e.png", website: "writesonic.com", price: "무료 / 유료", trending: 0, users: "1M+" },
+      { name: "DeepL", desc: "자연스러운 번역 품질의 AI 번역기", category: "텍스트작성", tags: ["번역", "다국어", "정확"], logo: "https://static.deepl.com/img/logo/deepl-logo-blue.svg", website: "deepl.com", price: "무료 / 유료 $9/월", trending: 0, users: "50M+" },
+      { name: "Notion AI", desc: "노션 문서 안에서 바로 쓰는 AI 어시스턴트", category: "텍스트작성", tags: ["문서", "요약", "자동화"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notion-logo.svg", website: "notion.so", price: "유료 $10/월 추가", trending: 0, users: "10M+" },
+      { name: "Rytr", desc: "40개+ 템플릿으로 콘텐츠를 빠르게 생성", category: "텍스트작성", tags: ["글쓰기", "템플릿", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/rytr.svg", website: "rytr.me", price: "무료 / 유료 $9/월", trending: 0, users: "1M+" },
+      { name: "Otter.ai", desc: "회의록을 실시간으로 자동 전사·요약", category: "텍스트작성", tags: ["회의", "전사", "요약"], logo: "https://cdn.worldvectorlogo.com/logos/otter-ai.svg", website: "otter.ai", price: "무료 / 유료 $17/월", trending: 0, users: "3M+" },
+      { name: "Wordtune", desc: "문장을 실시간으로 더 자연스럽게 다듬기", category: "텍스트작성", tags: ["문장", "교정", "스타일"], logo: "https://cdn.worldvectorlogo.com/logos/wordtune.svg", website: "wordtune.com", price: "무료 / 유료 $10/월", trending: 0, users: "1M+" },
+      { name: "Cohere", desc: "기업용 NLP·RAG에 최적화된 API", category: "텍스트작성", tags: ["API", "엔터프라이즈", "NLP"], logo: "https://media.licdn.com/dms/image/C4E0BAQGvSe5Lfk7JqQ/company-logo_400_400/0/1630545313595", website: "cohere.ai", price: "유료", trending: 0, users: "-" },
+      // 이미지생성 (14)
       { name: "DALL-E 3", desc: "프롬프트 이해력 최강의 이미지 생성기", category: "이미지생성", tags: ["이미지", "생성", "창의성"], logo: "https://upload.wikimedia.org/wikipedia/commons/f/f7/DALL-E_logo.jpg", website: "openai.com", price: "유료 $15/월", trending: 2, users: "50M+" },
       { name: "Midjourney", desc: "예술적 완성도가 가장 높은 AI 이미지 툴", category: "이미지생성", tags: ["이미지", "생성", "디자인"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Midjourney_Emblem.png", website: "midjourney.com", price: "유료 $10~60/월", trending: 3, users: "15M+" },
       { name: "Stable Diffusion", desc: "로컬 설치 가능한 오픈소스 이미지 생성", category: "이미지생성", tags: ["이미지", "오픈소스", "무료"], logo: "https://huggingface.co/front/assets/huggingface_logo.png", website: "stability.ai", price: "무료 / 유료", trending: 0, users: "-" },
@@ -366,23 +388,40 @@
       { name: "Adobe Firefly", desc: "저작권 안전한 Adobe 생성형 AI", category: "이미지생성", tags: ["이미지", "디자인", "프로"], logo: "https://cdn.worldvectorlogo.com/logos/adobe-firefly.svg", website: "adobe.com", price: "유료", trending: 0, users: "-" },
       { name: "Leonardo.AI", desc: "게임·캐릭터 특화 고품질 이미지 생성", category: "이미지생성", tags: ["이미지", "게임", "전문"], logo: "https://cdn.worldvectorlogo.com/logos/leonardo-ai.svg", website: "leonardo.ai", price: "무료 / 유료", trending: 0, users: "-" },
       { name: "Clipdrop", desc: "배경 제거·교체를 즉시 처리하는 편집 AI", category: "이미지생성", tags: ["이미지", "편집", "제거"], logo: "https://cdn.worldvectorlogo.com/logos/clipdrop.svg", website: "clipdrop.co", price: "무료 / 유료", trending: 0, users: "-" },
-      { name: "DreamStudio", desc: "Stable Diffusion을 쉽게 쓰는 공식 UI", category: "이미지생성", tags: ["이미지", "쉬움", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/stable-diffusion-2.svg", website: "dreamstudio.ai", price: "유료", trending: 0, users: "-" },
       { name: "Photoshop AI", desc: "생성형 채우기로 사진을 자유롭게 확장", category: "이미지생성", tags: ["편집", "전문", "강력"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1200px-Adobe_Photoshop_CC_icon.svg.png", website: "photoshop.adobe.com", price: "유료", trending: 0, users: "-" },
-      { name: "Img2Go", desc: "브라우저에서 바로 쓰는 경량 이미지 편집", category: "이미지생성", tags: ["이미지", "온라인", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/imgix.svg", website: "img2go.com", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "Remove.bg", desc: "원클릭으로 이미지 배경을 깔끔하게 제거", category: "이미지생성", tags: ["배경제거", "빠름", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/remove-bg.svg", website: "remove.bg", price: "무료 / 유료", trending: 0, users: "5M+" },
+      { name: "Ideogram", desc: "텍스트가 포함된 이미지 생성에 특화", category: "이미지생성", tags: ["이미지", "텍스트", "생성"], logo: "https://cdn.worldvectorlogo.com/logos/ideogram.svg", website: "ideogram.ai", price: "무료 / 유료", trending: 0, users: "3M+" },
+      { name: "Flux AI", desc: "초고해상도 포토리얼리스틱 이미지 생성", category: "이미지생성", tags: ["이미지", "고해상도", "리얼"], logo: "https://cdn.worldvectorlogo.com/logos/flux-1.svg", website: "flux1.ai", price: "무료 / 유료", trending: 0, users: "2M+" },
+      { name: "Playground AI", desc: "다양한 모델을 무료로 시도하는 이미지 생성", category: "이미지생성", tags: ["이미지", "무료", "실험"], logo: "https://cdn.worldvectorlogo.com/logos/playground-ai.svg", website: "playground.com", price: "무료 / 유료", trending: 0, users: "1M+" },
+      { name: "Pixlr", desc: "브라우저에서 쓰는 무료 AI 사진 편집기", category: "이미지생성", tags: ["편집", "온라인", "무료"], logo: "https://cdn.worldvectorlogo.com/logos/pixlr.svg", website: "pixlr.com", price: "무료 / 유료", trending: 0, users: "5M+" },
+      { name: "Picsart", desc: "SNS용 이미지·영상 편집 올인원 앱", category: "이미지생성", tags: ["편집", "SNS", "모바일"], logo: "https://cdn.worldvectorlogo.com/logos/picsart.svg", website: "picsart.com", price: "무료 / 유료 $8/월", trending: 0, users: "15M+" },
+      // 개발도구 (12)
       { name: "GitHub Copilot", desc: "IDE 안에서 실시간으로 코드를 자동 완성", category: "개발도구", tags: ["코딩", "자동완성", "개발"], logo: "https://upload.wikimedia.org/wikipedia/commons/8/8d/GitHub_Copilot_logo.png", website: "github.com", price: "유료 $10/월", trending: 5, users: "20M+" },
+      { name: "Cursor", desc: "AI 네이티브 코드 에디터, 자연어로 코딩", category: "개발도구", tags: ["코딩", "에디터", "AI"], logo: "https://cdn.worldvectorlogo.com/logos/cursor-1.svg", website: "cursor.com", price: "무료 / 유료 $20/월", trending: 0, users: "5M+" },
       { name: "Codeium", desc: "무료로 쓰는 AI 코드 자동완성 도구", category: "개발도구", tags: ["코딩", "무료", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/codeium.svg", website: "codeium.com", price: "무료 / 유료", trending: 0, users: "-" },
       { name: "Tabnine", desc: "프라이버시 중심 AI 코드 자동완성", category: "개발도구", tags: ["코딩", "IDE", "자동완성"], logo: "https://cdn.worldvectorlogo.com/logos/tabnine.svg", website: "tabnine.com", price: "무료 / 유료 $15/월", trending: 0, users: "-" },
       { name: "Replit", desc: "브라우저에서 바로 코딩·배포·협업", category: "개발도구", tags: ["개발", "협업", "호스팅"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Repl.it_logo.svg/1200px-Repl.it_logo.svg.png", website: "replit.com", price: "무료 / 유료 $7/월", trending: 0, users: "10M+" },
       { name: "Vercel", desc: "프론트엔드 앱을 가장 빠르게 배포", category: "개발도구", tags: ["배포", "호스팅", "빠름"], logo: "https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png", website: "vercel.com", price: "무료 / 유료 $20/월", trending: 0, users: "-" },
       { name: "Firebase", desc: "구글의 실시간 DB·인증·호스팅 올인원", category: "개발도구", tags: ["백엔드", "클라우드", "강력"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Firebase_Real-time_Database.svg/1200px-Firebase_Real-time_Database.svg.png", website: "firebase.google.com", price: "무료 / 유료", trending: 0, users: "-" },
       { name: "Supabase", desc: "오픈소스 PostgreSQL 기반 백엔드 플랫폼", category: "개발도구", tags: ["백엔드", "DB", "오픈소스"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Supabase.svg/1200px-Supabase.svg.png", website: "supabase.com", price: "무료 / 유료", trending: 0, users: "-" },
+      { name: "V0", desc: "프롬프트로 React UI를 즉시 생성하는 AI", category: "개발도구", tags: ["프론트엔드", "UI", "생성"], logo: "https://cdn.worldvectorlogo.com/logos/v0-by-vercel.svg", website: "v0.dev", price: "무료 / 유료", trending: 0, users: "2M+" },
+      { name: "Bolt.new", desc: "프롬프트만으로 풀스택 앱을 즉시 생성", category: "개발도구", tags: ["풀스택", "노코드", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/bolt-new.svg", website: "bolt.new", price: "무료 / 유료", trending: 0, users: "1M+" },
+      { name: "Lovable", desc: "대화형으로 웹앱을 디자인·개발하는 AI", category: "개발도구", tags: ["노코드", "웹앱", "디자인"], logo: "https://cdn.worldvectorlogo.com/logos/lovable.svg", website: "lovable.dev", price: "무료 / 유료 $20/월", trending: 0, users: "500K+" },
+      { name: "Hugging Face", desc: "AI 모델 허브, 오픈소스 ML 생태계 중심", category: "개발도구", tags: ["ML", "오픈소스", "모델"], logo: "https://huggingface.co/front/assets/huggingface_logo.png", website: "huggingface.co", price: "무료 / 유료", trending: 0, users: "5M+" },
+      // 음성비디오 (12)
       { name: "Runway", desc: "텍스트·이미지로 영상을 생성하는 영상 AI", category: "음성비디오", tags: ["비디오", "생성", "편집"], logo: "https://runway.com/_next/static/media/wordmark.42d5ec73.svg", website: "runwayml.com", price: "유료 $12~", trending: 0, users: "3M+" },
       { name: "ElevenLabs", desc: "가장 자연스러운 AI 음성 합성·클로닝", category: "음성비디오", tags: ["음성", "TTS", "자연스러움"], logo: "https://cdn.worldvectorlogo.com/logos/eleven-labs.svg", website: "elevenlabs.io", price: "무료 / 유료 $5~", trending: 0, users: "2M+" },
       { name: "Synthesia", desc: "AI 아바타로 교육·홍보 영상을 빠르게 제작", category: "음성비디오", tags: ["비디오", "아바타", "전문"], logo: "https://cdn.worldvectorlogo.com/logos/synthesia.svg", website: "synthesia.io", price: "유료 $30/월", trending: 0, users: "-" },
       { name: "Descript", desc: "자막 편집으로 영상·팟캐스트를 손쉽게 편집", category: "음성비디오", tags: ["비디오", "편집", "음성"], logo: "https://cdn.worldvectorlogo.com/logos/descript.svg", website: "descript.com", price: "무료 / 유료 $24/월", trending: 0, users: "1M+" },
       { name: "Heygen", desc: "실사 AI 아바타로 다국어 영상 즉시 생성", category: "음성비디오", tags: ["비디오", "아바타", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/heygen.svg", website: "heygen.com", price: "무료 / 유료 $14/월", trending: 0, users: "-" },
+      { name: "Sora", desc: "텍스트로 고품질 동영상을 생성하는 OpenAI AI", category: "음성비디오", tags: ["비디오", "생성", "텍스트투비디오"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1200px-ChatGPT_logo.svg.png", website: "sora.com", price: "유료 $20/월~", trending: 0, users: "5M+" },
+      { name: "Kling AI", desc: "중국 발 초고품질 비디오 생성 AI", category: "음성비디오", tags: ["비디오", "생성", "고품질"], logo: "https://cdn.worldvectorlogo.com/logos/kling-ai.svg", website: "klingai.com", price: "무료 / 유료", trending: 0, users: "3M+" },
+      { name: "Luma Dream Machine", desc: "빠르고 현실적인 AI 비디오 생성", category: "음성비디오", tags: ["비디오", "3D", "생성"], logo: "https://cdn.worldvectorlogo.com/logos/luma-ai.svg", website: "lumalabs.ai", price: "무료 / 유료", trending: 0, users: "1M+" },
+      { name: "CapCut", desc: "틱톡 제작사의 무료 영상 편집 앱", category: "음성비디오", tags: ["편집", "무료", "모바일"], logo: "https://cdn.worldvectorlogo.com/logos/capcut.svg", website: "capcut.com", price: "무료 / 유료", trending: 0, users: "50M+" },
+      { name: "Opus Clip", desc: "긴 영상에서 바이럴 숏폼을 자동 추출", category: "음성비디오", tags: ["숏폼", "편집", "자동화"], logo: "https://cdn.worldvectorlogo.com/logos/opus-clip.svg", website: "opus.pro", price: "무료 / 유료 $15/월", trending: 0, users: "2M+" },
       { name: "Fliki", desc: "텍스트를 음성·영상 콘텐츠로 즉시 변환", category: "음성비디오", tags: ["비디오", "음성", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/fliki.svg", website: "fliki.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
       { name: "Murf.ai", desc: "120개+ 언어를 지원하는 AI 나레이션 생성", category: "음성비디오", tags: ["음성", "내레이션", "다국어"], logo: "https://cdn.worldvectorlogo.com/logos/murf-ai.svg", website: "murf.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
+      // 자동화 (12)
       { name: "Zapier", desc: "6,000개+ 앱을 코드 없이 자동 연결", category: "자동화", tags: ["자동화", "통합", "워크플로우"], logo: "https://seeklogo.com/images/Z/zapier-logo-512x512.png", website: "zapier.com", price: "무료 / 유료 $19.99~", trending: 0, users: "5M+" },
       { name: "Notion", desc: "문서·DB·프로젝트를 한 곳에서 관리", category: "자동화", tags: ["협업", "문서", "DB"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notion-logo.svg", website: "notion.so", price: "무료 / 유료 $10~", trending: 0, users: "10M+" },
       { name: "Make", desc: "시각적 플로우로 복잡한 자동화 설계", category: "자동화", tags: ["자동화", "강력", "API"], logo: "https://cdn.worldvectorlogo.com/logos/make-10.svg", website: "make.com", price: "무료 / 유료 $9.99~", trending: 0, users: "-" },
@@ -390,23 +429,35 @@
       { name: "Monday.com", desc: "팀 업무 현황을 한눈에 보는 프로젝트 관리", category: "자동화", tags: ["프로젝트", "자동화", "협업"], logo: "https://cdn.worldvectorlogo.com/logos/monday-com.svg", website: "monday.com", price: "유료 $10~", trending: 0, users: "500K+" },
       { name: "IFTTT", desc: "앱·스마트홈 기기를 조건부로 간단 연결", category: "자동화", tags: ["자동화", "쉬움", "스마트홈"], logo: "https://cdn.worldvectorlogo.com/logos/ifttt.svg", website: "ifttt.com", price: "무료 / 유료 $2.99/월", trending: 0, users: "10M+" },
       { name: "N8N", desc: "셀프호스팅 가능한 오픈소스 자동화 플랫폼", category: "자동화", tags: ["자동화", "오픈소스", "무료"], logo: "https://cdn.worldvectorlogo.com/logos/n8n.svg", website: "n8n.io", price: "무료 / 유료", trending: 0, users: "-" },
-      { name: "Workato", desc: "IT·비즈니스 팀을 위한 엔터프라이즈 자동화", category: "자동화", tags: ["자동화", "엔터프라이즈", "강력"], logo: "https://cdn.worldvectorlogo.com/logos/workato.svg", website: "workato.com", price: "유료", trending: 0, users: "-" },
       { name: "Power Automate", desc: "Microsoft 365와 완벽하게 연동되는 자동화", category: "자동화", tags: ["자동화", "Microsoft", "엔터프라이즈"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Power_Automate_logo.svg/1200px-Power_Automate_logo.svg.png", website: "powerautomate.microsoft.com", price: "무료 / 유료 $5~", trending: 0, users: "-" },
+      { name: "Bardeen", desc: "반복 작업을 자동화하는 브라우저 확장 AI", category: "자동화", tags: ["자동화", "브라우저", "스크래핑"], logo: "https://cdn.worldvectorlogo.com/logos/bardeen.svg", website: "bardeen.ai", price: "무료 / 유료", trending: 0, users: "500K+" },
+      { name: "Taskade", desc: "AI 에이전트로 팀 업무를 자동 분배·관리", category: "자동화", tags: ["프로젝트", "AI", "협업"], logo: "https://cdn.worldvectorlogo.com/logos/taskade.svg", website: "taskade.com", price: "무료 / 유료 $8/월", trending: 0, users: "1M+" },
+      { name: "Magical", desc: "반복 타이핑을 한 번에 자동화하는 확장 프로그램", category: "자동화", tags: ["자동화", "텍스트", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/magical.svg", website: "getmagical.com", price: "무료 / 유료", trending: 0, users: "500K+" },
       { name: "Keyboard Maestro", desc: "Mac에서 반복 작업을 매크로로 완전 자동화", category: "자동화", tags: ["자동화", "Mac", "강력"], logo: "https://images.macworld.com/images/article/2013/03/keyboardmaestro5icon-100030533-orig.png", website: "keyboardmaestro.com", price: "유료 $36", trending: 0, users: "-" },
+      // 마케팅 (8)
       { name: "HubSpot", desc: "리드 유입부터 고객 관리까지 마케팅 올인원", category: "마케팅", tags: ["마케팅", "CRM", "자동화"], logo: "https://cdn.worldvectorlogo.com/logos/hubspot-2.svg", website: "hubspot.com", price: "무료 / 유료 $45~", trending: 0, users: "1M+" },
       { name: "Mailchimp", desc: "초보도 쉽게 쓰는 이메일 마케팅 플랫폼", category: "마케팅", tags: ["이메일", "마케팅", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/mailchimp.svg", website: "mailchimp.com", price: "무료 / 유료 $13~", trending: 0, users: "10M+" },
       { name: "Buffer", desc: "SNS 콘텐츠 예약·분석을 한 번에 관리", category: "마케팅", tags: ["소셜", "마케팅", "스케줄"], logo: "https://cdn.worldvectorlogo.com/logos/buffer-2.svg", website: "buffer.com", price: "무료 / 유료 $5~", trending: 0, users: "1M+" },
+      { name: "Hootsuite", desc: "모든 SNS 채널을 한 대시보드에서 관리", category: "마케팅", tags: ["소셜", "관리", "분석"], logo: "https://cdn.worldvectorlogo.com/logos/hootsuite.svg", website: "hootsuite.com", price: "유료 $99/월~", trending: 0, users: "2M+" },
+      { name: "Semrush", desc: "SEO·경쟁사 분석·키워드 리서치 올인원", category: "마케팅", tags: ["SEO", "분석", "키워드"], logo: "https://cdn.worldvectorlogo.com/logos/semrush.svg", website: "semrush.com", price: "유료 $130/월~", trending: 0, users: "1M+" },
+      { name: "Surfer SEO", desc: "AI 기반 콘텐츠 최적화·SEO 분석 도구", category: "마케팅", tags: ["SEO", "콘텐츠", "최적화"], logo: "https://cdn.worldvectorlogo.com/logos/surfer-seo.svg", website: "surferseo.com", price: "유료 $89/월~", trending: 0, users: "500K+" },
+      { name: "Brandwatch", desc: "소셜 미디어 분석·브랜드 모니터링 플랫폼", category: "마케팅", tags: ["분석", "소셜", "브랜드"], logo: "https://cdn.worldvectorlogo.com/logos/brandwatch.svg", website: "brandwatch.com", price: "유료", trending: 0, users: "-" },
+      { name: "Loom", desc: "화면 녹화로 비동기 커뮤니케이션하는 영상 메신저", category: "마케팅", tags: ["영상", "커뮤니케이션", "협업"], logo: "https://cdn.worldvectorlogo.com/logos/loom-2.svg", website: "loom.com", price: "무료 / 유료 $13/월", trending: 0, users: "5M+" },
+      // 협업 (7)
       { name: "Slack", desc: "채널 기반으로 팀 소통·업무를 한곳에서", category: "협업", tags: ["협업", "커뮤니케이션", "통합"], logo: "https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", website: "slack.com", price: "무료 / 유료 $8.99~", trending: 0, users: "20M+" },
       { name: "Miro", desc: "원격 팀 브레인스토밍에 최적화된 화이트보드", category: "협업", tags: ["협업", "화이트보드", "브레인스토밍"], logo: "https://cdn.worldvectorlogo.com/logos/miro-2.svg", website: "miro.com", price: "무료 / 유료 $8~", trending: 0, users: "1M+" },
       { name: "Figma", desc: "실시간 협업이 가능한 UI·프로토타입 디자인", category: "협업", tags: ["디자인", "협업", "프로토타입"], logo: "https://cdn.worldvectorlogo.com/logos/figma-1.svg", website: "figma.com", price: "무료 / 유료 $12~", trending: 0, users: "10M+" },
-      { name: "Pylon", desc: "Slack·Teams 고객 대화를 AI로 자동 티켓 관리", category: "협업", tags: ["고객지원", "AI", "B2B"], logo: "https://www.usepylon.com/favicon.ico", website: "usepylon.com", price: "유료", trending: 0, users: "-" }
+      { name: "Pylon", desc: "Slack·Teams 고객 대화를 AI로 자동 티켓 관리", category: "협업", tags: ["고객지원", "AI", "B2B"], logo: "https://www.usepylon.com/favicon.ico", website: "usepylon.com", price: "유료", trending: 0, users: "-" },
+      { name: "ClickUp", desc: "프로젝트·문서·목표를 하나로 통합 관리", category: "협업", tags: ["프로젝트", "올인원", "협업"], logo: "https://cdn.worldvectorlogo.com/logos/clickup-1.svg", website: "clickup.com", price: "무료 / 유료 $7/월", trending: 0, users: "5M+" },
+      { name: "Linear", desc: "소프트웨어 팀을 위한 초고속 이슈 트래커", category: "협업", tags: ["개발", "이슈", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/linear-2.svg", website: "linear.app", price: "무료 / 유료 $8/월", trending: 0, users: "1M+" },
+      { name: "Coda", desc: "문서·스프레드시트·앱을 하나로 결합한 워크스페이스", category: "협업", tags: ["문서", "자동화", "올인원"], logo: "https://cdn.worldvectorlogo.com/logos/coda-2.svg", website: "coda.io", price: "무료 / 유료 $10/월", trending: 0, users: "1M+" }
     ];
 
     let allTools = [];
     let currentFilter = "전체";
 
     function initTools() {
-      const DATA_VERSION = 'v4';
+      const DATA_VERSION = 'v5';
       const storedVersion = localStorage.getItem('aiToolsVersion');
       if (!storedVersion || storedVersion !== DATA_VERSION) {
         allTools = JSON.parse(JSON.stringify(defaultTools));
@@ -428,19 +479,28 @@
     const toolEmoji = {
       'ChatGPT': '🤖', 'Claude': '🧠', 'Gemini': '✨', 'Perplexity AI': '🔍',
       'Cohere': '📡', 'Copy.ai': '✍️', 'Jasper': '🖊️', 'Grammarly': '📝',
-      'Quillbot': '🪶', 'Writesonic': '💬', 'DALL-E 3': '🎨', 'Midjourney': '🖼️',
-      'Stable Diffusion': '🌀', 'Canva': '🎭', 'Adobe Firefly': '🔥',
-      'Leonardo.AI': '🦁', 'Clipdrop': '✂️', 'DreamStudio': '💭',
-      'Photoshop AI': '🖌️', 'Img2Go': '📸', 'GitHub Copilot': '👨‍💻',
-      'Codeium': '⚡', 'Tabnine': '🔧', 'Replit': '💻', 'Vercel': '🚀',
-      'Firebase': '🔴', 'Supabase': '🟢', 'Runway': '🎬', 'ElevenLabs': '🎙️',
-      'Synthesia': '👤', 'Descript': '🎵', 'Heygen': '📹', 'Fliki': '🎞️',
-      'Murf.ai': '🔊', 'Zapier': '⚡', 'Notion': '📒', 'Make': '🔄',
-      'Airtable': '📊', 'Monday.com': '📅', 'IFTTT': '🔗', 'N8N': '🕸️',
-      'Workato': '⚙️', 'Power Automate': '🌀', 'Keyboard Maestro': '⌨️',
+      'Quillbot': '🪶', 'Writesonic': '💬', 'DeepL': '🌐', 'Notion AI': '📒',
+      'Rytr': '📄', 'Otter.ai': '🦦', 'Wordtune': '🎯', 'DALL-E 3': '🎨',
+      'Midjourney': '🖼️', 'Stable Diffusion': '🌀', 'Canva': '🎭',
+      'Adobe Firefly': '🔥', 'Leonardo.AI': '🦁', 'Clipdrop': '✂️',
+      'Photoshop AI': '🖌️', 'Remove.bg': '🧹', 'Ideogram': '🔤',
+      'Flux AI': '⚡', 'Playground AI': '🎮', 'Pixlr': '📸', 'Picsart': '🎨',
+      'GitHub Copilot': '👨‍💻', 'Cursor': '🖱️', 'Codeium': '⚡',
+      'Tabnine': '🔧', 'Replit': '💻', 'Vercel': '🚀', 'Firebase': '🔴',
+      'Supabase': '🟢', 'V0': '🎯', 'Bolt.new': '⚡', 'Lovable': '💜',
+      'Hugging Face': '🤗', 'Runway': '🎬', 'ElevenLabs': '🎙️',
+      'Synthesia': '👤', 'Descript': '🎵', 'Heygen': '📹', 'Sora': '🎥',
+      'Kling AI': '🎞️', 'Luma Dream Machine': '💫', 'CapCut': '✂️',
+      'Opus Clip': '🎬', 'Fliki': '🎞️', 'Murf.ai': '🔊',
+      'Zapier': '⚡', 'Notion': '📒', 'Make': '🔄', 'Airtable': '📊',
+      'Monday.com': '📅', 'IFTTT': '🔗', 'N8N': '🕸️',
+      'Power Automate': '🌀', 'Bardeen': '🤖', 'Taskade': '✅',
+      'Magical': '🪄', 'Keyboard Maestro': '⌨️',
       'HubSpot': '🧲', 'Mailchimp': '🐒', 'Buffer': '📣',
-      'Slack': '💬', 'Miro': '🗂️', 'Figma': '🎨',
-      'Hootsuite': '🦉', 'Semrush': '📈', 'Adobe Podcast': '🎙️', 'Pylon': '🎯'
+      'Hootsuite': '🦉', 'Semrush': '📈', 'Surfer SEO': '🏄',
+      'Brandwatch': '👁️', 'Loom': '📹',
+      'Slack': '💬', 'Miro': '🗂️', 'Figma': '🎨', 'Pylon': '🎯',
+      'ClickUp': '✅', 'Linear': '📐', 'Coda': '📑'
     };
 
     function getEmoji(name) {
@@ -515,7 +575,7 @@
 
     function setSearch(text) {
       document.getElementById('unifiedSearch').value = text;
-      document.getElementById('searchSuggestions').style.display = 'none';
+      document.getElementById('aiIntentDisplay').innerHTML = '';
       performUnifiedSearch();
     }
 
@@ -546,28 +606,62 @@
         emptyState.style.display = 'none';
 
         const relatedKeywords = parsed.related_keywords || [];
-        const chipsHtml = relatedKeywords.map(kw =>
+        const relatedSearches = parsed.related_searches || [];
+        const allSuggestions = [...new Set([...relatedSearches, ...relatedKeywords])];
+        const chipsHtml = allSuggestions.map(kw =>
           `<span class="no-result-chip" onclick="setSearch('${kw}')">${kw}</span>`
         ).join('');
+
+        const summaryHtml = parsed.summary ? `<p style="margin-bottom:16px;font-size:14px;color:var(--text-secondary);line-height:1.7;">${parsed.summary}</p>` : '';
 
         grid.innerHTML = `
           <div class="no-result-ai">
             <div style="font-size:48px;margin-bottom:16px;">🤔</div>
-            <h3>"${query}"에 맞는 툴을 찾지 못했어요</h3>
-            <p>${parsed.reason || '다른 키워드로 검색해보세요.'}</p>
-            ${chipsHtml ? `<div class="no-result-chips">${chipsHtml}</div>` : ''}
+            <h3>"${query}"에 맞는 등록된 툴을 찾지 못했어요</h3>
+            ${summaryHtml}
+            ${chipsHtml ? `<p style="font-size:13px;color:var(--text-tertiary);margin-bottom:12px;">이런 검색은 어때요?</p><div class="no-result-chips">${chipsHtml}</div>` : ''}
           </div>`;
         return;
       }
 
       emptyState.style.display = 'none';
-      grid.innerHTML = combined.map((tool, idx) => {
+
+      // Build AI summary card
+      let summaryCardHtml = '';
+      if (parsed.summary) {
+        const workflowHtml = parsed.workflow && parsed.workflow.length > 0
+          ? `<div style="margin-top:12px;padding:12px 14px;background:rgba(255,107,53,0.06);border-radius:10px;border:1px solid rgba(255,107,53,0.12);">
+              <div style="font-size:12px;font-weight:600;color:var(--pwc-orange);margin-bottom:8px;">📋 추천 워크플로우</div>
+              ${parsed.workflow.map(step => `<div style="font-size:12px;color:var(--text-secondary);padding:3px 0;line-height:1.5;">→ ${step}</div>`).join('')}
+            </div>` : '';
+
+        const relatedSearches = parsed.related_searches || [];
+        const relatedChipsHtml = relatedSearches.length > 0
+          ? `<div class="ai-summary-tags">${relatedSearches.map(kw => `<span class="ai-summary-tag" onclick="setSearch('${kw}')">${kw}</span>`).join('')}</div>` : '';
+
+        summaryCardHtml = `
+          <div class="ai-summary-card">
+            <div class="ai-summary-header">✨ AI 분석 결과</div>
+            <div class="ai-summary-text">${parsed.summary}</div>
+            ${workflowHtml}
+            ${relatedChipsHtml ? `<div style="margin-top:14px;"><div style="font-size:11px;color:var(--text-tertiary);margin-bottom:6px;">연관 검색</div>${relatedChipsHtml}</div>` : ''}
+          </div>`;
+      }
+
+      grid.innerHTML = summaryCardHtml + combined.map((tool, idx) => {
         const isAI = idx < recommended.length;
         const emoji = getEmoji(tool.name);
         const allTags = [tool.category, ...tool.tags.slice(0, 2)];
         const tagsHtml = allTags.map(t => `<span class="tag ${getTagColor(t)}">#${t}</span>`).join('');
-        const matchReason = isAI && parsed.match_reasons && parsed.match_reasons[tool.name]
-          ? `<div class="ai-reason-badge">✨ ${parsed.match_reasons[tool.name]}</div>` : '';
+
+        let matchDetailHtml = '';
+        if (isAI && parsed.match_reasons && parsed.match_reasons[tool.name]) {
+          matchDetailHtml = `<div class="ai-match-detail">${parsed.match_reasons[tool.name]}</div>`;
+        }
+
+        const matchBadge = isAI
+          ? `<div class="ai-reason-badge">✨ AI 추천${parsed.match_reasons && parsed.match_reasons[tool.name] ? '' : ''}</div>` : '';
+
         return `
           <div class="card${isAI ? ' card-ai-match' : ''}" onclick="openToolWebsite('${tool.website}')">
             <div class="card-header">
@@ -577,7 +671,7 @@
               </div>
               <div class="card-title">${tool.name}</div>
             </div>
-            ${matchReason}
+            ${matchDetailHtml}
             <div class="card-desc">${tool.desc}</div>
             <div class="card-tags">${tagsHtml}</div>
             <div class="card-meta">${formatPrice(tool.price)}</div>
@@ -587,47 +681,73 @@
 
     async function performUnifiedSearch() {
       const query = document.getElementById('unifiedSearch').value.trim();
-      const suggestions = document.getElementById('searchSuggestions');
       const resultText = document.getElementById('resultText');
+      const aiIntentDisplay = document.getElementById('aiIntentDisplay');
 
       if (query === '') {
         displayTools(allTools);
         resultText.textContent = '모든 도구';
-        suggestions.style.display = 'flex';
+        aiIntentDisplay.innerHTML = '';
         currentFilter = '전체';
         document.querySelectorAll('.filter-badge').forEach(el => el.classList.remove('active'));
         document.querySelector('[data-category="전체"]').classList.add('active');
         return;
       }
 
-      suggestions.style.display = 'none';
       showAILoading(query);
+      aiIntentDisplay.innerHTML = '';
 
       const toolList = allTools.map(t =>
-        `- ${t.name}: ${t.desc} (카테고리: ${t.category}, 태그: ${t.tags.join(', ')})`
+        `- ${t.name}: ${t.desc} (카테고리: ${t.category}, 태그: ${t.tags.join(', ')}, 가격: ${t.price})`
       ).join('\n');
 
-      const systemPrompt = `너는 AI 툴 검색 엔진의 핵심 추천 엔진이야. 사용자의 검색어를 깊이 분석해서 가장 적합한 툴을 추천해줘.
+      const systemPrompt = `너는 AI 툴 검색 포털 "AIggle"의 지능형 검색 엔진이야. 사용자가 입력한 검색어의 **진짜 의도**를 깊이 파악하고, 가장 적합한 툴을 추천해.
 
-핵심 역할:
-- 속어·은어·오타도 정확히 해석 (예: 뽀샵/포샵 → Photoshop AI 또는 이미지 편집 툴, 챗지피티 → ChatGPT, 미드저니 → Midjourney)
-- 영어·한국어 혼용 자연스럽게 처리 (coding → 개발, design → 디자인/이미지)
-- 작업 목적으로 검색할 때 최적 툴 조합 추천
-- 질문형 ("어떻게 하면...?") 도 의도 파악해서 추천
-- 유의어·상위 개념으로 확장 (예: "사진 편집" → 이미지 편집, 배경 제거, 생성형 AI 등)
+## 핵심 능력
 
-툴 목록:
+1. **은어/속어/오타 해석**
+   - 뽀샵, 포샵, 뽀토샵 → Photoshop AI, 이미지 편집 툴
+   - 챗지피티, 챗gpt, chatgpt → ChatGPT
+   - 미드저니, 미져니 → Midjourney
+   - 노션, 노숀 → Notion
+   - 깃헙, 깃허브 → GitHub Copilot
+   - 캔바, 칸바 → Canva
+   - 일레븐랩스 → ElevenLabs
+   - 자피어, 재피어 → Zapier
+
+2. **의도 확장 해석**
+   - "유튜브 영상 만들기" → 영상 생성/편집 + 썸네일 + 스크립트 작성 + 음성 합성까지 포괄
+   - "블로그 시작하고 싶어" → 글쓰기 AI + SEO + 이미지 생성
+   - "앱 만들기" → 코딩 도구 + 배포 + 백엔드 + 디자인
+   - "마케팅 자동화" → 이메일 + SNS 스케줄링 + CRM + 카피라이팅
+   - "회사에서 쓸 AI" → 협업 + 문서 + 자동화 + 커뮤니케이션
+
+3. **질문형/대화형 해석**
+   - "배경 없애는 AI 뭐야?" → 이미지 편집 중 배경 제거 특화 툴
+   - "코딩 못하는데 웹사이트 만들 수 있어?" → 노코드/로우코드 도구
+   - "무료로 쓸 수 있는 거 있어?" → 무료 플랜이 있는 도구 우선 추천
+
+4. **작업 흐름(워크플로우) 기반 추천**
+   사용자의 목적이 여러 단계를 포함하면, 각 단계별로 최적 툴을 매핑해서 워크플로우를 제안해.
+
+## 등록된 툴 목록
 ${toolList}
 
-응답 규칙:
-1. 반드시 아래 JSON 형식으로만 응답. 마크다운 코드블록 없이 순수 JSON만.
-2. tools: 관련성 높은 순서로 툴 이름 배열 (최대 8개)
-3. intent: 사용자 검색 의도를 한 문장으로 (예: "이미지 편집 및 포토샵 대체 툴 탐색")
-4. reason: 추천 이유 한 줄 (없으면 null)
-5. match_reasons: 각 툴별 추천 이유 (최대 3개, 10자 이내 짧게)
-6. related_keywords: 결과 없을 때 대안 검색어 3개
+## 응답 형식 (반드시 순수 JSON만, 마크다운 코드블록 절대 금지)
 
-{"tools":["툴이름1","툴이름2"],"intent":"의도","reason":"이유","match_reasons":{"툴이름1":"이유"},"related_keywords":["키워드1"]}`;
+{
+  "tools": ["추천 툴 이름 배열, 관련성 높은 순, 최대 10개"],
+  "intent": "사용자의 검색 의도를 자연스러운 한국어 한 문장으로 설명",
+  "summary": "검색 의도에 대해 AI가 종합적으로 설명하는 2~3문장. 어떤 종류의 툴이 필요한지, 작업 흐름은 어떻게 되는지 친절하게 안내. 추천 툴 목록에 없는 외부 도구나 일반적인 팁도 자유롭게 언급 가능.",
+  "match_reasons": {"툴이름": "이 검색에서 이 툴이 추천되는 구체적 이유 (15~25자)"},
+  "workflow": ["1단계: 스크립트 작성 → ChatGPT", "2단계: 음성 합성 → ElevenLabs"],
+  "related_searches": ["연관 검색어 3~5개, 사용자가 추가로 탐색할 만한 키워드"],
+  "related_keywords": ["결과 없을 때 대안 검색어 3개"]
+}
+
+- workflow는 작업이 다단계일 때만 포함 (선택)
+- summary는 항상 포함. 사용자가 "뽀샵"이라 검색하면 "포토샵(Photoshop)과 유사한 이미지 편집 AI 도구들이에요. 배경 제거, 이미지 보정, 생성형 채우기 등 다양한 작업이 가능합니다."처럼 구체적이고 친절하게.
+- 결과가 없어도 summary에 대안이나 조언을 담아줘.`;
 
       try {
         const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -635,7 +755,7 @@ ${toolList}
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             model: 'claude-sonnet-4-20250514',
-            max_tokens: 800,
+            max_tokens: 1000,
             system: systemPrompt,
             messages: [{ role: 'user', content: query }]
           })
@@ -660,10 +780,14 @@ ${toolList}
           )
         );
 
+        // Show AI intent below search bar
+        if (parsed.intent) {
+          aiIntentDisplay.innerHTML = `<div class="ai-intent-box"><span class="ai-intent-icon">🔮</span><span>${parsed.intent}</span></div>`;
+        }
+
         displayToolsWithAI(recommended, fallback, parsed, query);
 
-        const reasonText = parsed.reason ? ` · ${parsed.reason}` : '';
-        resultText.innerHTML = `"${query}" 검색 결과 <span style="font-size:12px;font-weight:400;color:var(--pwc-orange);">✨ AI 추천${reasonText}</span>`;
+        resultText.innerHTML = `"${query}" 검색 결과 <span style="font-size:12px;font-weight:400;color:var(--pwc-orange);">✨ AI 추천</span>`;
 
       } catch (e) {
         const q = query.toLowerCase();
@@ -675,6 +799,7 @@ ${toolList}
         );
         displayTools(fallback);
         resultText.textContent = `"${query}" 검색 결과`;
+        aiIntentDisplay.innerHTML = '';
       }
     }
 
@@ -683,6 +808,7 @@ ${toolList}
       element.classList.add('active');
       currentFilter = element.dataset.category;
       document.getElementById('unifiedSearch').value = '';
+      document.getElementById('aiIntentDisplay').innerHTML = '';
 
       if (currentFilter === '전체') {
         displayTools(allTools);
@@ -716,14 +842,12 @@ ${toolList}
     document.getElementById('unifiedSearch').addEventListener('input', function() {
       clearTimeout(searchDebounce);
       const val = this.value.trim();
-      const suggestions = document.getElementById('searchSuggestions');
       if (val.length === 0) {
         displayTools(allTools);
         document.getElementById('resultText').textContent = '모든 도구';
-        suggestions.style.display = 'flex';
+        document.getElementById('aiIntentDisplay').innerHTML = '';
         return;
       }
-      suggestions.style.display = 'none';
       if (val.length >= 2) {
         searchDebounce = setTimeout(() => performUnifiedSearch(), 700);
       }
