@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIggle | Find Your Perfect AI Tool</title>
   <meta name="description" content="원하는 목적에 맞는 AI tool 포털">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPGNpcmNsZSBjeD0iMzIuMCIgY3k9IjEwLjAiIHI9IjkiIGZpbGw9IiM0Mjg1RjQiLz4KICA8Y2lyY2xlIGN4PSIxMS4xIiBjeT0iMjUuMiIgcj0iOSIgZmlsbD0iI0VBNDMzNSIvPgogIDxjaXJjbGUgY3g9IjE5LjEiIGN5PSI0OS44IiByPSI5IiBmaWxsPSIjRkJCQzA1Ii8+CiAgPGNpcmNsZSBjeD0iNDQuOSIgY3k9IjQ5LjgiIHI9IjkiIGZpbGw9IiMzNEE4NTMiLz4KICA8Y2lyY2xlIGN4PSI1Mi45IiBjeT0iMjUuMiIgcj0iOSIgZmlsbD0iI0ZGNkIzNSIvPgo8L3N2Zz4=">
+  <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPGNpcmNsZSBjeD0iMzIuMCIgY3k9IjEwLjAiIHI9IjkiIGZpbGw9IiM0Mjg1RjQiLz4KICA8Y2lyY2xlIGN4PSIxMS4xIiBjeT0iMjUuMiIgcj0iOSIgZmlsbD0iI0VBNDMzNSIvPgogIDxjaXJjbGUgY3g9IjE5LjEiIGN5PSI0OS44IiByPSI5IiBmaWxsPSIjRkJCQzA1Ii8+CiAgPGNpcmNsZSBjeD0iNDQuOSIgY3k9IjQ5LjgiIHI9IjkiIGZpbGw9IiMzNEE4NTMiLz4KICA8Y2lyY2xlIGN4PSI1Mi45IiBjeT0iMjUuMiIgcj0iOSIgZmlsbD0iI0ZGNkIzNSIvPgo8L3N2Zz4=">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPGNpcmNsZSBjeD0iMzIuMCIgY3k9IjEwLjAiIHI9IjkiIGZpbGw9IiM0Mjg1RjQiLz4KICA8Y2lyY2xlIGN4PSIxMS4xIiBjeT0iMjUuMiIgcj0iOSIgZmlsbD0iI0VBNDMzNSIvPgogIDxjaXJjbGUgY3g9IjE5LjEiIGN5PSI0OS44IiByPSI5IiBmaWxsPSIjRkJCQzA1Ii8+CiAgPGNpcmNsZSBjeD0iNDQuOSIgY3k9IjQ5LjgiIHI9IjkiIGZpbGw9IiMzNEE4NTMiLz4KICA8Y2lyY2xlIGN4PSI1Mi45IiBjeT0iMjUuMiIgcj0iOSIgZmlsbD0iI0ZGNkIzNSIvPgo8L3N2Zz4=">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     :root {
@@ -148,14 +151,12 @@
     .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
     .card { background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; transition: all 0.3s; display: flex; flex-direction: column; height: 100%; box-shadow: var(--shadow-light); cursor: pointer; }
     .card:hover { border-color: var(--pwc-orange); transform: translateY(-6px); box-shadow: var(--shadow-heavy); }
-    /* ── 카드 헤더 (로고 좌 + 서비스명 우) ── */
     .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
     .card-logo-container { flex-shrink: 0; width: 52px; height: 52px; background-color: var(--bg-secondary); border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border-color); font-size: 28px; }
     .card-logo { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
     .card-title { font-size: 20px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
     .card-desc { font-size: 17px; font-weight: 700; color: #555555; margin-bottom: 14px; line-height: 1.6; flex-grow: 1; white-space: normal; word-wrap: break-word; overflow: visible; }
     @media (prefers-color-scheme: dark) { .card-desc { color: #AAAAAA; } }
-    /* ── 태그 컬러 팔레트 (AIggle 로고 색 계열, 연하게) ── */
     .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; justify-content: center; }
     .tag { font-size: 12px; padding: 4px 9px; border-radius: 20px; font-weight: 400; border: none; }
     .tag-blue   { background-color: #DDEAFF; color: #2B6CBF; }
@@ -163,7 +164,6 @@
     .tag-yellow { background-color: #FFF3CC; color: #A07800; }
     .tag-green  { background-color: #D6F5E3; color: #1E7E45; }
     .tag-orange { background-color: #FFE9DE; color: #C94A15; }
-    /* ── 가격 ── */
     .card-meta { font-size: 13px; color: #444444; margin-bottom: 0; font-weight: 400; }
     @media (prefers-color-scheme: dark) { .card-meta { color: #CCCCCC; } }
     .empty-state { text-align: center; padding: 80px 20px; color: var(--text-secondary); }
@@ -171,120 +171,55 @@
     .empty-state p { font-size: 16px; margin-bottom: 12px; }
     .empty-state p:last-child { font-size: 13px; color: var(--text-tertiary); }
     footer { text-align: center; padding: 40px 20px; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 60px; font-size: 14px; }
-    /* ── 태블릿 (768px 이하) ── */
     @media (max-width: 768px) {
       .container { padding: 0 16px; }
-
-      /* 헤더 */
       .header { padding: 16px 16px 4px 16px; }
       .header h1 { font-size: 28px; }
       .header p { font-size: 13px; margin-top: 10px; }
-
-      /* 로고 */
       .letter { font-size: 80px; }
       .logo-container { padding: 6px; margin-bottom: 4px !important; }
-
-      /* 검색 */
       .search-section { margin: 8px 0 0 0; padding: 8px 16px; }
       .search-container { margin: 0 auto 24px; }
       .search-input { padding: 14px 44px 14px 18px; font-size: 15px; }
       .search-box { flex-direction: column; gap: 8px; }
-
-      /* 툴팁 */
       .tooltip { width: 250px; right: -50px; }
       .tooltip::after { right: 66px; }
-
-      /* 트렌딩 캐러셀 */
       .trending-carousel { margin: 20px auto; }
       .carousel-title { font-size: 13px; margin-bottom: 14px; }
-      .carousel-item {
-        flex: 0 0 80px;
-        min-width: 80px;
-        padding: 8px;
-      }
+      .carousel-item { flex: 0 0 80px; min-width: 80px; padding: 8px; }
       .carousel-icon { width: 54px; height: 54px; }
-
-      /* 필터 */
-      .filters {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        gap: 6px;
-        margin-bottom: 20px;
-        padding-bottom: 8px;
-        -webkit-overflow-scrolling: touch;
-        scroll-snap-type: x mandatory;
-      }
+      .filters { flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin-bottom: 20px; padding-bottom: 8px; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; }
       .filters::-webkit-scrollbar { display: none; }
-      .filter-badge {
-        flex-shrink: 0;
-        padding: 6px 12px;
-        font-size: 12px;
-        scroll-snap-align: start;
-        white-space: nowrap;
-      }
-
-      /* 카드 그리드 */
+      .filter-badge { flex-shrink: 0; padding: 6px 12px; font-size: 12px; scroll-snap-align: start; white-space: nowrap; }
       .card-grid { grid-template-columns: 1fr; gap: 14px; margin-bottom: 24px; }
       .card { padding: 18px; }
       .card-title { font-size: 17px; }
       .card-desc { font-size: 14px; }
       .card-meta { font-size: 12px; }
-
-      /* 통계 */
       .stats { grid-template-columns: repeat(2, 1fr); }
-
-      /* 트렌딩 카드 */
       .trending-card { flex: 0 0 120px; }
-
-      /* 푸터 */
       footer { padding: 28px 16px; font-size: 12px; margin-top: 40px; }
     }
-
-    /* ── 소형 모바일 (480px 이하) ── */
     @media (max-width: 480px) {
       .container { padding: 0 12px; }
-
-      /* 로고 */
       .letter { font-size: 60px; }
       .logo-container { padding: 4px; }
-
-      /* 헤더 */
       .header { padding: 12px 12px 4px 12px; }
       .header-subtitle { font-size: 11px; }
-
-      /* 검색 */
       .search-section { padding: 6px 12px; }
       .search-input { padding: 12px 40px 12px 16px; font-size: 14px; }
       .search-hint-icon { font-size: 16px; }
-
-      /* 툴팁 — 화면 전체 폭 */
-      .tooltip {
-        width: calc(100vw - 40px);
-        right: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 11px;
-      }
+      .tooltip { width: calc(100vw - 40px); right: auto; left: 50%; transform: translateX(-50%); font-size: 11px; }
       .tooltip::after { right: 50%; transform: translateX(50%); }
-
-      /* 카드 */
       .card { padding: 14px; }
       .card-logo-container { width: 48px; height: 48px; }
       .card-title { font-size: 15px; }
       .card-desc { font-size: 12px; }
-
-      /* 트렌딩 */
       .carousel-item { flex: 0 0 68px; min-width: 68px; padding: 6px; }
       .carousel-icon { width: 46px; height: 46px; }
       .carousel-label { font-size: 10px; }
-
-      /* 필터 */
       .filter-badge { padding: 5px 10px; font-size: 11px; }
-
-      /* 결과 헤더 */
       .results-text { font-size: 14px; }
-
-      /* 카드 그리드 */
       .card-grid { gap: 10px; margin-bottom: 20px; }
     }
   </style>
@@ -383,19 +318,16 @@
 
   <script>
     const defaultTools = [
-      // 텍스트작성 (10개)
       { name: "ChatGPT", desc: "가장 범용적인 AI 대화·작성 도구", category: "텍스트작성", tags: ["텍스트", "대화", "코딩"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1200px-ChatGPT_logo.svg.png", website: "openai.com", price: "무료 / 유료 $20/월", trending: 1, users: "200M+" },
       { name: "Claude", desc: "긴 문서 분석·추론에 강한 AI", category: "텍스트작성", tags: ["텍스트", "분석", "코딩"], logo: "https://pbs.twimg.com/profile_images/1680582143494057986/76jvG58R_400x400.png", website: "claude.ai", price: "무료 / 유료 $20/월", trending: 4, users: "50M+" },
       { name: "Gemini", desc: "구글 검색 연동, 실시간 정보 강점", category: "텍스트작성", tags: ["텍스트", "검색", "분석"], logo: "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304c9c58b3ce853.png", website: "gemini.google.com", price: "무료 / 유료", trending: 0, users: "100M+" },
       { name: "Perplexity AI", desc: "출처 기반 실시간 AI 검색 엔진", category: "텍스트작성", tags: ["검색", "분석", "리서치"], logo: "https://www.perplexity.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fperplexity-logo.8fc47f96.png&w=256&q=75", website: "perplexity.ai", price: "무료 / 유료 $20/월", trending: 0, users: "8M+" },
-      { name: "Cohere", desc: "기업용 NLP·RAG에 최적화된 API", category: "텍스트작성", tags: ["API", "엔터프라이즈", "NLP"], logo: "https://media.licdn.com/dms/image/C4E0BAQGvSe5Lfk7JqQ/company-logo_400_400/0/1630545313595?e=2147483647&v=beta&t=qW6p4YzM8T_Uo8DdxPxX8jXQI7VgLxYRsQO0aF-yG8E", website: "cohere.ai", price: "유료", trending: 0, users: "-" },
+      { name: "Cohere", desc: "기업용 NLP·RAG에 최적화된 API", category: "텍스트작성", tags: ["API", "엔터프라이즈", "NLP"], logo: "https://media.licdn.com/dms/image/C4E0BAQGvSe5Lfk7JqQ/company-logo_400_400/0/1630545313595", website: "cohere.ai", price: "유료", trending: 0, users: "-" },
       { name: "Copy.ai", desc: "마케팅 카피를 수초 만에 자동 생성", category: "텍스트작성", tags: ["마케팅", "카피", "빠름"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Copy_logo.png/1200px-Copy_logo.png", website: "copy.ai", price: "무료 / 유료", trending: 0, users: "2M+" },
       { name: "Jasper", desc: "브랜드 톤을 유지하는 마케팅 특화 AI", category: "텍스트작성", tags: ["마케팅", "브랜드", "전문"], logo: "https://images.crunchbase.com/image1/share/03b19a55-0b5a-405b-9a7e-f0f8a8f4c1c4.png", website: "jasper.ai", price: "유료 $39+/월", trending: 0, users: "1M+" },
       { name: "Grammarly", desc: "문법·톤·명확성을 실시간으로 교정", category: "텍스트작성", tags: ["문법", "스타일", "검사"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Grammarly_logo.svg/1200px-Grammarly_logo.svg.png", website: "grammarly.com", price: "무료 / 유료 $12/월", trending: 0, users: "30M+" },
       { name: "Quillbot", desc: "문장을 자연스럽게 바꿔 쓰는 패러프레이저", category: "텍스트작성", tags: ["문장", "재작성", "학생"], logo: "https://images.crunchbase.com/image1/share/c39e3e0b-8e20-4d3f-8a28-1f7c8f8e4e0e.png", website: "quillbot.com", price: "무료 / 유료 $10/월", trending: 0, users: "2M+" },
       { name: "Writesonic", desc: "SEO 최적화 블로그·광고 문구 자동 작성", category: "텍스트작성", tags: ["글쓰기", "블로그", "이메일"], logo: "https://images.crunchbase.com/image1/share/ced92f5c-8ff2-4a0b-87b9-8c8d8f8e4e0e.png", website: "writesonic.com", price: "무료 / 유료", trending: 0, users: "1M+" },
-
-      // 이미지생성 (10개)
       { name: "DALL-E 3", desc: "프롬프트 이해력 최강의 이미지 생성기", category: "이미지생성", tags: ["이미지", "생성", "창의성"], logo: "https://upload.wikimedia.org/wikipedia/commons/f/f7/DALL-E_logo.jpg", website: "openai.com", price: "유료 $15/월", trending: 2, users: "50M+" },
       { name: "Midjourney", desc: "예술적 완성도가 가장 높은 AI 이미지 툴", category: "이미지생성", tags: ["이미지", "생성", "디자인"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Midjourney_Emblem.png", website: "midjourney.com", price: "유료 $10~60/월", trending: 3, users: "15M+" },
       { name: "Stable Diffusion", desc: "로컬 설치 가능한 오픈소스 이미지 생성", category: "이미지생성", tags: ["이미지", "오픈소스", "무료"], logo: "https://huggingface.co/front/assets/huggingface_logo.png", website: "stability.ai", price: "무료 / 유료", trending: 0, users: "-" },
@@ -406,8 +338,6 @@
       { name: "DreamStudio", desc: "Stable Diffusion을 쉽게 쓰는 공식 UI", category: "이미지생성", tags: ["이미지", "쉬움", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/stable-diffusion-2.svg", website: "dreamstudio.ai", price: "유료", trending: 0, users: "-" },
       { name: "Photoshop AI", desc: "생성형 채우기로 사진을 자유롭게 확장", category: "이미지생성", tags: ["편집", "전문", "강력"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1200px-Adobe_Photoshop_CC_icon.svg.png", website: "photoshop.adobe.com", price: "유료", trending: 0, users: "-" },
       { name: "Img2Go", desc: "브라우저에서 바로 쓰는 경량 이미지 편집", category: "이미지생성", tags: ["이미지", "온라인", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/imgix.svg", website: "img2go.com", price: "무료 / 유료", trending: 0, users: "-" },
-
-      // 개발도구 (7개)
       { name: "GitHub Copilot", desc: "IDE 안에서 실시간으로 코드를 자동 완성", category: "개발도구", tags: ["코딩", "자동완성", "개발"], logo: "https://upload.wikimedia.org/wikipedia/commons/8/8d/GitHub_Copilot_logo.png", website: "github.com", price: "유료 $10/월", trending: 5, users: "20M+" },
       { name: "Codeium", desc: "무료로 쓰는 AI 코드 자동완성 도구", category: "개발도구", tags: ["코딩", "무료", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/codeium.svg", website: "codeium.com", price: "무료 / 유료", trending: 0, users: "-" },
       { name: "Tabnine", desc: "프라이버시 중심 AI 코드 자동완성", category: "개발도구", tags: ["코딩", "IDE", "자동완성"], logo: "https://cdn.worldvectorlogo.com/logos/tabnine.svg", website: "tabnine.com", price: "무료 / 유료 $15/월", trending: 0, users: "-" },
@@ -415,8 +345,6 @@
       { name: "Vercel", desc: "프론트엔드 앱을 가장 빠르게 배포", category: "개발도구", tags: ["배포", "호스팅", "빠름"], logo: "https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png", website: "vercel.com", price: "무료 / 유료 $20/월", trending: 0, users: "-" },
       { name: "Firebase", desc: "구글의 실시간 DB·인증·호스팅 올인원", category: "개발도구", tags: ["백엔드", "클라우드", "강력"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Firebase_Real-time_Database.svg/1200px-Firebase_Real-time_Database.svg.png", website: "firebase.google.com", price: "무료 / 유료", trending: 0, users: "-" },
       { name: "Supabase", desc: "오픈소스 PostgreSQL 기반 백엔드 플랫폼", category: "개발도구", tags: ["백엔드", "DB", "오픈소스"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Supabase.svg/1200px-Supabase.svg.png", website: "supabase.com", price: "무료 / 유료", trending: 0, users: "-" },
-
-      // 음성비디오 (7개)
       { name: "Runway", desc: "텍스트·이미지로 영상을 생성하는 영상 AI", category: "음성비디오", tags: ["비디오", "생성", "편집"], logo: "https://runway.com/_next/static/media/wordmark.42d5ec73.svg", website: "runwayml.com", price: "유료 $12~", trending: 0, users: "3M+" },
       { name: "ElevenLabs", desc: "가장 자연스러운 AI 음성 합성·클로닝", category: "음성비디오", tags: ["음성", "TTS", "자연스러움"], logo: "https://cdn.worldvectorlogo.com/logos/eleven-labs.svg", website: "elevenlabs.io", price: "무료 / 유료 $5~", trending: 0, users: "2M+" },
       { name: "Synthesia", desc: "AI 아바타로 교육·홍보 영상을 빠르게 제작", category: "음성비디오", tags: ["비디오", "아바타", "전문"], logo: "https://cdn.worldvectorlogo.com/logos/synthesia.svg", website: "synthesia.io", price: "유료 $30/월", trending: 0, users: "-" },
@@ -424,8 +352,6 @@
       { name: "Heygen", desc: "실사 AI 아바타로 다국어 영상 즉시 생성", category: "음성비디오", tags: ["비디오", "아바타", "빠름"], logo: "https://cdn.worldvectorlogo.com/logos/heygen.svg", website: "heygen.com", price: "무료 / 유료 $14/월", trending: 0, users: "-" },
       { name: "Fliki", desc: "텍스트를 음성·영상 콘텐츠로 즉시 변환", category: "음성비디오", tags: ["비디오", "음성", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/fliki.svg", website: "fliki.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
       { name: "Murf.ai", desc: "120개+ 언어를 지원하는 AI 나레이션 생성", category: "음성비디오", tags: ["음성", "내레이션", "다국어"], logo: "https://cdn.worldvectorlogo.com/logos/murf-ai.svg", website: "murf.ai", price: "무료 / 유료 $16/월", trending: 0, users: "-" },
-
-      // 자동화 (10개)
       { name: "Zapier", desc: "6,000개+ 앱을 코드 없이 자동 연결", category: "자동화", tags: ["자동화", "통합", "워크플로우"], logo: "https://seeklogo.com/images/Z/zapier-logo-512x512.png", website: "zapier.com", price: "무료 / 유료 $19.99~", trending: 0, users: "5M+" },
       { name: "Notion", desc: "문서·DB·프로젝트를 한 곳에서 관리", category: "자동화", tags: ["협업", "문서", "DB"], logo: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notion-logo.svg", website: "notion.so", price: "무료 / 유료 $10~", trending: 0, users: "10M+" },
       { name: "Make", desc: "시각적 플로우로 복잡한 자동화 설계", category: "자동화", tags: ["자동화", "강력", "API"], logo: "https://cdn.worldvectorlogo.com/logos/make-10.svg", website: "make.com", price: "무료 / 유료 $9.99~", trending: 0, users: "-" },
@@ -436,13 +362,9 @@
       { name: "Workato", desc: "IT·비즈니스 팀을 위한 엔터프라이즈 자동화", category: "자동화", tags: ["자동화", "엔터프라이즈", "강력"], logo: "https://cdn.worldvectorlogo.com/logos/workato.svg", website: "workato.com", price: "유료", trending: 0, users: "-" },
       { name: "Power Automate", desc: "Microsoft 365와 완벽하게 연동되는 자동화", category: "자동화", tags: ["자동화", "Microsoft", "엔터프라이즈"], logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Power_Automate_logo.svg/1200px-Power_Automate_logo.svg.png", website: "powerautomate.microsoft.com", price: "무료 / 유료 $5~", trending: 0, users: "-" },
       { name: "Keyboard Maestro", desc: "Mac에서 반복 작업을 매크로로 완전 자동화", category: "자동화", tags: ["자동화", "Mac", "강력"], logo: "https://images.macworld.com/images/article/2013/03/keyboardmaestro5icon-100030533-orig.png", website: "keyboardmaestro.com", price: "유료 $36", trending: 0, users: "-" },
-
-      // 마케팅 (3개)
       { name: "HubSpot", desc: "리드 유입부터 고객 관리까지 마케팅 올인원", category: "마케팅", tags: ["마케팅", "CRM", "자동화"], logo: "https://cdn.worldvectorlogo.com/logos/hubspot-2.svg", website: "hubspot.com", price: "무료 / 유료 $45~", trending: 0, users: "1M+" },
       { name: "Mailchimp", desc: "초보도 쉽게 쓰는 이메일 마케팅 플랫폼", category: "마케팅", tags: ["이메일", "마케팅", "쉬움"], logo: "https://cdn.worldvectorlogo.com/logos/mailchimp.svg", website: "mailchimp.com", price: "무료 / 유료 $13~", trending: 0, users: "10M+" },
       { name: "Buffer", desc: "SNS 콘텐츠 예약·분석을 한 번에 관리", category: "마케팅", tags: ["소셜", "마케팅", "스케줄"], logo: "https://cdn.worldvectorlogo.com/logos/buffer-2.svg", website: "buffer.com", price: "무료 / 유료 $5~", trending: 0, users: "1M+" },
-
-      // 협업 (4개)
       { name: "Slack", desc: "채널 기반으로 팀 소통·업무를 한곳에서", category: "협업", tags: ["협업", "커뮤니케이션", "통합"], logo: "https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", website: "slack.com", price: "무료 / 유료 $8.99~", trending: 0, users: "20M+" },
       { name: "Miro", desc: "원격 팀 브레인스토밍에 최적화된 화이트보드", category: "협업", tags: ["협업", "화이트보드", "브레인스토밍"], logo: "https://cdn.worldvectorlogo.com/logos/miro-2.svg", website: "miro.com", price: "무료 / 유료 $8~", trending: 0, users: "1M+" },
       { name: "Figma", desc: "실시간 협업이 가능한 UI·프로토타입 디자인", category: "협업", tags: ["디자인", "협업", "프로토타입"], logo: "https://cdn.worldvectorlogo.com/logos/figma-1.svg", website: "figma.com", price: "무료 / 유료 $12~", trending: 0, users: "10M+" },
@@ -514,7 +436,6 @@
       return '💰 ' + price.replace(/\/월/g, '(월)');
     }
 
-    // 태그별 색상 순환 (AIggle 로고 컬러 계열)
     const TAG_COLORS = ['tag-blue', 'tag-red', 'tag-yellow', 'tag-green', 'tag-orange'];
     const tagColorMap = {};
     let tagColorIndex = 0;
@@ -572,7 +493,6 @@
         return;
       }
 
-      // 로딩 상태
       const resultText = document.getElementById('resultText');
       const grid = document.getElementById('toolsGrid');
       resultText.textContent = '🤖 AI가 분석 중...';
@@ -591,10 +511,8 @@
             model: 'claude-sonnet-4-20250514',
             max_tokens: 1000,
             system: `너는 AI 툴 추천 전문가야. 사용자의 입력을 분석해서 아래 툴 목록 중 가장 적합한 툴들을 추천해줘.
-
 툴 목록:
 ${toolList}
-
 규칙:
 1. 사용자 입력의 의도를 파악해서 관련된 툴을 추천해 (영어 단어도 한국어 의미로 해석)
 2. 가장 관련성 높은 순서로 정렬
@@ -613,7 +531,6 @@ ${toolList}
           .map(name => allTools.find(t => t.name === name))
           .filter(Boolean);
 
-        // AI 추천에 없지만 키워드로 매칭되는 것도 보완
         const q = query.toLowerCase();
         const fallback = allTools.filter(t =>
           !recommended.find(r => r.name === t.name) && (
@@ -636,7 +553,6 @@ ${toolList}
         resultText.innerHTML = `"${query}" 검색 결과 <span style="font-size:12px;font-weight:400;color:var(--pwc-orange);">✨ AI 추천${reason}</span>`;
 
       } catch (e) {
-        // API 실패 시 기본 키워드 검색으로 폴백
         const q = query.toLowerCase();
         const fallback = allTools.filter(t =>
           t.name.toLowerCase().includes(q) ||
@@ -683,7 +599,6 @@ ${toolList}
       if (e.key === 'Enter') performUnifiedSearch();
     });
 
-    // 실시간 입력 감지 (500ms debounce)
     let searchDebounce;
     document.getElementById('unifiedSearch').addEventListener('input', function() {
       clearTimeout(searchDebounce);
@@ -698,7 +613,6 @@ ${toolList}
       }
     });
 
-    // AIggle 로고 애니메이션
     const letters = document.querySelectorAll('.letter');
     const container = document.getElementById('logoContainer');
     const colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
