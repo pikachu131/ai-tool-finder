@@ -177,6 +177,16 @@
     .suggestion-chip { padding: 6px 14px; border: 1px solid var(--border-color); border-radius: 20px; font-size: 12px; cursor: pointer; color: var(--text-secondary); background: var(--bg-primary); transition: all 0.2s; white-space: nowrap; }
     .suggestion-chip:hover { border-color: var(--pwc-orange); color: var(--pwc-orange); background: var(--bg-secondary); }
 
+    /* Autocomplete dropdown */
+    .autocomplete-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 16px; margin-top: 6px; z-index: 999; box-shadow: 0 8px 32px rgba(0,0,0,0.12); overflow: hidden; animation: dropdownFade 0.15s ease; }
+    @keyframes dropdownFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+    .autocomplete-item { padding: 12px 18px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.15s; font-size: 14px; color: var(--text-primary); }
+    .autocomplete-item:hover { background: var(--bg-secondary); }
+    .autocomplete-icon { font-size: 16px; flex-shrink: 0; }
+    .autocomplete-label { flex: 1; }
+    .autocomplete-label strong { color: var(--pwc-orange); }
+    .autocomplete-arrow { color: var(--text-tertiary); font-size: 12px; }
+
     /* AI Intent Display */
     .ai-intent-display { margin-top: 14px; text-align: center; min-height: 0; transition: all 0.4s ease; }
     .ai-intent-display:empty { margin-top: 0; }
@@ -185,7 +195,89 @@
     @keyframes intentFadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
     .ai-intent-icon { font-size: 16px; flex-shrink: 0; }
 
-    /* AI Summary Card */
+    /* ===== GENERATIVE AI ANSWER PANEL ===== */
+    .ai-answer-panel {
+      grid-column: 1 / -1;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      animation: panelSlideIn 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes panelSlideIn { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+    .ai-answer-topbar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 20px;
+      background: linear-gradient(90deg, #FF6B35 0%, #ff9a5c 100%);
+      color: white;
+    }
+    .ai-answer-topbar-icon { font-size: 18px; }
+    .ai-answer-topbar-title { font-size: 14px; font-weight: 700; flex: 1; letter-spacing: 0.2px; }
+    .ai-answer-topbar-badge {
+      font-size: 10px; font-weight: 600; padding: 2px 8px;
+      background: rgba(255,255,255,0.25); border-radius: 20px; letter-spacing: 0.5px;
+    }
+    .ai-answer-body { padding: 22px 24px 18px; }
+
+    /* Streaming text */
+    .ai-streaming-text {
+      font-size: 15px; line-height: 1.8; color: var(--text-primary);
+      margin-bottom: 18px; min-height: 24px;
+    }
+    .ai-cursor {
+      display: inline-block; width: 2px; height: 1em;
+      background: var(--pwc-orange); margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 0.9s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Workflow Steps */
+    .ai-workflow {
+      margin: 16px 0;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .ai-workflow-title {
+      font-size: 12px; font-weight: 700; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;
+    }
+    .workflow-steps { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .workflow-step {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: 12px; font-weight: 600; color: var(--text-primary);
+      cursor: pointer; transition: all 0.2s;
+      animation: stepPop 0.3s cubic-bezier(0.68,-0.55,0.27,1.55) both;
+    }
+    .workflow-step:hover { border-color: var(--pwc-orange); color: var(--pwc-orange); transform: translateY(-2px); }
+    .workflow-step-num {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--pwc-orange); color: white;
+      font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .workflow-arrow { color: var(--text-tertiary); font-size: 14px; }
+    @keyframes stepPop { from { opacity:0; transform:scale(0.8); } to { opacity:1; transform:scale(1); } }
+
+    /* Related searches */
+    .ai-related { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-color); }
+    .ai-related-title { font-size: 11px; font-weight: 600; color: var(--text-tertiary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.6px; }
+    .ai-related-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ai-related-chip {
+      padding: 5px 12px; border: 1px solid var(--border-color);
+      border-radius: 20px; font-size: 12px; color: var(--text-secondary);
+      cursor: pointer; background: var(--bg-secondary); transition: all 0.2s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .ai-related-chip:hover { border-color: var(--pwc-orange); color: var(--pwc-orange); background: var(--bg-primary); }
+
+    /* AI Summary Card (legacy kept for fallback) */
     .ai-summary-card { background: linear-gradient(135deg, #fff8f4, #fef0e6); border: 1px solid #ffe0cc; border-radius: 16px; padding: 22px 26px; margin-bottom: 24px; grid-column: 1 / -1; animation: summarySlideIn 0.5s ease; position: relative; overflow: hidden; }
     .ai-summary-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FF6B35, #FFa060, #FF6B35); }
     @media (prefers-color-scheme: dark) { .ai-summary-card { background: linear-gradient(135deg, #2a1a0e, #1f1208); border-color: #5a3018; } .ai-summary-card::before { background: linear-gradient(90deg, #FF6B35, #c94a15, #FF6B35); } }
@@ -195,6 +287,11 @@
     .ai-summary-tags { display: flex; gap: 6px; flex-wrap: wrap; }
     .ai-summary-tag { padding: 4px 12px; background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.25); border-radius: 20px; font-size: 11px; color: var(--pwc-orange); cursor: pointer; transition: all 0.2s; }
     .ai-summary-tag:hover { background: var(--pwc-orange); color: white; border-color: var(--pwc-orange); }
+
+    /* Match score badge */
+    .match-score-bar { height: 3px; border-radius: 2px; background: var(--border-color); margin-top: 8px; overflow: hidden; }
+    .match-score-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #FF6B35, #FFa060); transition: width 0.6s cubic-bezier(0.22,1,0.36,1); }
+    .match-score-label { font-size: 10px; color: var(--text-tertiary); margin-top: 3px; }
 
     /* Enhanced AI match reason */
     .ai-match-detail { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.6; padding: 8px 12px; background: var(--bg-secondary); border-radius: 8px; }
@@ -299,17 +396,26 @@
       <div class="search-container">
         <div class="search-box">
           <div class="search-input-wrapper">
-            <input type="text" id="unifiedSearch" class="search-input" placeholder="어떤 작업을 하실건가요?" />
+            <input type="text" id="unifiedSearch" class="search-input" placeholder="어떤 작업을 하실건가요?" autocomplete="off" />
             <span class="search-hint-icon">💡</span>
             <div class="tooltip">
               <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>목적으로 검색</strong>: "유튜브 영상 만들기", "블로그 글 자동 작성" 등 작업 중심 검색</span></div>
               <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>질문형 검색</strong>: "배경 없애는 AI 뭐야?", "무료로 쓸 수 있는 코딩 AI 있어?" 등</span></div>
               <div class="tooltip-step"><span class="tooltip-bullet"></span><span><strong>영어 혼용</strong>: "image editing", "coding assistant" 등 영어로도 검색 가능</span></div>
             </div>
+            <div id="autocompleteDropdown" class="autocomplete-dropdown" style="display:none;"></div>
           </div>
           <button class="search-btn" onclick="performUnifiedSearch()">검색</button>
         </div>
         <div id="aiIntentDisplay" class="ai-intent-display"></div>
+        <div class="search-suggestions" id="quickSuggestions">
+          <span class="suggestion-chip" onclick="setSearch('뽀샵')">🖼️ 뽀샵</span>
+          <span class="suggestion-chip" onclick="setSearch('PPT 만들기')">📊 PPT 만들기</span>
+          <span class="suggestion-chip" onclick="setSearch('유튜브 영상')">🎬 유튜브 영상</span>
+          <span class="suggestion-chip" onclick="setSearch('ai agent 개발')">🤖 AI Agent 개발</span>
+          <span class="suggestion-chip" onclick="setSearch('블로그 글쓰기')">✍️ 블로그 글쓰기</span>
+          <span class="suggestion-chip" onclick="setSearch('배경 제거')">✂️ 배경 제거</span>
+        </div>
       </div>
 
       <div class="trending-carousel">
@@ -576,17 +682,23 @@
     function setSearch(text) {
       document.getElementById('unifiedSearch').value = text;
       document.getElementById('aiIntentDisplay').innerHTML = '';
+      document.getElementById('autocompleteDropdown').style.display = 'none';
+      const quickSugg = document.getElementById('quickSuggestions');
+      if (quickSugg) quickSugg.style.display = 'none';
       performUnifiedSearch();
     }
 
     function showAILoading(query) {
       const grid = document.getElementById('toolsGrid');
       grid.innerHTML = `
-        <div class="ai-loading">
+        <div class="ai-loading" style="grid-column:1/-1">
           <div class="ai-loading-dots">
             <div class="ai-loading-dot"></div>
             <div class="ai-loading-dot"></div>
             <div class="ai-loading-dot"></div>
+          </div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">
+            AI가 "<strong style="color:var(--pwc-orange)">${query}</strong>"를 분석 중...
           </div>
         </div>`;
       return null;
@@ -626,41 +738,58 @@
 
       emptyState.style.display = 'none';
 
-      // Build AI summary card
-      let summaryCardHtml = '';
-      if (parsed.summary) {
-        const workflowHtml = parsed.workflow && parsed.workflow.length > 0
-          ? `<div style="margin-top:12px;padding:12px 14px;background:rgba(255,107,53,0.06);border-radius:10px;border:1px solid rgba(255,107,53,0.12);">
-              <div style="font-size:12px;font-weight:600;color:var(--pwc-orange);margin-bottom:8px;">📋 추천 워크플로우</div>
-              ${parsed.workflow.map(step => `<div style="font-size:12px;color:var(--text-secondary);padding:3px 0;line-height:1.5;">→ ${step}</div>`).join('')}
-            </div>` : '';
+      // Build AI Answer Panel (generative-style)
+      const workflowHtml = parsed.workflow && parsed.workflow.length > 0
+        ? `<div class="ai-workflow">
+            <div class="ai-workflow-title">📋 추천 워크플로우</div>
+            <div class="workflow-steps">
+              ${parsed.workflow.map((step, i) => `
+                ${i > 0 ? '<span class="workflow-arrow">→</span>' : ''}
+                <div class="workflow-step" style="animation-delay:${i * 0.08}s" onclick="setSearch('${step.replace(/.*?→\s*/,'').trim()}')">
+                  <span class="workflow-step-num">${i+1}</span>
+                  <span>${step}</span>
+                </div>
+              `).join('')}
+            </div>
+           </div>` : '';
 
-        const relatedSearches = parsed.related_searches || [];
-        const relatedChipsHtml = relatedSearches.length > 0
-          ? `<div class="ai-summary-tags">${relatedSearches.map(kw => `<span class="ai-summary-tag" onclick="setSearch('${kw}')">${kw}</span>`).join('')}</div>` : '';
+      const relatedChipsHtml = (parsed.related_searches || []).map(kw =>
+        `<span class="ai-related-chip" onclick="setSearch('${kw}')">🔍 ${kw}</span>`
+      ).join('');
 
-        summaryCardHtml = `
-          <div class="ai-summary-card">
-            <div class="ai-summary-header">✨ AI 분석 결과</div>
-            <div class="ai-summary-text">${parsed.summary}</div>
+      const answerPanelHtml = parsed.summary ? `
+        <div class="ai-answer-panel">
+          <div class="ai-answer-topbar">
+            <span class="ai-answer-topbar-icon">✨</span>
+            <span class="ai-answer-topbar-title">AI 검색 분석</span>
+            <span class="ai-answer-topbar-badge">AIggle AI</span>
+          </div>
+          <div class="ai-answer-body">
+            <div class="ai-streaming-text" id="streamingText"></div>
             ${workflowHtml}
-            ${relatedChipsHtml ? `<div style="margin-top:14px;"><div style="font-size:11px;color:var(--text-tertiary);margin-bottom:6px;">연관 검색</div>${relatedChipsHtml}</div>` : ''}
-          </div>`;
-      }
+            ${relatedChipsHtml ? `<div class="ai-related"><div class="ai-related-title">연관 검색</div><div class="ai-related-chips">${relatedChipsHtml}</div></div>` : ''}
+          </div>
+        </div>` : '';
 
-      grid.innerHTML = summaryCardHtml + combined.map((tool, idx) => {
+      grid.innerHTML = answerPanelHtml + combined.map((tool, idx) => {
         const isAI = idx < recommended.length;
         const emoji = getEmoji(tool.name);
         const allTags = [tool.category, ...tool.tags.slice(0, 2)];
         const tagsHtml = allTags.map(t => `<span class="tag ${getTagColor(t)}">#${t}</span>`).join('');
 
         let matchDetailHtml = '';
+        let scoreHtml = '';
         if (isAI && parsed.match_reasons && parsed.match_reasons[tool.name]) {
           matchDetailHtml = `<div class="ai-match-detail">${parsed.match_reasons[tool.name]}</div>`;
+          // Score: top=95%, drops 5% per rank
+          const score = Math.max(60, 95 - idx * 5);
+          scoreHtml = `
+            <div class="match-score-bar"><div class="match-score-fill" style="width:${score}%"></div></div>
+            <div class="match-score-label">매칭도 ${score}%</div>`;
         }
 
         const matchBadge = isAI
-          ? `<div class="ai-reason-badge">✨ AI 추천${parsed.match_reasons && parsed.match_reasons[tool.name] ? '' : ''}</div>` : '';
+          ? `<div class="ai-reason-badge">✨ AI 추천</div>` : '';
 
         return `
           <div class="card${isAI ? ' card-ai-match' : ''}" onclick="openToolWebsite('${tool.website}')">
@@ -672,11 +801,38 @@
               <div class="card-title">${tool.name}</div>
             </div>
             ${matchDetailHtml}
+            ${scoreHtml}
             <div class="card-desc">${tool.desc}</div>
             <div class="card-tags">${tagsHtml}</div>
             <div class="card-meta">${formatPrice(tool.price)}</div>
           </div>`;
       }).join('');
+
+      // Streaming text effect
+      if (parsed.summary) {
+        const el = document.getElementById('streamingText');
+        if (el) streamText(el, parsed.summary);
+      }
+    }
+
+    // Typewriter / streaming effect
+    function streamText(el, text) {
+      el.innerHTML = '';
+      const cursor = document.createElement('span');
+      cursor.className = 'ai-cursor';
+      el.appendChild(cursor);
+      let i = 0;
+      const speed = Math.max(10, Math.min(30, 2000 / text.length));
+      function tick() {
+        if (i < text.length) {
+          el.insertBefore(document.createTextNode(text[i]), cursor);
+          i++;
+          setTimeout(tick, speed);
+        } else {
+          cursor.remove();
+        }
+      }
+      tick();
     }
 
     async function performUnifiedSearch() {
@@ -691,11 +847,17 @@
         currentFilter = '전체';
         document.querySelectorAll('.filter-badge').forEach(el => el.classList.remove('active'));
         document.querySelector('[data-category="전체"]').classList.add('active');
+        const quickSugg = document.getElementById('quickSuggestions');
+        if (quickSugg) quickSugg.style.display = 'flex';
         return;
       }
 
       showAILoading(query);
       aiIntentDisplay.innerHTML = '';
+
+      // Hide quick suggestions on search
+      const quickSugg = document.getElementById('quickSuggestions');
+      if (quickSugg) quickSugg.style.display = 'none';
 
       const toolList = allTools.map(t =>
         `- ${t.name}: ${t.desc} (카테고리: ${t.category}, 태그: ${t.tags.join(', ')}, 가격: ${t.price})`
@@ -835,7 +997,56 @@ ${toolList}
     }
 
     document.getElementById('unifiedSearch').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') performUnifiedSearch();
+      if (e.key === 'Enter') {
+        document.getElementById('autocompleteDropdown').style.display = 'none';
+        performUnifiedSearch();
+      }
+    });
+
+    // Autocomplete suggestions
+    const AUTOCOMPLETE_SUGGESTIONS = [
+      { icon: '🖼️', label: '뽀샵 / 이미지 편집 AI' },
+      { icon: '📊', label: 'PPT 자동 제작' },
+      { icon: '🎬', label: '유튜브 영상 만들기' },
+      { icon: '🤖', label: 'AI Agent 개발' },
+      { icon: '✍️', label: '블로그 글 자동 작성' },
+      { icon: '✂️', label: '배경 제거' },
+      { icon: '🎙️', label: '음성 합성 / TTS' },
+      { icon: '💻', label: '코딩 자동완성' },
+      { icon: '📧', label: '이메일 마케팅 자동화' },
+      { icon: '🌐', label: '번역 AI' },
+      { icon: '🧠', label: '문서 요약 분석' },
+      { icon: '🎨', label: '로고 / 썸네일 생성' },
+      { icon: '📹', label: 'AI 아바타 영상' },
+      { icon: '🔍', label: 'SEO 콘텐츠 최적화' },
+      { icon: '⚡', label: '업무 자동화 워크플로우' },
+    ];
+
+    const acInput = document.getElementById('unifiedSearch');
+    const acDropdown = document.getElementById('autocompleteDropdown');
+
+    acInput.addEventListener('input', function() {
+      const val = this.value.trim();
+      if (!val) { acDropdown.style.display = 'none'; return; }
+      const matches = AUTOCOMPLETE_SUGGESTIONS.filter(s =>
+        s.label.toLowerCase().includes(val.toLowerCase())
+      ).slice(0, 5);
+      if (matches.length === 0) { acDropdown.style.display = 'none'; return; }
+      const highlight = (text) => text.replace(new RegExp(`(${val})`, 'gi'), '<strong>$1</strong>');
+      acDropdown.innerHTML = matches.map(m =>
+        `<div class="autocomplete-item" onclick="setSearch('${m.label}')">
+          <span class="autocomplete-icon">${m.icon}</span>
+          <span class="autocomplete-label">${highlight(m.label)}</span>
+          <span class="autocomplete-arrow">→</span>
+        </div>`
+      ).join('');
+      acDropdown.style.display = 'block';
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!acInput.contains(e.target) && !acDropdown.contains(e.target)) {
+        acDropdown.style.display = 'none';
+      }
     });
 
     let searchDebounce;
@@ -846,10 +1057,15 @@ ${toolList}
         displayTools(allTools);
         document.getElementById('resultText').textContent = '모든 도구';
         document.getElementById('aiIntentDisplay').innerHTML = '';
+        const quickSugg = document.getElementById('quickSuggestions');
+        if (quickSugg) quickSugg.style.display = 'flex';
         return;
       }
       if (val.length >= 2) {
-        searchDebounce = setTimeout(() => performUnifiedSearch(), 700);
+        searchDebounce = setTimeout(() => {
+          document.getElementById('autocompleteDropdown').style.display = 'none';
+          performUnifiedSearch();
+        }, 800);
       }
     });
 
