@@ -131,19 +131,41 @@
         .analogy-text h3 .highlight { background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
         .analogy-text p { color:var(--text-muted);line-height:2;font-size:1.05rem; }
  
-        /* ACTIVITIES */
+        /* ACTIVITIES - FIXED TIMELINE */
         #activities { background:linear-gradient(180deg,transparent,rgba(0,210,255,0.02),transparent); }
-        .activities-timeline { max-width:800px;margin:0 auto;position:relative; }
+        .activities-timeline { max-width:900px;margin:0 auto;position:relative;padding:20px 0; }
         .activities-timeline::before { content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),var(--primary));transform:translateX(-50%); }
-        .activity-item { display:flex;align-items:center;margin-bottom:60px;position:relative; }
-        .activity-item:nth-child(odd) { flex-direction:row; }
-        .activity-item:nth-child(even) { flex-direction:row-reverse; }
-        .activity-dot { position:absolute;left:50%;transform:translateX(-50%);width:20px;height:20px;background:#080812;border:3px solid var(--accent);border-radius:50%;z-index:2; }
+        .activity-item { display:flex;align-items:center;margin-bottom:60px;position:relative;width:100%; }
+        .activity-dot { position:absolute;left:50%;transform:translateX(-50%);width:20px;height:20px;background:#080812;border:3px solid var(--accent);border-radius:50%;z-index:2;flex-shrink:0; }
         .activity-card { width:calc(50% - 40px);background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:30px;transition:all 0.4s; }
         .activity-card:hover { transform:translateY(-5px);border-color:rgba(0,210,255,0.3);background:rgba(255,255,255,0.05); }
         .activity-step { display:inline-block;padding:4px 12px;background:linear-gradient(135deg,var(--primary),var(--accent2));border-radius:20px;font-size:0.75rem;font-weight:700;margin-bottom:12px; }
         .activity-card h4 { font-size:1.15rem;font-weight:700;margin-bottom:10px; }
         .activity-card p { color:var(--text-muted);font-size:0.9rem;line-height:1.7; }
+        .activity-spacer { width:calc(50% - 40px); }
+
+        /* 홀수: 카드 왼쪽, 빈공간 오른쪽 */
+        .activity-item:nth-child(odd) {
+            justify-content: flex-start;
+        }
+        .activity-item:nth-child(odd) .activity-card {
+            margin-right: auto;
+        }
+        .activity-item:nth-child(odd) .activity-spacer {
+            margin-left: auto;
+        }
+
+        /* 짝수: 빈공간 왼쪽, 카드 오른쪽 */
+        .activity-item:nth-child(even) {
+            justify-content: flex-end;
+        }
+        .activity-item:nth-child(even) .activity-card {
+            margin-left: auto;
+        }
+        .activity-item:nth-child(even) .activity-spacer {
+            margin-right: auto;
+        }
+
         .activities-list { display:none; }
  
         /* VALUES */
@@ -384,21 +406,45 @@
             <p class="section-desc">정해진 커리큘럼이 아닌, 자유롭게 시도하고 공유하는 방식</p>
         </div>
         <div class="activities-timeline">
+            <!-- Step 01: 카드 왼쪽 -->
             <div class="activity-item reveal">
-                <div class="activity-card"><div class="activity-step">Step 01</div><h4>🛠 AI 도구 탐색</h4><p>ChatGPT, Claude, Midjourney, Copilot 등 다양한 생성형 AI 도구를 직접 탐색하고 사용해봅니다.</p></div>
-                <div class="activity-dot"></div><div style="width:calc(50% - 40px)"></div>
+                <div class="activity-card">
+                    <div class="activity-step">Step 01</div>
+                    <h4>🛠 AI 도구 탐색</h4>
+                    <p>ChatGPT, Claude, Midjourney, Copilot 등 다양한 생성형 AI 도구를 직접 탐색하고 사용해봅니다.</p>
+                </div>
+                <div class="activity-dot"></div>
+                <div class="activity-spacer"></div>
             </div>
+            <!-- Step 02: 카드 오른쪽 -->
             <div class="activity-item reveal">
-                <div style="width:calc(50% - 40px)"></div><div class="activity-dot"></div>
-                <div class="activity-card"><div class="activity-step">Step 02</div><h4>🎨 자유 주제 실험</h4><p>업무 자동화, 콘텐츠 생성, 데이터 분석, 취미 프로젝트 등 어떤 주제든 자유롭게 AI와 함께 시도합니다.</p></div>
+                <div class="activity-spacer"></div>
+                <div class="activity-dot"></div>
+                <div class="activity-card">
+                    <div class="activity-step">Step 02</div>
+                    <h4>🎨 자유 주제 실험</h4>
+                    <p>업무 자동화, 콘텐츠 생성, 데이터 분석, 취미 프로젝트 등 어떤 주제든 자유롭게 AI와 함께 시도합니다.</p>
+                </div>
             </div>
+            <!-- Step 03: 카드 왼쪽 -->
             <div class="activity-item reveal">
-                <div class="activity-card"><div class="activity-step">Step 03</div><h4>📢 경험 공유</h4><p>결과의 완성도보다 과정에서 느낀 점, 시행착오, 발견한 팁 등을 편하게 나눕니다.</p></div>
-                <div class="activity-dot"></div><div style="width:calc(50% - 40px)"></div>
+                <div class="activity-card">
+                    <div class="activity-step">Step 03</div>
+                    <h4>📢 경험 공유</h4>
+                    <p>결과의 완성도보다 과정에서 느낀 점, 시행착오, 발견한 팁 등을 편하게 나눕니다.</p>
+                </div>
+                <div class="activity-dot"></div>
+                <div class="activity-spacer"></div>
             </div>
+            <!-- Step 04: 카드 오른쪽 -->
             <div class="activity-item reveal">
-                <div style="width:calc(50% - 40px)"></div><div class="activity-dot"></div>
-                <div class="activity-card"><div class="activity-step">Step 04</div><h4>🔁 반복 & 확장</h4><p>공유된 아이디어에서 영감을 받아 다시 시도하고, 서로의 실험을 발전시켜 나갑니다.</p></div>
+                <div class="activity-spacer"></div>
+                <div class="activity-dot"></div>
+                <div class="activity-card">
+                    <div class="activity-step">Step 04</div>
+                    <h4>🔁 반복 & 확장</h4>
+                    <p>공유된 아이디어에서 영감을 받아 다시 시도하고, 서로의 실험을 발전시켜 나갑니다.</p>
+                </div>
             </div>
         </div>
         <div class="activities-list">
@@ -503,26 +549,19 @@
             <div class="work-card reveal" style="cursor:default;">
                 <div class="work-card-preview">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 160" style="width:85%;height:85%;">
-                        <!-- 왼쪽: PPT 파일 아이콘 -->
                         <g transform="translate(20, 15)">
                             <rect x="0" y="5" width="68" height="88" rx="7" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-                            <!-- 접힌 모서리 -->
                             <path d="M48 5 L68 25 L48 25 Z" fill="rgba(255,107,53,0.2)" stroke="rgba(255,107,53,0.35)" stroke-width="1"/>
-                            <!-- 주황색 PPT 라벨 바 -->
                             <rect x="10" y="38" width="38" height="7" rx="3" fill="rgba(255,107,53,0.55)"/>
-                            <!-- 텍스트 줄 -->
                             <rect x="10" y="52" width="28" height="5" rx="2.5" fill="rgba(255,255,255,0.13)"/>
                             <rect x="10" y="63" width="33" height="5" rx="2.5" fill="rgba(255,255,255,0.09)"/>
                             <rect x="10" y="74" width="22" height="5" rx="2.5" fill="rgba(255,255,255,0.07)"/>
-                            <!-- 파일명 라벨 -->
                             <rect x="0" y="98" width="68" height="18" rx="5" fill="rgba(255,107,53,0.12)" stroke="rgba(255,107,53,0.25)" stroke-width="1"/>
                             <text x="34" y="111" text-anchor="middle" font-family="monospace" font-size="7" fill="rgba(255,150,80,0.85)">보고서_v1_최종.pptx</text>
                         </g>
-                        <!-- 화살표 + 반짝이 -->
                         <g transform="translate(115, 48)">
                             <line x1="0" y1="12" x2="28" y2="12" stroke="url(#arrowGrad)" stroke-width="2.5" stroke-linecap="round"/>
                             <polygon points="28,7 40,12 28,17" fill="#00D2FF" opacity="0.9"/>
-                            <!-- 반짝이 -->
                             <circle cx="14" cy="-5" r="3" fill="#A855F7" opacity="0.75"/>
                             <circle cx="4" cy="28" r="2" fill="#00D2FF" opacity="0.6"/>
                             <circle cx="26" cy="30" r="1.5" fill="#FF6B9D" opacity="0.6"/>
@@ -533,18 +572,13 @@
                                 </linearGradient>
                             </defs>
                         </g>
-                        <!-- 오른쪽: 변환된 파일 아이콘 -->
                         <g transform="translate(168, 15)">
                             <rect x="0" y="5" width="68" height="88" rx="7" fill="rgba(0,210,255,0.06)" stroke="rgba(0,210,255,0.2)" stroke-width="1.5"/>
-                            <!-- 접힌 모서리 (청록) -->
                             <path d="M48 5 L68 25 L48 25 Z" fill="rgba(0,210,255,0.18)" stroke="rgba(0,210,255,0.35)" stroke-width="1"/>
-                            <!-- 청록 라벨 바 -->
                             <rect x="10" y="38" width="38" height="7" rx="3" fill="rgba(0,210,255,0.45)"/>
-                            <!-- 텍스트 줄 -->
                             <rect x="10" y="52" width="28" height="5" rx="2.5" fill="rgba(255,255,255,0.13)"/>
                             <rect x="10" y="63" width="33" height="5" rx="2.5" fill="rgba(255,255,255,0.09)"/>
                             <rect x="10" y="74" width="22" height="5" rx="2.5" fill="rgba(255,255,255,0.07)"/>
-                            <!-- 파일명 라벨 (변환 후) -->
                             <rect x="0" y="98" width="68" height="18" rx="5" fill="rgba(0,210,255,0.1)" stroke="rgba(0,210,255,0.3)" stroke-width="1"/>
                             <text x="34" y="111" text-anchor="middle" font-family="monospace" font-size="7" fill="rgba(80,220,255,0.9)">20260414_보고서.pptx</text>
                         </g>
@@ -613,7 +647,6 @@
 </footer>
  
 <script>
-    // Reveal on scroll
     const revealEls = document.querySelectorAll('.reveal');
     function revealOnScroll() {
         revealEls.forEach(el => {
@@ -626,18 +659,15 @@
     document.addEventListener('DOMContentLoaded', revealOnScroll);
     window.addEventListener('load', revealOnScroll);
  
-    // Navbar scroll
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
         navbar.classList.toggle('scrolled', window.scrollY > 50);
     });
  
-    // Mobile menu
     function toggleMenu() {
         document.getElementById('mobileMenu').classList.toggle('active');
     }
  
-    // FAQ
     function toggleFaq(el) {
         const item = el.parentElement;
         const isActive = item.classList.contains('active');
@@ -645,7 +675,6 @@
         if (!isActive) item.classList.add('active');
     }
  
-    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', function(e) {
             e.preventDefault();
